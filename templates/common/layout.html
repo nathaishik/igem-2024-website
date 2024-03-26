@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %} - iGEM IISc 2024</title>
+    <link rel="stylesheet" href="{% static 'common/common.css' %}">
+    {% block style %}{% endblock %}
+    {% block specific_style %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <div class="logo">iGEM IISc</div>
+        <ul>
+            <li><a href="{% url 'notebook:index' %}">Notebook</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <script src="{% static 'common/common.js' %}"></script>
+</body>
+</html>

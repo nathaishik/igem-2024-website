@@ -1,0 +1,13 @@
+{% extends 'notebook/layout.html' %}
+{% block content %}
+    <h1>IISc Bengaluru iGEM Notebook</h1>
+    <ul class="list-blocks" id="notebook-list">
+        {% for notebook in notebooks %}
+            <li>
+                <h2>{{ notebook.title }}</h2>
+                <p>{{ notebook.description }}</p>
+                <a href="{% url 'notebook:notebook' notebook.id %}">View Notebook</a>
+            </li>
+        {% endfor %}   
+    </ul>
+{% endblock %}

@@ -1,0 +1,73 @@
+/* General */
+
+@font-face {
+    font-family: 'grandstander';
+    src: url('/static/font/grandstander.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'grandstander';
+    src: url('/static/font/grandstanderIt.ttf') format('truetype');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'dmSans';
+    src: url('/static/font/dmSans.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'dmSans';
+    src: url('/static/font/dmSansIt.ttf') format('truetype');
+    font-style: italic;
+}
+
+:root {
+    --bg: #fcf8f0;
+    --pri: #0047e0;
+    --faded-text: rgba(0, 0, 0, 0.726);
+    --text: black;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1a1a1a;
+        --pri: #0047e0;
+        --faded-text: rgba(255, 255, 255, 0.726);
+        --text: white;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'dmSans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'grandstander', sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+input, textarea, button {
+    font-family: inherit;
+}
+
+/* nav */
+nav {
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+        list-style-type: none;
+    }
+}
