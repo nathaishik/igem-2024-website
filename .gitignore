@@ -4,6 +4,7 @@
 # System files
 .venv
 **/__pycache__/
+.vscode/
 
 
 # Database
