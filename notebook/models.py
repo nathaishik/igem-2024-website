@@ -28,7 +28,7 @@ class User(AbstractUser):
     verified = models.BooleanField(default=False)
     pass
 
-class Notes(models.Model):
+class Note(models.Model):
     id = models.AutoField(primary_key=True)
     NOTE_CHOICES = [
     ("DRYLAB", "Dry Lab"),

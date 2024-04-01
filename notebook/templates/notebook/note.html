@@ -1,0 +1,8 @@
+{% include 'notebook/layout.html' %}
+
+{% block body %}
+<h1>{{ note.title }}</h1>
+<h3>{{ note.notebook }}</h3>
+<author>{{ note.user.username }}</author>
+<p>{{ note.content }}</p>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
+from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.shortcuts import render
-from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
@@ -10,7 +10,7 @@ from .models import *
 # Create your views here.
 class NewNoteForm(forms.ModelForm):
     class Meta:
-        model = Notes
+        model = Note
         exclude = ['user', 'id', 'created']
         widgets = {
             "title": forms.TextInput(attrs={"autofocus": "true"}),
@@ -21,19 +21,33 @@ class NewNoteForm(forms.ModelForm):
         return self.cleaned_data
 
 def notebook(request, id):
-    VALID_IDS = ['drylab','design']
-    if id in VALID_IDS:
-        notes = Notes.objects.filter(notebook=id).all().order_by('created').reverse()
+    VALID_IDS = {
+        "drylab": ["DRYLAB", "Dry Lab"],
+        "wetlab": ["WETLAB", "Wet Lab"],
+        "webdev": ["WEBDEV", "Web Development"],
+        "design": ["DESIGN", "Design"],
+        "hp": ["HMNPRC", "Human Practices"],
+    }
+    if id in VALID_IDS.keys():
+        notes = Note.objects.filter(notebook=VALID_IDS[id][0]).all().order_by('created').reverse()
+        print(notes)
     else:
         raise Http404('Notebook does not exist!')
-    return render(request, "notebook/notebook.html", {'notes': notes})
+    return render(request, "notebook/notebook.html", {
+        'notes': notes,
+        'notebook': VALID_IDS[id][1]
+    })
+
+def note(request, id):
+    note = Note.objects.get(id=id)
+    return render(request, "notebook/note.html", {'note': note})
 
 def index(request):
     return render(request, "notebook/index.html")
 
 @login_required
 def dashboard(request):
-    notes = Notes.objects.filter(user=request.user).all().order_by("created").reverse()
+    notes = Note.objects.filter(user=request.user).all().order_by('created').reverse()
     return render(request, 'notebook/dashboard.html', {
         "notes": notes
     })
@@ -47,7 +61,7 @@ def upload(request):
             notebook = form.cleaned_data["notebook"]
             content = form.cleaned_data["content"]
             file = form.cleaned_data["file"]
-            note = Notes(
+            note = Note(
                 user=request.user,
                 title=title,
                 notebook=notebook,
@@ -55,7 +69,7 @@ def upload(request):
                 file=file
             )
             note.save()  
-            return HttpResponseRedirect(reverse("notebook:dashboard"), status=201)
+            return HttpResponseRedirect(reverse("notebook:dashboard"))
         else:
             return render(request, 'notebook/upload.html', {
                 "form": form
@@ -63,6 +77,30 @@ def upload(request):
     return render(request, 'notebook/upload.html', {
         "form": NewNoteForm()
     })
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notebook:dashboard"))
+    
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("notebook:dashboard"))
+        else:
+            return render(request, 'notebook/login.html', {
+                "message": "Invalid credentials"
+            })
+    return render(request, 'notebook/login.html', {
+    })
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("notebook:index"))
 
 def register(request):
     if request.user.is_authenticated:

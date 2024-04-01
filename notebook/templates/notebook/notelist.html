@@ -1,0 +1,10 @@
+<ul>
+    {% for note in notes %}
+        <li>
+            <h2>{{ note.title }}</h2>
+            <a href="{% url 'notebook:note' note.id %}">View Note</a>
+        </li>
+    {% empty %}
+        <li>No notes have been added yet.</li>
+    {% endfor %}
+</ul>

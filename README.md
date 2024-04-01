@@ -10,21 +10,34 @@ First, I would like to thank you for visiting this repo. This repository contain
 2. Go to the forked repository and copy the HTTPS link for cloning this repo (the link is present under the ```Code``` button)
 3. ```cd``` into a directory where you'd like to clone this project
 > [!NOTE]
-> At this stage, you can use a virtual environment if you wish.
+> At this stage, you can use a virtual environment if you wish. If you do so, you don't need to activate a virtual environment at a later step.
 4. Run ```git clone https://github.com/USERNAME/igem-2024-website.git``` where ```USERNAME``` is your own GitHub username.
-5. Run ```ls``` to check if the cloning is successful or not. You should see the following file structure:
+5. Run ```git checkout dev``` to switch to the dev branch.
+
+> [!IMPORTANT]
+> It is mandatory to switch to the 'dev' branch to see all the recent changes.
+
+6. Run ```ls``` to check if the cloning is successful or not. You should see the following file structure:
 
 ```
 ├───notebook
 │   ├───migrations
 │   │   ├───__init__.py
+│   │   └───<migration files>
 │   ├───static
 │   │   ├───notebook
 │   │   │   └───base.css
 │   ├───templates
 │   │   ├───notebook
+│   │   │   ├───dashboard.html
 │   │   │   ├───index.html
-│   │   │   └───layout.html
+│   │   │   ├───layout.html
+│   │   │   ├───login.html
+│   │   │   ├───note.html
+│   │   │   ├───notebook.html
+│   │   │   ├───notelist.html
+│   │   │   ├───register.html
+│   │   │   └───upload.html
 │   ├───__init__.py
 │   ├───admin.py
 │   ├───apps.py
@@ -56,7 +69,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 ```
 
 6. If the files you've received match the above structure, then the cloning has been done correctly.
-7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done, just run ```deactivate``` to exit the virtual environment)
+7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done editing or testing the code, just run ```deactivate``` to exit the virtual environment)
 
 > [!IMPORTANT]
 > If you are in Windows and have not used python virtual environment before, chances are you won't be able to run the above command. To fix this, open PowerShell as an administrator and run ```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```. This will allow running of scripts (which has been digitally signed by a trusted publisher) on your computer.
@@ -82,7 +95,7 @@ If everything works fine, the installation is successful.
 ## Contributing
 
 Again, I would thank you for thinking of contributing to the developement of the website. This website would not be a success without your help. Please follow the steps to contribute to this project:
-1. After you ```git clone``` this repository, run ```git checkout -b USERNAME``` to create a branch.
+1. After you ```git clone``` this repository, switch to the 'dev' branch using ```git checkout dev```. Then, run ```git checkout -b USERNAME``` to create a branch.
 
 > [!IMPORTANT]
 > You must follow step 1.

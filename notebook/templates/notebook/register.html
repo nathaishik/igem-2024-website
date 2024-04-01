@@ -3,6 +3,7 @@
 {% block body %}
 
 <form method="post" action="{% url 'notebook:register' %}">
+    {{ message }}
     <table>
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username" required autofocus>
