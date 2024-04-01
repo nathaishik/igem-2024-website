@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from .models import *
 
@@ -20,6 +20,13 @@ class NewNoteForm(forms.ModelForm):
         super(NewNoteForm, self).clean()
         return self.cleaned_data
 
+def notebook(request, id):
+    VALID_IDS = ['drylab','design']
+    if id in VALID_IDS:
+        notes = Notes.objects.filter(notebook=id).all().order_by('created').reverse()
+    else:
+        raise Http404('Notebook does not exist!')
+    return render(request, "notebook/notebook.html", {'notes': notes})
 
 def index(request):
     return render(request, "notebook/index.html")
