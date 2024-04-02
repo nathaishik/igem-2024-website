@@ -2,6 +2,7 @@
 .env
 
 # System files
+.vscode
 .venv
 **/__pycache__/
 
