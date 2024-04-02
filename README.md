@@ -82,7 +82,11 @@ If everything works fine, the installation is successful.
 ## Contributing
 
 Again, I would thank you for thinking of contributing to the developement of the website. This website would not be a success without your help. Please follow the steps to contribute to this project:
-1. After you ```git clone``` this repository, run ```git checkout -b USERNAME``` to create a branch.
+
+> [!IMPORTANT]
+> You are recommened to read the README on the ```dev``` branch to know about the latest files. The ```main``` branch is for the most stable and production ready version of the code.
+
+1. After you ```git clone``` this repository, switch to the ```dev``` branch using ```git checkout dev``` to see the latest updates to the codebase. Then, run ```git checkout -b USERNAME``` to create a new branch, where USERNAME is your GitHub username.
 
 > [!IMPORTANT]
 > You must follow step 1.
@@ -92,4 +96,4 @@ Again, I would thank you for thinking of contributing to the developement of the
 5. After you are done, run ```git add .``` to add any new files that you might have created. You can skip this step if you haven't added anything new.
 6. Run ```git commit -am "COMMIT MESSAGE"``` where COMMIT MESSAGE should mention what you modified.
 7. Now this step is a bit of a trick. By default, you won't be able to push from this branch directly. But run ```git push```. You should see an error message and that message contains the correct command to use to push to the online repository. Copy, paste and run that command to push your changes.
-8. Open the repository from your browser. Chances are, you should see a banner asking you to create a Pull Request. If not, manually create a pull request by navigating to the appropriate tab. Fill in the necessary details and create the request. If everything's alright, I will accept the request.
+8. Open the repository from your browser. Chances are, you should see a banner asking you to create a Pull Request. If not, manually create a pull request by navigating to the appropriate tab. Make sure to request merge into the ```dev``` branch and not the ```main``` branch. Fill in the necessary details and create the request. If everything's alright, I will accept the request.
