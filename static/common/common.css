@@ -22,6 +22,11 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: 'Inter';
+    src: url('/static/font/inter.ttf') format('truetype');
+}
+
 :root {
     --bg: #fcf8f0;
     --pri: #0047e0;
@@ -35,6 +40,8 @@
         --pri: #0047e0;
         --faded-text: rgba(255, 255, 255, 0.726);
         --text: white;
+        --header-font: 'Inter', sans-serif;
+        --body-font: 'dmSans', sans-serif;
     }
 }
 
@@ -45,13 +52,14 @@
 }
 
 body {
-    font-family: 'dmSans', sans-serif;
+    font-family: var(--body-font);
     background-color: var(--bg);
     color: var(--text);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'grandstander', sans-serif;
+    font-family: var(--header-font);
+    font-weight: 900;
 }
 
 a {

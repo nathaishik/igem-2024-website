@@ -2,6 +2,18 @@
 
 {% block body %}
 
-    <h1>Dashboard</h1>
+    <header>
+        <section>
+            <h1>Hi, {{ request.user.first_name }}</h1>
+            <p><span>{{ request.user.position }}</span> <span>{{ request.user.team }}</span></p>
+        </section>
+        <section>
+            {% if request.user.verified == True %}
+            <a class="btn-large" href="{% url 'notebook:upload' %}">New Note</a>
+            {% else %}
+            <div class="btn-large">Your account needs to be verified to upload notes.</div>
+            {% endif %}
+        </section>
+    </header>
     {% include 'notebook/notelist.html' %}
 {% endblock %}

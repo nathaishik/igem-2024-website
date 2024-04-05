@@ -54,6 +54,8 @@ def dashboard(request):
 
 @login_required
 def upload(request):
+    if request.user.verified == False:
+        return HttpResponseRedirect(reverse("notebook:dashboard"))
     if request.method == "POST":
         form = NewNoteForm(request.POST, request.FILES)
         if form.is_valid():

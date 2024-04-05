@@ -1,8 +1,12 @@
 <ul>
     {% for note in notes %}
         <li>
-            <h2>{{ note.title }}</h2>
-            <a href="{% url 'notebook:note' note.id %}">View Note</a>
+            <div>{{ note.title }}</div>
+            <div>{{ note.user }}</div>
+            <div>{{ note.team }}</div>
+            <div>
+                <a href="{% url 'notebook:note' note.id %}">View Note</a>
+            </div>
         </li>
     {% empty %}
         <li>No notes have been added yet.</li>
