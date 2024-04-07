@@ -1,4 +1,9 @@
-{% include 'notebook/layout.html' %}
+{% extends 'notebook/layout.html' %}
+{% load static %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
+{% endblock %}
 
 {% block body %}
 

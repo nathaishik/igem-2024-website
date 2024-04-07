@@ -1,5 +1,12 @@
 {% extends 'notebook/layout.html' %}
+{% load static %}
 
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/dashboard.css' %}">
+{% endblock %}
+{% block title %}Dashboard
+{% endblock %}
 {% block body %}
 
     <header>
@@ -17,3 +24,4 @@
     </header>
     {% include 'notebook/notelist.html' %}
 {% endblock %}
+

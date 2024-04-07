@@ -1,4 +1,11 @@
 {% extends 'notebook/layout.html' %}
+{% load static %}
+
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/index.css' %}">
+{% endblock %}
+
 {% block body %}
     <h1>IISc Bengaluru iGEM Notebook</h1>
     <ul class="list-blocks" id="notebook-list">
@@ -9,3 +16,4 @@
         <li><a href="{% url 'notebook:notebook' 'hp' %}">Human Practices</a></li>
     </ul>
 {% endblock %}
+
