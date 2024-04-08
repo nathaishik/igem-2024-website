@@ -1,0 +1,80 @@
+body{
+    background-color: var(--bg);
+}
+
+h1{
+    font-family: var(--header-font);
+    font-weight: 900;
+    margin-top: 2%;
+    margin-left: 2%;
+    background-color: var(--bg);
+    border-radius: 15px;
+    padding-top: 2.5%;
+    text-align: left;
+    color: var(--text);
+    font-size: 50px;
+}
+
+input, textarea, button {
+    font-family: inherit;
+}
+
+/* nav */
+nav {
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+        list-style-type: none;
+        margin-top: 1%;
+        margin-right: 2%;
+        background-color: var(--box-color);
+        padding-top: 0.6%;
+        padding-right: 0.75%;
+        padding-left: 0.75%;
+        padding-bottom: 0.6%;
+        border-radius: 25px;
+    }
+
+    .logo{
+        margin-top: 1%;
+        margin-left: 2%;
+        color: var(--text);
+        background-color: var(--box-color);
+        padding-top: 0.6%;
+        padding-right: 4%;
+        padding-left: 4%;
+        padding-bottom: 0.6%;
+        border-radius: 25px;
+        text-align: center;
+    }
+}
+
+h1{
+    text-align: center;
+    font-size: 500%;
+}
+h3{
+    font-size: medium;
+    margin-left: 40%;
+    overflow-x: hidden;
+}
+
+p{
+    margin-left: 5%;
+    margin-right: 5%;
+    line-height: 150%;
+}
+
+h3, author{
+    display: inline-block;
+    padding-bottom: 2%;
+    padding-top: 0.6%;
+}
+
+author{
+    float: right;
+    margin-right: 38%;
+    inline-size: 8%;
+    overflow-x: hidden;
+}

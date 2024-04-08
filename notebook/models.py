@@ -5,7 +5,7 @@ import uuid
 # Create your models here.
 def upload_files(instance, filename):
     ext = filename.split('.')[-1]
-    filename = "%s__%s_%s_%s.%s" % (instance.user.username, instance, uuid.uuid4().hex, ext)
+    filename = "%s__%s_%s.%s" % (instance.user.username, instance, uuid.uuid4().hex, ext)
     return "{0}/{1}/{2}".format(instance.notebook, "files", filename)
 
 
