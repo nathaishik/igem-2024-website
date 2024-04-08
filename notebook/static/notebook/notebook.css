@@ -1,0 +1,52 @@
+body{
+    background-color: var(--bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--header-font);
+    font-weight: 900;
+    margin-top: 2%;
+    margin-left: 2%;
+    background-color: var(--bg);
+    border-radius: 15px;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    text-align: left;
+    color: var(--text);
+    font-size: 50px;
+}
+
+input, textarea, button {
+    font-family: inherit;
+}
+
+/* nav */
+/*nav {
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+        list-style-type: none;
+        margin-top: 1%;
+        margin-right: 2%;
+        background-color: var(--box-color);
+        padding-top: 0.6%;
+        padding-right: 0.75%;
+        padding-left: 0.75%;
+        padding-bottom: 0.6%;
+        border-radius: 25px;
+    }
+
+    .logo{
+        margin-top: 1%;
+        margin-left: 2%;
+        color: var(--text);
+        background-color: var(--box-color);
+        padding-top: 0.6%;
+        padding-right: 4%;
+        padding-left: 4%;
+        padding-bottom: 0.6%;
+        border-radius: 25px;
+        text-align: center;
+    }
+}*/

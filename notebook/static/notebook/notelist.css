@@ -1,0 +1,48 @@
+ul{
+    li{
+        .list{
+        margin-left: 2%;
+        background-color: var(--box-color);
+        margin-right: 2%;
+        padding-top: 1.5%;
+        padding-bottom: 1.5%;
+        border-radius: 20px;
+        div{
+            display: inline-block;
+            font-size: 20px;
+            margin-left: 2%;
+            text-align: center;
+            align-items: center;
+        }   
+        div:first-child{
+            inline-size: 50%;
+            text-align: left;
+            overflow-x: hidden;
+        }
+        .name{
+            inline-size: 15%;
+            overflow-x: hidden;
+        }
+        .team{
+            inline-size: 15%;
+            overflow-x: hidden;        
+        }
+        .link{
+            overflow: hidden;
+            border: 2px solid var(--text);
+            padding-left: 0.45%;
+            padding-right: 0.45%;
+            padding-top: 0.25%;
+            padding-bottom: 0.25%;
+            border-radius: 10px;
+        }
+        a{
+            text-decoration: none;
+        }
+        .link:hover{
+            background-color: var(--hover-color);
+            color: var(--hover-text);
+        }
+    }
+    }
+}
