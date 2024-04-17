@@ -40,8 +40,8 @@ class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="notes")
     title = models.CharField(max_length=255)
     notebook = models.CharField(max_length=6, choices=NOTE_CHOICES)
-    content = models.TextField()
     file = models.FileField(upload_to=upload_files, null=True, blank=True)
+    content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

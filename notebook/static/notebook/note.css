@@ -1,80 +1,50 @@
-body{
-    background-color: var(--bg);
+
+.note {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+    place-items: center;
+}
+h1 {
+    grid-column: span 3;
+    text-align: center;
 }
 
-h1{
-    font-family: var(--header-font);
-    font-weight: 900;
-    margin-top: 2%;
-    margin-left: 2%;
-    background-color: var(--bg);
-    border-radius: 15px;
-    padding-top: 2.5%;
-    text-align: left;
-    color: var(--text);
-    font-size: 50px;
+p.author::before {
+    content: "~ ";
 }
 
-input, textarea, button {
-    font-family: inherit;
-}
+.meta {
+    grid-column: span 3;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: subgrid;
 
-/* nav */
-nav {
-    display: flex;
-    justify-content: space-between;
-
-    ul {
-        list-style-type: none;
-        margin-top: 1%;
-        margin-right: 2%;
-        background-color: var(--box-color);
-        padding-top: 0.6%;
-        padding-right: 0.75%;
-        padding-left: 0.75%;
-        padding-bottom: 0.6%;
-        border-radius: 25px;
-    }
-
-    .logo{
-        margin-top: 1%;
-        margin-left: 2%;
-        color: var(--text);
-        background-color: var(--box-color);
-        padding-top: 0.6%;
-        padding-right: 4%;
-        padding-left: 4%;
-        padding-bottom: 0.6%;
-        border-radius: 25px;
+    h1 {
+        grid-column: span 3;
         text-align: center;
     }
+
+    .info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column: 2;
+
+        p {
+            text-align: center;
+        }
+    }
+
+    a {
+        grid-column: 2;
+    }
 }
 
-h1{
-    text-align: center;
-    font-size: 500%;
-}
-h3{
-    font-size: medium;
-    margin-left: 40%;
-    overflow-x: hidden;
+div.content {
+    grid-column: span 3;
+    width: 80%;
+    text-align: justify;
 }
 
-p{
-    margin-left: 5%;
-    margin-right: 5%;
-    line-height: 150%;
-}
 
-h3, author{
-    display: inline-block;
-    padding-bottom: 2%;
-    padding-top: 0.6%;
-}
 
-author{
-    float: right;
-    margin-right: 38%;
-    inline-size: 8%;
-    overflow-x: hidden;
-}

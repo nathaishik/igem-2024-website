@@ -1,60 +1,63 @@
-body{
-    background-color: var(--bg);
-}
-
-/*h1, h2, h3, h4, h5, h6 {
-    font-family: var(--header-font);
-    font-weight: 900;
-    margin-top: 2%;
-    margin-left: 2%;
-    background-color: var(--bg);
-    border-radius: 15px;
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
-    text-align: left;
-    color: var(--text);
-    font-size: 50px;
-}*/
-
 input, textarea, button {
     font-family: inherit;
 }
 
-/* nav */
-nav {
-    display: flex;
-    justify-content: space-between;
 
-    ul {
-        list-style-type: none;
-        margin-top: 1%;
-        margin-right: 2%;
-        background-color: var(--box-color);
-        padding-top: 0.6%;
-        padding-right: 0.75%;
-        padding-left: 0.75%;
-        padding-bottom: 0.6%;
-        border-radius: 25px;
-        a{
-            text-decoration: none;
+.notelist {
+    margin-block: var(--padding-block);
+    list-style-type: none;
+    border-radius: var(--border-radius);
+    overflow:hidden;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    li {
+        padding-block: calc(var(--padding-block));
+        padding-inline: calc(var(--padding-inline) / 1.6);
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 1rem;
+        border-radius: calc(var(--border-radius) / 1.6);
+        background: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
         }
 
-    }
-    ul:hover{
-        background-color: var(--hover-color);
-        color: var(--hover-text)
-    }
+        .meta div {
+            text-align: center;
+        }
+        .title {
+            text-align: start;
+            font-weight: 700;
+        }
 
-    .logo{
-        margin-top: 1%;
-        margin-left: 2%;
-        color: var(--text);
-        background-color: var(--box-color);
-        padding-top: 0.6%;
-        padding-right: 4%;
-        padding-left: 4%;
-        padding-bottom: 0.6%;
-        border-radius: 25px;
-        text-align: center;
+        .link {
+            text-align: right;
+        }
+    }
+}
+
+@media (width < 800px) {
+    .notelist li {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Sec Nav */
+
+#sec-nav {
+    ul {
+        width: fit-content;
+        height: fit-content;
+        border-radius: var(--border-radius);
+        margin-block: var(--padding-block);
+        background-color: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+        padding: 0.3rem 0;
+        display: flex;
+        gap: 0rem;
+        list-style-type: none;
     }
 }

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from .models import *
+from markdown2 import Markdown
 
 # Create your views here.
 class NewNoteForm(forms.ModelForm):
@@ -13,7 +14,8 @@ class NewNoteForm(forms.ModelForm):
         model = Note
         exclude = ['user', 'id', 'created']
         widgets = {
-            "title": forms.TextInput(attrs={"autofocus": "true"}),
+            "title": forms.TextInput(attrs={"autofocus": "true", "placeholder": "Title"}),
+            "content": forms.Textarea(attrs={"placeholder": "You can use markdown here!"}),
         }
     
     def clean(self):
@@ -40,6 +42,11 @@ def notebook(request, id):
 
 def note(request, id):
     note = Note.objects.get(id=id)
+    md = Markdown()
+    try:
+        note.content = md.convert(note.content)
+    except:
+        pass
     return render(request, "notebook/note.html", {'note': note})
 
 def index(request):

@@ -1,0 +1,101 @@
+.content{
+  line-height: 1.5;
+
+  h1, h2, h3, h4, h5, h6 {
+    text-align: left;
+  }
+
+  h1 {font-size: 2.027rem;}
+  h2 {font-size: 1.802rem;}
+  h3 {font-size: 1.602rem;}
+  h4 {font-size: 1.424rem;}
+  h5 {font-size: 1.266rem;}
+  h6 {font-size: 1.125rem;}
+  small {font-size: 0.889rem;}
+
+  ul, ol {
+    margin-inline: 1.27cm;
+  }
+
+  code{
+    padding: .2rem .4rem;
+    background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
+    color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
+    border-radius: .2rem;
+  }
+
+  p, ul, ol, pre, blockquote{
+    margin-block: 1rem;
+  }
+  
+  pre {
+    color: color-mix(in srgb, var(--text) 50%, var(--pri) 50%);
+    padding: 1rem;
+    background: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+    border-radius: .5rem;
+
+    code {
+      background: transparent;
+    }
+  }
+
+  blockquote {
+    display: block;
+    padding: 1rem;
+    border-left: .3rem solid var(--accent);
+    border-radius: .2rem;
+    background-color: color-mix(in srgb, var(--bg) 95%, var(--accent) 5%);
+
+    code {
+      --sec: var(--accent);
+    }
+
+    &::before {
+      color: color-mix(in srgb, var(--accent) 60%, var(--text) 40%);
+      font-size: .8em;
+      position: relative;
+      transform: translateY(-100%);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    &:has(> .alert-note) {
+      --accent: var(--pri);
+
+      &::before {
+        content: "NOTE";
+      }
+
+    }
+    &:has(> .alert-important) {
+      --accent: rgb(144, 0, 255);
+
+      &::before {
+        content: "IMPORTANT";
+      }
+    }
+    &:has(> .alert-tip) {
+      --accent: rgb(0, 192, 45);
+
+      &::before {
+        content: "TIP";
+      }
+    }
+    &:has(> .alert-warning) {
+      --accent: rgb(255, 170, 0);
+
+      &::before {
+        content: "WARNING";
+      }
+    }
+    &:has(> .alert-caution) {
+      --accent: red;
+
+      &::before {
+        content: "CAUTION";
+      }
+    }
+  }
+}

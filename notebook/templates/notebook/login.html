@@ -6,15 +6,21 @@
 {% endblock %}
 
 {% block body %}
+<div class="info">
+    <h1>Login</h1>
+    <p>Don't have an account? <a href="{% url 'notebook:register' %}">Sign up</a> now!</p>
+</div>
 
 <form method="post" action="{% url 'notebook:login' %}">
-    {{ message }}
-    <table>
+    <h2>Welcome Back!</h2>
+    
+    <div class="form">
+        {{ message }}
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username" required autofocus>
         <input type="password" name="password" placeholder="Password" required>
-    </table>
-    <input type="submit" value="Login">
+    </div>
+    <input type="submit" class="pri-btn" value="Login">
 </form>
 
 {% endblock %}

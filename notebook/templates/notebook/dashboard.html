@@ -10,11 +10,11 @@
 {% block body %}
 
     <header>
-        <section>
+        <section id="info">
             <h1>Hi, {{ request.user.first_name }}</h1>
             <p><span>{{ request.user.position }}</span> <span>{{ request.user.team }}</span></p>
         </section>
-        <section>
+        <section  id="action">
             {% if request.user.verified == True %}
             <a class="btn-large" href="{% url 'notebook:upload' %}">New Note</a>
             {% else %}

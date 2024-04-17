@@ -9,12 +9,11 @@
 {% block body %}
     <h1>IISc Bengaluru iGEM Notebook</h1>
     <ul class="list-blocks" id="notebook-list">
-        <li class = "a"><a href="{% url 'notebook:notebook' 'drylab' %}">Drylab</a>
-            <br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </li>
-        <li class = "b"><a href="{% url 'notebook:notebook' 'design' %}">Design</a></li>
-        <li class = "c"><a href="{% url 'notebook:notebook' 'wetlab' %}">Wetlab</a></li>
-        <li class = "d"><a href="{% url 'notebook:notebook' 'webdev' %}">Web Development</a></li>
-        <li class = "e"><a href="{% url 'notebook:notebook' 'hp' %}">Human Practices</a></li>
+        <li><h4>Dry Lab</h4><a href="{% url 'notebook:notebook' 'drylab' %}" class="pri-btn">View Notebook <span class="float">></span></a></li>
+        <li><h4>Wet Lab</h4><a href="{% url 'notebook:notebook' 'wetlab' %}" class="pri-btn">View Notebook <span class="float">></span></a></li>
+        <li><h4>Human Practices</h4><a href="{% url 'notebook:notebook' 'hp' %}" class="pri-btn">View Notebook <span class="float">></span></a></li>
+        <li><h4>Design</h4><a href="{% url 'notebook:notebook' 'design' %}" class="pri-btn">View Notebook <span class="float">></span></a></li>
+        <li><h4>Web Development</h4><a href="{% url 'notebook:notebook' 'webdev' %}" class="pri-btn">View Notebook <span class="float">></span></a></li>
     </ul>
 {% endblock %}
 

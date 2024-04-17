@@ -1,20 +1,16 @@
 {% load static %}
 
-{% block page_style %}
-<link rel="stylesheet" href="{% static 'notebook/notelist.css' %}">
-{% endblock %}
-<ul>
+<ul class="notelist">
     {% for note in notes %}
         <li>
-            <div class = "list">
-            <div>{{ note.title }}</div>
-            <div class = "name">{{ note.user }}</div>
-            <div class = "team">{{ note.user.team }}</div>
-            <div class = "link">
-                <a href="{% url 'notebook:note' note.id %}">View Note</a>
+            <div class="title">{{ note.title }}</div>
+            <div class="meta">
+                <div class = "name">{{ note.user }}</div>
+                <div class = "team">{{ note.user.team }}</div>
+                <div class = "link">
+                    <a href="{% url 'notebook:note' note.id %}" class="pri-btn">View Note</a>
+                </div>
             </div>
-        </div>
-        <br>
         </li>
     {% empty %}
         <li>No notes have been added yet.</li>

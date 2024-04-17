@@ -10,7 +10,16 @@
 {% endblock %}
 
 {% block content %}
-
+{% if request.user.is_authenticated %}
+<nav id="sec-nav">
+    <ul>
+        <li><a class="pri-btn-outline" href="{% url 'notebook:dashboard' %}">Dashboard</a></li>
+        <li><a class="pri-btn-outline" href="{% url 'notebook:upload' %}">New Note</a></li>
+        <li><a class="pri-btn-outline" href="{% url 'notebook:logout' %}">Logout</a></li>
+    </ul>
+</nav>
+{% endif %}
+<script src="{% static 'notebook/sec-nav.js' %}"></script>
 {% block body %}
 {% endblock %}
 {% endblock %}

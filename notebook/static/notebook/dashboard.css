@@ -1,0 +1,48 @@
+header {
+    display: flex;
+    flex-wrap: wrap;
+
+    section {
+        padding-block: var(--padding-block);
+    }
+
+    #info {
+        flex-grow: 1;
+
+        p {
+            margin-top: 10px;
+            display: flex;
+            gap: 1rem;
+
+            span {
+                padding: 0.5rem 1rem;
+                background-color: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+                border-radius: var(--border-radius);
+                color: var(--text);
+            }
+        }
+    }
+
+    #action {
+        flex-grow: 0.25;
+    }
+}
+
+.btn-large {
+    position: relative;
+    background: var(--pri);
+    color: white;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    height: 80%;
+    transition-duration: var(--transition-duration);
+    
+    &:hover {
+        transition-duration: var(--transition-duration);
+        background-color: var(--pri-dark);
+    }
+}
+

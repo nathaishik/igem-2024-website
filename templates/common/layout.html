@@ -11,15 +11,14 @@
     {% block specific_style %}{% endblock %}
 </head>
 <body>
-    <nav>
+    <nav id="pri-nav">
         <div class="logo">iGEM IISc</div>
         <ul>
-            <li><a href="{% url 'notebook:index' %}">Notebook</a></li>
+            <li><a href="{% url 'notebook:index' %}" class="pri-btn-outline">Notebook</a></li>
         </ul>
     </nav>
     <main>
         {% block content %}{% endblock %}
     </main>
-    <script src="{% static 'common/common.js' %}"></script>
 </body>
 </html>

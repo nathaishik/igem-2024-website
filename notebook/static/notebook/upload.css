@@ -1,0 +1,65 @@
+form {
+    padding-block: var(--padding-block);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+form div {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    padding-block: var(--padding-block);
+    grid-column: span 2;
+    label {
+        display: none;
+    }
+
+    input, textarea, select{
+        color: var(--text);
+        background-color: inherit;
+        border: none;
+        font-size: 1rem;
+        resize: none;
+
+        &:focus {
+            outline: none;
+        }   
+    }
+
+    textarea {
+        padding-block: calc(var(--padding-block) / 1.6);
+        
+        &:focus {
+            border-bottom: 1.6px solid var(--pri);
+            padding-bottom: calc((var(--padding-block) / 1.6) - 1.6px);
+        }
+    }
+
+    select, input[type=file]::file-selector-button {
+        cursor: pointer;
+    }
+
+    #id_title {    
+        font-size: 2.986rem;
+        font-weight: bold;        
+    }
+
+    #id_notebook, #id_file {    
+        padding-block: calc(var(--padding-block) / 3);
+    }
+    
+    &:has(> #id_notebook, > #id_file) {
+        grid-column: span 1;
+        padding-inline: calc(var(--padding-inline) / 1.6);
+        background-color: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+        border-radius: var(--border-radius);
+        gap: .2rem;
+        label {
+            font-weight: 400;
+            font-size: 1rem;
+            display: block;
+        }
+    }
+
+}

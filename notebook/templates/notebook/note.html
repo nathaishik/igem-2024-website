@@ -3,12 +3,25 @@
 
 {% block page_style %}
 <link rel="stylesheet" href="{% static 'notebook/note.css' %}">
+<link rel="stylesheet" href="{% static 'notebook/markdown.css' %}">
 {% endblock %}
 
 {% block body %}
-<h1>{{ note.title }}</h1>
-<h3>{{ note.notebook }}</h3>
-<author>{{ note.user.username }}</author>
-<br><br>
-<p>{{ note.content }}</p>
+<div class="note">
+    <div class="meta">
+        <h1>{{ note.title }}</h1>
+        <div class="info">
+            <p class="notebook">{{ note.notebook }}</p>
+            <p class="author">{{ note.user.first_name }} {{ note.uesr.last_name }}</p>
+        </div>
+        {% if note.file %}
+        <a href="{{ note.file.url }}" class="pri-btn">View attached file <span class="float">></span></a>
+        {% endif %}
+    </div>
+    <div class="content markdown-body">{{ note.content|linebreaks }}</div>
+    <script src="{% static 'notebook/markdown.js' %}"></script>
+</div>
+<script>
+    document.querySelector('.content').innerHTML = document.querySelector('.content').innerText;
+</script>
 {% endblock %}
