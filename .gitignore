@@ -7,5 +7,6 @@
 .vscode/
 
 
-# Database
+# Database and media
+media/
 *.sqlite3
