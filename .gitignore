@@ -10,3 +10,8 @@
 # Database and media
 media/
 *.sqlite3
+
+# Node Modules
+node_modules/
+package-lock.json
+package.json

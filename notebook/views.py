@@ -15,7 +15,7 @@ class NewNoteForm(forms.ModelForm):
         exclude = ['user', 'id', 'created', 'published']
         widgets = {
             "title": forms.TextInput(attrs={"autofocus": "true", "placeholder": "Title"}),
-            "content": forms.Textarea(attrs={"placeholder": "You can use markdown here!"}),
+            "content": forms.Textarea(attrs={"placeholder": "You can use markdown and TeX here!"}),
         }
     
     def clean(self):
@@ -31,22 +31,24 @@ def notebook(request, id):
         "hp": ["HMNPRC", "Human Practices"],
     }
     if id in VALID_IDS.keys():
-        notes = Note.objects.filter(notebook=VALID_IDS[id][0]).all().order_by('created').reverse()
+        department = Department.objects.get(code=VALID_IDS[id][0])
+        notes = Note.objects.filter(dept=department).all().order_by('created').reverse()
         print(notes)
     else:
         raise Http404('Notebook does not exist!')
     return render(request, "notebook/notebook.html", {
         'notes': notes,
-        'notebook': VALID_IDS[id][1]
+        'notebook': department
     })
 
 def note(request, id):
     note = Note.objects.get(id=id)
     md = Markdown()
     try:
+        print(note.content)
         note.content = md.convert(note.content)
     except:
-        pass
+        note.content = "Markprocessing error" + note.content
     return render(request, "notebook/note.html", {'note': note})
 
 def index(request):
@@ -100,13 +102,13 @@ def upload(request):
         form = NewNoteForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data["title"]
-            notebook = form.cleaned_data["notebook"]
+            dept = form.cleaned_data["dept"]
             content = form.cleaned_data["content"]
             file = form.cleaned_data["file"]
             note = Note(
                 user=request.user,
                 title=title,
-                notebook=notebook,
+                dept=dept,
                 content=content,
                 file=file
             )

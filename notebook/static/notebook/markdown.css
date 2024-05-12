@@ -1,4 +1,4 @@
-.content{
+.markdown-body{
   line-height: 1.5;
 
   h1, h2, h3, h4, h5, h6 {
@@ -14,10 +14,11 @@
   small {font-size: 0.889rem;}
 
   ul, ol {
-    margin-inline: 1.27cm;
+    margin-inline: 1.5rem;
   }
 
   code{
+    white-space: pre;
     padding: .2rem .4rem;
     background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
     color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
@@ -25,7 +26,7 @@
   }
 
   p, ul, ol, pre, blockquote{
-    margin-block: 1rem;
+    margin-block: 1.5rem;
   }
   
   pre {
@@ -36,6 +37,7 @@
 
     code {
       background: transparent;
+      padding: 0;
     }
   }
 
@@ -97,5 +99,16 @@
         content: "CAUTION";
       }
     }
+  }
+
+  /* LaTeX */
+  .tooltip .tooltiptext {
+    display: none;
+  }
+  .tooltip:hover .tooltiptext {
+      display: inline;
+      border-radius: 0.3em;
+      background-color: #777;
+      position: fixed;
   }
 }

@@ -168,10 +168,10 @@ main {
 }
 
 .danger-btn-outline {
-    color: white;
     background-color: color-mix(in srgb, var(--bg) 80%, red 20%);
 
     &:hover {
+        color: white;
         background-color: rgb(201, 0, 0);
     }
 }

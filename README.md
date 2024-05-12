@@ -88,8 +88,13 @@ First, I would like to thank you for visiting this repo. This repository contain
 If everything works fine, the installation is successful. If you wish to make Notes on the notebook app, you first need to create an user.
 
 11. Shut the server down and run ```python manage.py createsuperuser```. Give a username and a passoword. You may skip the email ID part by pressing ```Enter``` when prompted for the email ID.
-12. Once the superuser is created, restart the server and go to ```/admin```. Login using the superuser. Then go to Users. Click on the username of your superuser. Scroll down and enable the verified option. You should also assign a Team and Role to the user. You may complete the rest of your profile if you wish but it is not mandatory (as of now).
-13. Log out and go to ```/docs/login```. Login with the superuser account. Go to ```/new``` and create a note. 
+12. Once the superuser is created, restart the server and go to ```/admin```. Login using the superuser. Then go to Users. Click on the username of your superuser. Scroll down and enable the verified option. You should also assign a Role to the user. You may complete the rest of your profile if you wish but it is not mandatory (as of now). Then create some Departments and add the user in the member list of a Department.
+
+> [!IMPORTANT]
+> The Notes app might be a big buggy right now.
+
+13. Log out and go to ```/docs/login```. Login with the superuser account. Go to ```/new``` and create a note.
+14. You can also use another account to create the notes. Go to ```/signup``` and creating an account. Then logout and go to ```/admin``` and signup with the superuser account to verify the new user. Assign them a Department and a position and save. Then login again with the new user and go to ```/docs/new``` to create a note.
 
 
 ## The file structure
@@ -107,7 +112,7 @@ If everything works fine, the installation is successful. If you wish to make No
 ## Contributing
 
 Please follow the steps to contribute to this project:
-1. After you ```git clone``` this repository, switch to the 'dev' branch using ```git checkout dev```. Then, run ```git checkout -b USERNAME``` to create a branch.
+1. After you ```git clone``` the forked repository (proper forking described in step 1 of [Installation for Development](https://github.com/nathaishik/igem-2024-website/tree/dev?tab=readme-ov-file#installation-for-development)), switch to the 'dev' branch using ```git checkout dev```. Then, run ```git checkout -b USERNAME``` to create a branch.
 
 > [!IMPORTANT]
 > You must follow step 1.

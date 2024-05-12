@@ -28,6 +28,7 @@ form div {
     }
 
     textarea {
+        font-family: monospace;
         padding-block: calc(var(--padding-block) / 1.6);
         
         &:focus {
@@ -45,12 +46,12 @@ form div {
         font-weight: bold;        
     }
 
-    #id_notebook, #id_file {    
+    #id_dept, #id_file {    
         padding-block: calc(var(--padding-block) / 3);
         width: 100% !important;
     }
     
-    &:has(> #id_notebook, > #id_file) {
+    &:has(> #id_dept, > #id_file) {
         grid-column: span 1;
         padding-inline: calc(var(--padding-inline) / 1.6);
         background-color: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
@@ -64,7 +65,7 @@ form div {
     }
 
     @media (width < 600px) {
-        &:has(> #id_notebook, > #id_file) {
+        &:has(> #id_dept, > #id_file) {
             grid-column: span 2;
         }
     }

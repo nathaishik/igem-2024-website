@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+
 <div class="note">
     <div class="meta">
         <h1>{{ note.title }}</h1>
@@ -18,10 +19,8 @@
         <a href="{{ note.file.url }}" class="pri-btn">View attached file <span class="float">></span></a>
         {% endif %}
     </div>
-    <div class="content markdown-body">{{ note.content|linebreaks }}</div>
-    <script src="{% static 'notebook/markdown.js' %}"></script>
+    <div class="markdown-body">{{ note.content|linebreaks }}</div>
+    
 </div>
-<script>
-    document.querySelector('.content').innerHTML = document.querySelector('.content').innerText;
-</script>
+<script src="{% static 'notebook/markdown.js' %}"></script>
 {% endblock %}

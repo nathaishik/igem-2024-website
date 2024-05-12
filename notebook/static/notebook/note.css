@@ -40,7 +40,7 @@ p.author::before {
     }
 }
 
-div.content {
+div.markdown-body {
     grid-column: span 3;
     width: clamp(98%, 80vw, 80%);
     max-width: 80ch;

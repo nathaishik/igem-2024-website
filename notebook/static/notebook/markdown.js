@@ -1,3 +1,5 @@
+document.querySelector('.markdown-body').innerHTML = document.querySelector('.markdown-body').innerText;
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".markdown-body code").forEach((block) => {
     const array = block.innerHTML.split('\n')
@@ -5,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const parent = block.parentNode;
       const pre = document.createElement('pre');
       parent.replaceChild(pre, block);
+      block.innerHTML = block.innerHTML.slice(1, block.innerHTML.length);
       pre.appendChild(block);
     }
   });
@@ -16,7 +19,5 @@ document.addEventListener("DOMContentLoaded", () => {
       if (CODES.includes(type)) {
       block.classList.add(`alert-${type.toLowerCase()}`);
       }
-
-
 })
 });
