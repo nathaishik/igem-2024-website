@@ -31,13 +31,14 @@ def notebook(request, id):
         "hp": ["HMNPRC", "Human Practices"],
     }
     if id in VALID_IDS.keys():
-        notes = Note.objects.filter(notebook=VALID_IDS[id][0]).all().order_by('created').reverse()
+        department = Department.objects.get(code=VALID_IDS[id][0])
+        notes = Note.objects.filter(dept=department).all().order_by('created').reverse()
         print(notes)
     else:
         raise Http404('Notebook does not exist!')
     return render(request, "notebook/notebook.html", {
         'notes': notes,
-        'notebook': VALID_IDS[id][1]
+        'notebook': department
     })
 
 def note(request, id):
