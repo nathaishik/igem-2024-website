@@ -5,10 +5,10 @@
         <li>
             <div class="title">{{ note.title }}</div>
             <div class="meta">
-                <div class = "name">{{ note.user }}</div>
-                <div class = "team">{{ note.user.team }}</div>
-                <div class = "link">
-                    <a href="{% url 'notebook:note' note.id %}" class="pri-btn">View Note</a>
+                <div class="user">{{ note.user }}</div>
+                <div class="team">{{ note.user.team }}</div>
+                <div class="link">
+                    <a href="{% url 'notebook:note' note.id %}" class="btn pri-btn">View Note</a>
                 </div>
             </div>
         </li>

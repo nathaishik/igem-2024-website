@@ -47,6 +47,7 @@ form div {
 
     #id_notebook, #id_file {    
         padding-block: calc(var(--padding-block) / 3);
+        width: 100% !important;
     }
     
     &:has(> #id_notebook, > #id_file) {
@@ -59,6 +60,12 @@ form div {
             font-weight: 400;
             font-size: 1rem;
             display: block;
+        }
+    }
+
+    @media (width < 600px) {
+        &:has(> #id_notebook, > #id_file) {
+            grid-column: span 2;
         }
     }
 

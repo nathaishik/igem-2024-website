@@ -42,7 +42,8 @@ p.author::before {
 
 div.content {
     grid-column: span 3;
-    width: 80%;
+    width: clamp(98%, 80vw, 80%);
+    max-width: 80ch;
     text-align: justify;
 }
 

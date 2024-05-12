@@ -1,17 +1,6 @@
 /* General */
 
 @font-face {
-    font-family: 'grandstander';
-    src: url('/static/font/grandstander.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'grandstander';
-    src: url('/static/font/grandstanderIt.ttf') format('truetype');
-    font-style: italic;
-}
-
-@font-face {
     font-family: 'dmSans';
     src: url('/static/font/dmSans.ttf') format('truetype');
 }
@@ -48,6 +37,8 @@
         --bg: #1a1a1a;
         --faded-text: rgba(255, 255, 255, 0.726);
         --text: white;
+        --pri: #1a63ff;
+        --pri-dark: #0047e0;
     }
 }
 
@@ -140,17 +131,17 @@ main {
     padding-inline: var(--padding-inline);
 }
 
-.pri-btn-outline {
+.btn, input[type=file]::file-selector-button {
     padding: 0.3rem 1rem;
     text-decoration: none;
-    border-radius: var(--border-radius);
+    border: none;
     transition-duration: var(--transition-duration);
+    border-radius: var(--border-radius);
     span.float {
         transition-duration: var(--transition-duration);
     }
     
     &:hover {
-        background-color: color-mix(in srgb, var(--bg) 80%, var(--sec) 20%);
         transition-duration: var(--transition-duration);
 
         span.float {
@@ -160,25 +151,36 @@ main {
     }
 }
 
+.pri-btn-outline {
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--sec) 20%);
+    }
+}
+
+
 .pri-btn, .active-btn, input[type=file]::file-selector-button {
     color: white;
     background-color: var(--pri);
-    padding: 0.3rem 1rem;
-    text-decoration: none;
-    border: none;
-    border-radius: var(--border-radius);
-    transition-duration: var(--transition-duration);
-    span.float {
-        transition-duration: var(--transition-duration);
-    }
-    
+
     &:hover {
         background-color: var(--pri-dark);
-        transition-duration: var(--transition-duration);
+    }
+}
 
-        span.float {
-            transition-duration: var(--transition-duration);
-            margin-inline: 0.5rem;
-        }
+.danger-btn-outline {
+    color: white;
+    background-color: color-mix(in srgb, var(--bg) 80%, red 20%);
+
+    &:hover {
+        background-color: rgb(201, 0, 0);
+    }
+}
+
+.danger-btn {
+    color: white;
+    background-color: red;
+
+    &:hover {
+        background-color: darkred;
     }
 }

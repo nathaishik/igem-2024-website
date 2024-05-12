@@ -16,7 +16,6 @@
         </section>
         <section  id="action">
             {% if request.user.verified == True %}
-            <a class="btn-large" href="{% url 'notebook:upload' %}">New Note</a>
             {% else %}
             <div class="btn-large">Your account needs to be verified to upload notes.</div>
             {% endif %}

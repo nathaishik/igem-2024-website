@@ -49,15 +49,20 @@ input, textarea, button {
 /* Sec Nav */
 
 #sec-nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+
     ul {
-        width: fit-content;
         height: fit-content;
         border-radius: var(--border-radius);
         margin-block: var(--padding-block);
         background-color: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
         padding: 0.3rem 0;
         display: flex;
-        gap: 0rem;
+        flex-wrap: wrap;
+        gap: 1rem 0rem;
         list-style-type: none;
     }
 }

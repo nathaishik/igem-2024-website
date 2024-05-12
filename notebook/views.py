@@ -12,7 +12,7 @@ from markdown2 import Markdown
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        exclude = ['user', 'id', 'created']
+        exclude = ['user', 'id', 'created', 'published']
         widgets = {
             "title": forms.TextInput(attrs={"autofocus": "true", "placeholder": "Title"}),
             "content": forms.Textarea(attrs={"placeholder": "You can use markdown here!"}),
@@ -57,6 +57,39 @@ def dashboard(request):
     notes = Note.objects.filter(user=request.user).all().order_by('created').reverse()
     return render(request, 'notebook/dashboard.html', {
         "notes": notes
+    })
+
+@login_required
+def admin(request):
+    pass
+
+def manage_note(request, id):
+    note = Note.objects.get(id=id)
+    if request.method == "POST":
+        if request.POST.get("delete"):
+            note.delete()
+            return HttpResponseRedirect(reverse("notebook:dashboard"))
+        if request.POST.get("edit"):
+            form = NewNoteForm(request.POST, request.FILES, instance=note)
+            if form.is_valid():
+                title = form.cleaned_data["title"]
+                notebook = form.cleaned_data["notebook"]
+                content = form.cleaned_data["content"]
+                file = form.cleaned_data["file"]
+                published = form.cleaned_data["published"]
+                note.title = title
+                note.notebook = notebook
+                note.content = content
+                note.file = file
+                note.published = published
+                note.save()
+                return HttpResponseRedirect(reverse("notebook:dashboard"))
+            else:
+                return render(request, 'notebook/upload.html', {
+                    "form": form
+                })
+    return render(request, 'notebook/upload.html', {
+        "form": NewNoteForm(instance=note)
     })
 
 @login_required

@@ -12,7 +12,7 @@
 <form method="post" enctype="multipart/form-data" action="{% url 'notebook:upload' %}">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" class="pri-btn" value="Create Note">
+    <input type="submit" class="btn pri-btn" value="Create Note">
 </form>
 {% endif %}
 {% endblock %}
