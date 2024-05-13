@@ -55,7 +55,9 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   └── views.py
 ├── static
 │   ├── common
-│   │   └── common.css
+│   │   ├── common.css
+│   │   ├── mathjax.js
+│   │   └── tex-svg.js
 │   └── font
 │       ├── dmSans.ttf
 │       ├── dmSansIt.ttf
@@ -70,7 +72,6 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   ├── urls.py
 │   └── wsgi.py
 ├── README.md
-├── db.sqlite3
 ├── manage.py
 └── requirements.txt
 ```
