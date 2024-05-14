@@ -22,30 +22,47 @@ First, I would like to thank you for visiting this repo. This repository contain
 ```
 ├── notebook
 │   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_rename_notes_note.py
+│   │   ├── 0003_note_published_user_email_verified_alter_note_id_and_more.py
+│   │   ├── 0004_alter_note_id.py
+│   │   ├── 0005_alter_note_id.py
+│   │   ├── 0006_alter_note_id.py
+│   │   ├── 0007_alter_note_id.py
+│   │   ├── 0008_alter_note_id.py
+│   │   ├── 0009_alter_note_id.py
+│   │   ├── 0010_alter_note_id.py
+│   │   ├── 0011_alter_note_id.py
+│   │   ├── 0012_remove_note_notebook_remove_user_team_alter_note_id_and_more.py
+│   │   ├── 0013_alter_note_id.py
+│   │   ├── 0014_note_last_edited.py
+│   │   ├── 0015_rename_dept_note_department.py
+│   │   └── __init__.py
 │   ├── static
 │   │   └── notebook
 │   │       ├── base.css
 │   │       ├── dashboard.css
 │   │       ├── index.css
+│   │       ├── manage_note.css
 │   │       ├── markdown.css
 │   │       ├── markdown.js
 │   │       ├── note.css
+│   │       ├── note_form.js
 │   │       ├── notebook.css
-│   │       ├── notelist.css
 │   │       ├── sec-nav.js
-│   │       ├── session.css
-│   │       └── upload.css
+│   │       └── session.css
 │   ├── templates
 │   │   └── notebook
 │   │       ├── dashboard.html
 │   │       ├── index.html
 │   │       ├── layout.html
 │   │       ├── login.html
+│   │       ├── manage_note.html
 │   │       ├── note.html
+│   │       ├── note_form.html
 │   │       ├── notebook.html
 │   │       ├── notelist.html
-│   │       ├── register.html
-│   │       └── upload.html
+│   │       └── register.html
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
@@ -55,6 +72,10 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   └── views.py
 ├── static
 │   ├── common
+│   │   ├── codemirror
+│   │   │   ├── codemirror.css
+│   │   │   ├── codemirror.js
+│   │   │   └── markdown.js
 │   │   ├── common.css
 │   │   ├── mathjax.js
 │   │   └── tex-svg.js
@@ -76,7 +97,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 └── requirements.txt
 ```
 
-6. If the files you've received match the above structure, then the cloning has been done correctly.
+6. If the files you've received match the above structure, then the cloning has been done correctly. I am also including the names of the migration files. Make sure you have all of them.
 7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done editing or testing the code, just run ```deactivate``` to exit the virtual environment)
 
 > [!IMPORTANT]

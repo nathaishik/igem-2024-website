@@ -5,8 +5,8 @@ import uuid
 # Create your models here.
 def upload_files(instance, filename):
     ext = filename.split('.')[-1]
-    filename = "%s__%s_%s.%s" % (instance.user.username, instance, uuid.uuid4().hex, ext)
-    return "{0}/{1}/{2}".format(instance.notebook, "files", filename)
+    filename = "%s_%s_%s.%s" % (instance.user.username, instance, uuid.uuid4().hex, ext)
+    return "{0}/{1}/{2}".format(instance.department, "files", filename)
 
 class User(AbstractUser):
     POSITION_CHOICES = [
@@ -34,12 +34,13 @@ class Department(models.Model):
 class Note(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="notes")
+    published = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
-    dept = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name="notes")
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name="notes")
     file = models.FileField(upload_to=upload_files, null=True, blank=True)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    published = models.BooleanField(default=False)
+    last_edited = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return f"{self.title} by {'User no longer exists' if self.user == None else self.user.username}"

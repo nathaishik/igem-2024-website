@@ -6,19 +6,27 @@
 <link rel="stylesheet" href="{% static 'notebook/markdown.css' %}">
 {% endblock %}
 
-{% block body %}
+{% block title %}{{ note.title }}{% endblock %}
 
+{% block body %}
+{% if request.user.is_authenticated and request.user == note.user %}
+<ul class="note-action">
+    <li><a href="{% url 'notebook:manage_note' note.id %}" class="btn action-btn-outline">Edit</a></li>
+    <li><form action="{% url 'notebook:manage_note' note.id %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete" name="delete" class="btn danger-btn-outline"></form></li>
+</ul>      
+{% endif %}
 <div class="note">
     <div class="meta">
         <h1>{{ note.title }}</h1>
-        <div class="info">
-            <p class="notebook">{{ note.notebook }}</p>
-            <p class="author">{{ note.user.first_name }} {{ note.uesr.last_name }}</p>
-        </div>
+        <p class="author">{{ note.user.first_name }} {{ note.user.last_name }}</p>
+        <p class="notebook">{{ note.department }}</p>
         {% if note.file %}
-        <a href="{{ note.file.url }}" class="pri-btn">View attached file <span class="float">></span></a>
+        <a href="{{ note.file.url }}" class="btn pri-btn">View attached file <span class="float">></span></a>
         {% endif %}
     </div>
+    
     <div class="markdown-body">{{ note.content|linebreaks }}</div>
     
 </div>

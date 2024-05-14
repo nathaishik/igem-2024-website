@@ -1,0 +1,21 @@
+{% load static %}
+
+{% if request.user.verified == True %}
+{{ message }}
+{% if args %}
+<form method="POST" enctype="multipart/form-data" action="{% url link args %}">
+{% else %}
+<form method="POST" enctype="multipart/form-data" action="{% url link %}">
+{% endif %}
+<h5>{{ title }}</h5>
+
+    {% csrf_token %}
+    <input type="submit" id="form_submit" name="edit" class="btn pri-btn" value="Save Note">
+    {{ form }}
+</form>
+<script src="{% static 'notebook/note_form.js' %}"></script>
+
+{% else %}
+    <p>You need to be verified to add or modify a note.</p>
+    <p>Please contact the admin for verification.</p>
+{% endif %}

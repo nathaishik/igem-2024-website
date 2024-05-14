@@ -15,22 +15,28 @@ input, textarea, button {
         padding-block: calc(var(--padding-block));
         padding-inline: calc(var(--padding-inline) / 1.6);
         display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
         border-radius: calc(var(--border-radius) / 1.6);
         background: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
 
         .meta {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            align-items: center;
+            gap: 1rem;
         }
 
         .meta div {
             text-align: center;
+            text-overflow: ellipsis;
+            min-width: fit-content;
         }
         .title {
             text-align: start;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             font-weight: 700;
         }
 
@@ -40,7 +46,7 @@ input, textarea, button {
     }
 }
 
-@media (width < 800px) {
+@media (width < 850px) {
     .notelist li {
         grid-template-columns: 1fr;
     }
