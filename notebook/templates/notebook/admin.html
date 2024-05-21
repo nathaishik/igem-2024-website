@@ -1,0 +1,25 @@
+{% extends 'notebook/layout.html' %}
+{% load static %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
+{% endblock %}
+
+{% block body %}
+    <h1>Manage Teams</h1>
+    <ul class="notelist">
+        {% for  department in request.user.leader_of.all %}
+            <li>
+                <div class="title">{{ department }}</div>
+                <div class="meta">
+                <div class="team">Pending Requests: {{ department.waitlist.all|length }}</div>
+                <div class="link">
+                    <a href="{% url 'notebook:verify' department.code %}" class="btn pri-btn">Manage</a>
+                </div>
+                </div>
+            </li>
+        {% empty %}
+            <li>No notes have been added yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
