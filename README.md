@@ -101,7 +101,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 ```
 
 > [!NOTE]
-> To get the above file tree, use ```tree --dirsfirst -n -I 'node_modules|media|.venv|__pycache__|*.sqlite3|*.json'``` in the bash terminal. If you are in Windows, you can enter bash terminal using the ```bash``` command in PowerShell.
+> To get the above file tree, use ```tree --dirsfirst -n -I 'node_modules|media|.venv|__pycache__|*.sqlite3|*.json'``` in the bash terminal. If you are in Windows, you can enter bash terminal using the ```bash``` command in PowerShell. You will have to enable virtualisation and WSL for Windows.
 
 6. If the files you've received match the above structure, then the cloning has been done correctly. I am also including the names of the migration files. Make sure you have all of them.
 7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done editing or testing the code, just run ```deactivate``` to exit the virtual environment)
