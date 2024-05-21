@@ -137,6 +137,7 @@ main {
 }
 
 .btn, input[type=file]::file-selector-button {
+    color: inherit;
     padding: var(--padding-block-btn) var(--padding-inline-btn);
     text-decoration: none;
     border: none;

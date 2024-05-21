@@ -11,10 +11,13 @@
 {% block body %}
 {% if request.user.is_authenticated and request.user == note.user %}
 <ul class="note-action">
-    <li><a href="{% url 'notebook:manage_note' note.id %}" class="btn action-btn-outline">Edit</a></li>
-    <li><form action="{% url 'notebook:manage_note' note.id %}" method="POST">
+    <li><form action="{% url 'notebook:manage_note' %}" method="GET">
+            <button type="submit" name="edit" value="{{ note.id }}" class="btn action-btn-outline">Edit</button>
+        </form>
+    </li>
+    <li><form action="{% url 'notebook:manage_note' %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="Delete" name="delete" class="btn danger-btn-outline"></form></li>
+        <button type="submit" value="{{ note.id }}" name="delete" class="btn danger-btn-outline">Delete</button></form></li>
 </ul>      
 {% endif %}
 <div class="note">

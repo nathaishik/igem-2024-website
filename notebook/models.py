@@ -22,8 +22,8 @@ class User(AbstractUser):
     pass
 
 class Department(models.Model):
-    name = models.CharField(max_length=255)
-    code = models.CharField(max_length=6)
+    name = models.CharField(max_length=255, unique=True)
+    code = models.CharField(max_length=6, unique=True)
     leader = models.ManyToManyField(User, blank=True, related_name="leader_of")
     members = models.ManyToManyField(User, blank=True, related_name="departments")
     waitlist = models.ManyToManyField(User, blank=True, related_name="waitlist")

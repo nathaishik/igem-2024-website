@@ -30,10 +30,11 @@ def index(request):
     })
 
 def notebook(request, code):
-    department = Department.objects.get(code=code)
-    notes = Note.objects.filter(department=department, published=True).all().order_by('last_edited').reverse()
-    if department == None:
+    try:
+        department = Department.objects.get(code=code)
+    except Department.DoesNotExist:
         raise Http404('Notebook does not exist!')
+    notes = Note.objects.filter(department=department, published=True).all().order_by('last_edited').reverse()
     return render(request, "notebook/notebook.html", {
         'notes': notes,
         'notebook': department.name
@@ -62,18 +63,19 @@ def admin(request):
     pass
 
 @login_required
-def manage_note(request, id):
+def manage_note(request):
     heading = "Edit Note"
-    note = Note.objects.get(id=id)
-    if request.user != note.user:
-        return HttpResponseRedirect(reverse("notebook:login"))
     if request.method == "POST" and request.POST.get("delete"):
+        note = Note.objects.get(id=request.POST["delete"])
+        if request.user != note.user:
+            return HttpResponseRedirect(reverse("notebook:login"))
         note.delete()
         return HttpResponseRedirect(reverse("notebook:dashboard"))
     if request.method == "POST" and request.POST.get("edit"):
+        note = Note.objects.get(id=request.POST["edit"])
+        if request.user != note.user:
+            return HttpResponseRedirect(reverse("notebook:login"))
         form = NewNoteForm(request.POST, request.FILES, instance=note)
-        print(request.POST)
-        print(request.FILES)
         if form.is_valid():
             title = form.cleaned_data["title"]
             department = form.cleaned_data["department"]
@@ -84,7 +86,7 @@ def manage_note(request, id):
             note.content = content
             note.published = published
             note.save()
-            return HttpResponseRedirect(reverse("notebook:note", args=[id]))
+            return HttpResponseRedirect(reverse("notebook:note", args=[note.id]))
         else:
             return render(request, 'notebook/manage_note.html', {
                 "form": form,
@@ -92,11 +94,11 @@ def manage_note(request, id):
                 "link": "notebook:manage_note",
                 "message": "Something went wrong. Please try again.",
                 "title": heading,
-            })
+            }, status=406)
     return render(request, 'notebook/manage_note.html', {
-        "args": note.id,
         "link": "notebook:manage_note",
-        "form": NewNoteForm(instance=note),
+        "note_id": Note.objects.get(id=request.GET["edit"]).id,
+        "form": NewNoteForm(instance=Note.objects.get(id=request.GET["edit"])),
         "title": heading,
     })
 
@@ -104,7 +106,7 @@ def manage_note(request, id):
 def upload(request):
     heading = "New Note"
     if request.user.verified == False:
-        return HttpResponseRedirect(reverse("notebook:dashboard"))
+        return HttpResponseRedirect(reverse("notebook:dashboard"), status=302)
     if request.method == "POST":
         form = NewNoteForm(request.POST, request.FILES)
         if form.is_valid():
@@ -121,14 +123,15 @@ def upload(request):
                 file=file,
                 published=published
             )
-            note.save()  
+            note.save()
             return HttpResponseRedirect(reverse("notebook:dashboard"))
         else:
             return render(request, 'notebook/manage_note.html', {
                 "form": form,
                 "link": "notebook:upload",
                 "title": heading,
-            })
+                "message": "Something went wrong. Please try again.",
+            }, status=406)
     return render(request, 'notebook/manage_note.html', {
         "form": NewNoteForm(),
         "link": "notebook:upload",
@@ -182,7 +185,7 @@ def register(request):
             return HttpResponseRedirect(reverse("notebook:dashboard"))
         except IntegrityError:
             return render(request, 'notebook/register.html', {
-                "message": "Username already taken"
+                "message": "Invalid username"
             })
     return render(request, 'notebook/register.html', {
     })
