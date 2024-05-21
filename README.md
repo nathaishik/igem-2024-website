@@ -22,41 +22,65 @@ First, I would like to thank you for visiting this repo. This repository contain
 ```
 ├── notebook
 │   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_rename_notes_note.py
+│   │   ├── 0003_note_published_user_email_verified_alter_note_id_and_more.py
+│   │   ├── 0004_alter_note_id.py
+│   │   ├── 0005_alter_note_id.py
+│   │   ├── 0006_alter_note_id.py
+│   │   ├── 0007_alter_note_id.py
+│   │   ├── 0008_alter_note_id.py
+│   │   ├── 0009_alter_note_id.py
+│   │   ├── 0010_alter_note_id.py
+│   │   ├── 0011_alter_note_id.py
+│   │   ├── 0012_remove_note_notebook_remove_user_team_alter_note_id_and_more.py
+│   │   ├── 0013_alter_note_id.py
+│   │   ├── 0014_note_last_edited.py
+│   │   ├── 0015_rename_dept_note_department.py
+│   │   ├── 0016_alter_department_code_alter_department_name.py
+│   │   └── __init__.py
 │   ├── static
 │   │   └── notebook
 │   │       ├── base.css
 │   │       ├── dashboard.css
 │   │       ├── index.css
+│   │       ├── manage_note.css
 │   │       ├── markdown.css
 │   │       ├── markdown.js
 │   │       ├── note.css
+│   │       ├── note_form.js
 │   │       ├── notebook.css
-│   │       ├── notelist.css
 │   │       ├── sec-nav.js
-│   │       ├── session.css
-│   │       └── upload.css
+│   │       └── session.css
 │   ├── templates
 │   │   └── notebook
 │   │       ├── dashboard.html
 │   │       ├── index.html
 │   │       ├── layout.html
 │   │       ├── login.html
+│   │       ├── manage_note.html
 │   │       ├── note.html
+│   │       ├── note_form.html
 │   │       ├── notebook.html
 │   │       ├── notelist.html
-│   │       ├── register.html
-│   │       └── upload.html
+│   │       └── register.html
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── tests.py
+│   ├── test_models.py
+│   ├── test_views.py
 │   ├── urls.py
 │   └── views.py
 ├── static
 │   ├── common
+│   │   ├── codemirror
+│   │   │   ├── codemirror.css
+│   │   │   ├── codemirror.js
+│   │   │   └── markdown.js
 │   │   ├── common.css
 │   │   ├── mathjax.js
+│   │   ├── sec-nav.js
 │   │   └── tex-svg.js
 │   └── font
 │       ├── dmSans.ttf
@@ -76,7 +100,10 @@ First, I would like to thank you for visiting this repo. This repository contain
 └── requirements.txt
 ```
 
-6. If the files you've received match the above structure, then the cloning has been done correctly.
+> [!NOTE]
+> To get the above file tree, use ```tree --dirsfirst -n -I 'node_modules|media|.venv|__pycache__|*.sqlite3|*.json'``` in the bash terminal. If you are in Windows, you can enter bash terminal using the ```bash``` command in PowerShell.
+
+6. If the files you've received match the above structure, then the cloning has been done correctly. I am also including the names of the migration files. Make sure you have all of them.
 7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done editing or testing the code, just run ```deactivate``` to exit the virtual environment)
 
 > [!IMPORTANT]
@@ -120,7 +147,8 @@ Please follow the steps to contribute to this project:
 
 2. Now, move to that branch using ```git checkout USERNAME```.
 4. Write and edit the code.
-5. After you are done, run ```git add .``` to add any new files that you might have created. You can skip this step if you haven't added anything new.
-6. Run ```git commit -am "COMMIT MESSAGE"``` where COMMIT MESSAGE should mention what you modified.
-7. Now this step is a bit of a trick. By default, you won't be able to push from this branch directly. But run ```git push```. You should see an error message and that message contains the correct command to use to push to the online repository. Copy, paste and run that command to push your changes.
-8. Open the repository from your browser. Chances are, you should see a banner asking you to create a Pull Request. If not, manually create a pull request by navigating to the appropriate tab. Fill in the necessary details. Tt is important that you ask for merging in the ```dev``` branch. Then create the request. If everything's alright, I will accept the request.
+5. Run ```python manage.py test``` to test your code. If you feel the need to introduce any new test for the feature that you've developed, write the test in the appropriate test file. Make sure that your code passes all tests.
+6. After you are done, run ```git add .``` to add any new files that you might have created. You can skip this step if you haven't added anything new.
+7. Run ```git commit -am "COMMIT MESSAGE"``` where COMMIT MESSAGE should mention what you modified.
+8. Now this step is a bit of a trick. By default, you won't be able to push from this branch directly. But run ```git push```. You should see an error message and that message contains the correct command to use to push to the online repository. Copy, paste and run that command to push your changes.
+9. Open the repository from your browser. Chances are, you should see a banner asking you to create a Pull Request. If not, manually create a pull request by navigating to the appropriate tab. Fill in the necessary details. Tt is important that you ask for merging in the ```dev``` branch. Then create the request. If everything's alright, I will accept the request.

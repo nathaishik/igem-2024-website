@@ -1,17 +1,47 @@
+.note-action {
+    grid-column: span 3;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    a, input {
+        color: var(--text);
+    }
+
+    form input {
+        font: inherit;
+    }
+}
+
 
 .note {
+    width: clamp(98%, 80vw, 80%);
+    max-width: 80ch;
+    margin-inline: auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 5rem;
+    gap: 2rem 5rem;
     place-items: center;
+
+    
 }
 h1 {
     grid-column: span 3;
-    text-align: center;
+    text-align: start;
+    overflow-x: auto;
+    height: max-content;
+    overflow-y: hidden;
 }
 
+p.author {
+    font-style: italic;
+}
 p.author::before {
-    content: "~ ";
+    content: "by ";
 }
 
 .meta {
@@ -22,29 +52,21 @@ p.author::before {
 
     h1 {
         grid-column: span 3;
-        text-align: center;
     }
 
-    .info {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column: 2;
-
-        p {
-            text-align: center;
-        }
+    p {
+        text-align: justify;
     }
 
     a {
-        grid-column: 2;
+        grid-column: 3;
     }
 }
 
 div.markdown-body {
     grid-column: span 3;
-    width: clamp(98%, 80vw, 80%);
-    max-width: 80ch;
     text-align: justify;
+    width: 100%;
 }
 
 

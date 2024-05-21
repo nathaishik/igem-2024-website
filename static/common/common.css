@@ -30,6 +30,8 @@
     --padding-block: clamp(20px, 4vh, 4rem);
     --border-radius: 1rem;
     --transition-duration: 0.15s;
+    --padding-block-btn: .3rem;
+    --padding-inline-btn: 1rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,9 +45,12 @@
 }
 
 * {
+    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scrollbar-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%) color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    scrollbar-width: thin;
 }
 
 body {
@@ -132,11 +137,13 @@ main {
 }
 
 .btn, input[type=file]::file-selector-button {
-    padding: 0.3rem 1rem;
+    color: inherit;
+    padding: var(--padding-block-btn) var(--padding-inline-btn);
     text-decoration: none;
     border: none;
     transition-duration: var(--transition-duration);
     border-radius: var(--border-radius);
+    cursor: pointer;
     span.float {
         transition-duration: var(--transition-duration);
     }
@@ -183,4 +190,25 @@ main {
     &:hover {
         background-color: darkred;
     }
+}
+
+.action-btn-outline {
+    background-color: color-mix(in srgb, var(--bg) 80%, rgb(94, 255, 0) 20%);
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 60%, rgb(94, 255, 0) 40%);
+    }
+}
+
+.action-btn {
+    color: white;
+    background-color: rgb(48, 180, 0);
+
+    &:hover {
+        background-color: rgb(12, 141, 0);
+    }
+}
+
+.disabled {
+    cursor: not-allowed !important;
 }

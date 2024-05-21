@@ -5,9 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const array = block.innerHTML.split('\n')
     if (array.length > 1) {
       const parent = block.parentNode;
+      parent.classList.add('code-block');
       const pre = document.createElement('pre');
       parent.replaceChild(pre, block);
-      block.innerHTML = block.innerHTML.slice(1, block.innerHTML.length);
+      block.innerText = block.innerText.slice(1, block.innerText.length);
       pre.appendChild(block);
     }
   });

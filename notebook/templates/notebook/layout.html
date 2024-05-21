@@ -21,7 +21,10 @@
         <li><a class="btn pri-btn-outline" href="{% url 'notebook:manage' %}">Manage</a></li>
         {% endif %}
     </ul>
+    {% block sec-nav %}
+    {% endblock %}
     <ul>
+        <li><span class="btn"><strong>{{ request.user.username }}</strong></span></li>
         <li><a class="btn danger-btn-outline" href="{% url 'notebook:logout' %}">Logout</a></li>
     </ul>
 </nav>

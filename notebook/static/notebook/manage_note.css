@@ -1,0 +1,176 @@
+form {
+    padding-block: var(--padding-block);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    #form_submit {
+        width: fit-content;
+        cursor: pointer;
+    }
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--padding-block);
+    grid-column: span 2;
+    label {
+        display: none;
+    }
+
+    input, textarea, select{
+        color: var(--text);
+        background-color: inherit;
+        border: none;
+        font-size: 1rem;
+        resize: none;
+
+        &:focus {
+            outline: none;
+        }   
+    }
+
+    textarea{
+        font-family: monospace;
+        font-weight: 300;
+        height: 90svh;
+        line-height: 1;
+        border: .1px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+        padding: 1rem;
+        transition-duration: var(--transition-duration);
+        
+        &:focus {
+            background-color: color-mix(in srgb, var(--bg) 95%, var(--text) 5%);
+            transition-duration: var(--transition-duration);
+        }
+    }
+
+    select, input[type=file]::file-selector-button {
+        cursor: pointer;
+    }
+
+    #id_title {    
+        font-size: 2.986rem;
+        font-weight: bold;        
+    }
+
+    &:has(> #id_published) {
+        font: inherit;
+        background-color: var(--bg);
+        grid-column: 2/2;
+        padding: 0;
+        flex-direction: row;
+        justify-content: end;
+        align-items: center;
+        gap: 1rem;
+        label {
+            display: block;
+        }
+    }
+    .toggle_button {
+        margin-inline: .5rem;
+        height: .5rem;
+        width: 1rem !important;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .toggle_button::before{
+        /* background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%); */
+        content: "";
+        display: block;
+        position: absolute;
+        width: 2rem;
+        height: 1.2rem;
+        top: 50%;
+        right: -.5rem;
+        transform: translateY(-50%);
+        border: none;
+        border-radius: .6rem;
+        background-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+    }
+
+    .toggle_button::after {
+        content: "";
+        display: block;
+        aspect-ratio: 1/1;
+        height: .8rem;
+        position: absolute;
+        top: 50%;
+        left: -.3rem;
+        transform: translateY(-50%);
+        border-radius: .5rem;
+        background-color: var(--text);
+        transition-duration: var(--transition-duration);
+        background-color: white;
+    }
+    .toggle_button:checked::after {
+        left: .5rem;
+        transition: var(--transition-duration);
+    }
+    .toggle_button:checked::before {
+        background-color: var(--pri);
+        transition-duration: var(--transition-duration);
+    }
+
+
+    #id_department, #id_file {    
+        width: 25ch !important;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        border-radius: var(--border-radius);
+        background-color: var(--bg);
+    }
+
+
+    
+    &:has(> #id_department, > #id_file) {
+        grid-column: span 2;
+        padding-block: 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        label {
+            font-weight: 400;
+            font-size: 1rem;
+            display: block;
+        }
+    }
+
+    #id_department {
+        cursor: pointer;
+    }
+    .clear_button {
+        margin-inline: 3.2rem;
+        height: .5rem;
+        width: fit-content !important;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .clear_button::before{
+        content: "Clear file";
+        display: block;
+        position: absolute;
+        text-align: center;
+        width: calc(7.4rem - 2 * var(--padding-inline-btn));
+        padding: var(--padding-block-btn) var(--padding-inline-btn);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: none;
+        border-radius: var(--border-radius);
+        background-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+        transition-duration: var(--transition-duration);
+    }
+    .clear_button:checked::before {
+        content: "Clear file ⨉";
+        color: white;
+        background-color: red;
+        transition-duration: var(--transition-duration);
+    }
+
+}

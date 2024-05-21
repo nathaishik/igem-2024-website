@@ -8,56 +8,53 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.urls import reverse
 from .models import *
 from markdown2 import Markdown
+import os
 
 # Create your views here.
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        exclude = ['user', 'id', 'created', 'published']
+        exclude = ['user', 'id', 'created']
         widgets = {
             "title": forms.TextInput(attrs={"autofocus": "true", "placeholder": "Title"}),
-            "content": forms.Textarea(attrs={"placeholder": "You can use markdown and TeX here!"}),
+            "content": forms.Textarea(attrs={"placeholder": "You can use markdown and LaTeX here!"}),
+            "published": forms.CheckboxInput(attrs={"class": "toggle_button"}),
         }
     
     def clean(self):
         super(NewNoteForm, self).clean()
         return self.cleaned_data
 
-def notebook(request, id):
-    VALID_IDS = {
-        "drylab": ["DRYLAB", "Dry Lab"],
-        "wetlab": ["WETLAB", "Wet Lab"],
-        "webdev": ["WEBDEV", "Web Development"],
-        "design": ["DESIGN", "Design"],
-        "hp": ["HMNPRC", "Human Practices"],
-    }
-    if id in VALID_IDS.keys():
-        department = Department.objects.get(code=VALID_IDS[id][0])
-        notes = Note.objects.filter(dept=department).all().order_by('created').reverse()
-        print(notes)
-    else:
+def index(request):
+    return render(request, "notebook/index.html", {
+        "departments": Department.objects.all()
+    })
+
+def notebook(request, code):
+    try:
+        department = Department.objects.get(code=code)
+    except Department.DoesNotExist:
         raise Http404('Notebook does not exist!')
+    notes = Note.objects.filter(department=department, published=True).all().order_by('last_edited').reverse()
     return render(request, "notebook/notebook.html", {
         'notes': notes,
-        'notebook': department
+        'notebook': department.name
     })
 
 def note(request, id):
     note = Note.objects.get(id=id)
     md = Markdown()
     try:
-        print(note.content)
         note.content = md.convert(note.content)
     except:
         note.content = "Markprocessing error" + note.content
     return render(request, "notebook/note.html", {'note': note})
 
-def index(request):
-    return render(request, "notebook/index.html")
+
 
 @login_required
 def dashboard(request):
-    notes = Note.objects.filter(user=request.user).all().order_by('created').reverse()
+    notes = Note.objects.filter(user=request.user).all().order_by('last_edited').reverse()
     return render(request, 'notebook/dashboard.html', {
         "notes": notes
     })
@@ -125,61 +122,80 @@ def roles(request, code):
         "members" : department.members.all()
     })
 
-def manage_note(request, id):
-    note = Note.objects.get(id=id)
-    if request.method == "POST":
-        if request.POST.get("delete"):
-            note.delete()
-            return HttpResponseRedirect(reverse("notebook:dashboard"))
-        if request.POST.get("edit"):
-            form = NewNoteForm(request.POST, request.FILES, instance=note)
-            if form.is_valid():
-                title = form.cleaned_data["title"]
-                notebook = form.cleaned_data["notebook"]
-                content = form.cleaned_data["content"]
-                file = form.cleaned_data["file"]
-                published = form.cleaned_data["published"]
-                note.title = title
-                note.notebook = notebook
-                note.content = content
-                note.file = file
-                note.published = published
-                note.save()
-                return HttpResponseRedirect(reverse("notebook:dashboard"))
-            else:
-                return render(request, 'notebook/upload.html', {
-                    "form": form
-                })
-    return render(request, 'notebook/upload.html', {
-        "form": NewNoteForm(instance=note)
+@login_required
+def manage_note(request):
+    heading = "Edit Note"
+    if request.method == "POST" and request.POST.get("delete"):
+        note = Note.objects.get(id=request.POST["delete"])
+        if request.user != note.user:
+            return HttpResponseRedirect(reverse("notebook:login"))
+        note.delete()
+        return HttpResponseRedirect(reverse("notebook:dashboard"))
+    if request.method == "POST" and request.POST.get("edit"):
+        note = Note.objects.get(id=request.POST["edit"])
+        if request.user != note.user:
+            return HttpResponseRedirect(reverse("notebook:login"))
+        form = NewNoteForm(request.POST, request.FILES, instance=note)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            department = form.cleaned_data["department"]
+            content = form.cleaned_data["content"]
+            published= form.cleaned_data["published"]
+            note.title = title
+            note.department = department
+            note.content = content
+            note.published = published
+            note.save()
+            return HttpResponseRedirect(reverse("notebook:note", args=[note.id]))
+        else:
+            return render(request, 'notebook/manage_note.html', {
+                "form": form,
+                "args": note.id,
+                "link": "notebook:manage_note",
+                "message": "Something went wrong. Please try again.",
+                "title": heading,
+            }, status=406)
+    return render(request, 'notebook/manage_note.html', {
+        "link": "notebook:manage_note",
+        "note_id": Note.objects.get(id=request.GET["edit"]).id,
+        "form": NewNoteForm(instance=Note.objects.get(id=request.GET["edit"])),
+        "title": heading,
     })
 
 @login_required
 def upload(request):
-    if request.user.verified() == False:
-        return HttpResponseRedirect(reverse("notebook:dashboard"))
+    heading = "New Note"
+    if request.user.verified == False:
+        return HttpResponseRedirect(reverse("notebook:dashboard"), status=302)
     if request.method == "POST":
         form = NewNoteForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data["title"]
-            dept = form.cleaned_data["dept"]
+            department = form.cleaned_data["department"]
             content = form.cleaned_data["content"]
             file = form.cleaned_data["file"]
+            published = form.cleaned_data["published"]
             note = Note(
                 user=request.user,
                 title=title,
-                dept=dept,
+                department=department,
                 content=content,
-                file=file
+                file=file,
+                published=published
             )
-            note.save()  
+            note.save()
             return HttpResponseRedirect(reverse("notebook:dashboard"))
         else:
-            return render(request, 'notebook/upload.html', {
-                "form": form
-            })
-    return render(request, 'notebook/upload.html', {
-        "form": NewNoteForm()
+            return render(request, 'notebook/manage_note.html', {
+                "form": form,
+                "link": "notebook:upload",
+                "title": heading,
+                "message": "Something went wrong. Please try again.",
+            }, status=406)
+    return render(request, 'notebook/manage_note.html', {
+        "form": NewNoteForm(),
+        "link": "notebook:upload",
+        "title": heading,
     })
 
 def login_view(request):
@@ -229,7 +245,7 @@ def register(request):
             return HttpResponseRedirect(reverse("notebook:teams"))
         except IntegrityError:
             return render(request, 'notebook/register.html', {
-                "message": "Username already taken"
+                "message": "Invalid username"
             })
     return render(request, 'notebook/register.html', {
     })
