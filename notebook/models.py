@@ -15,14 +15,9 @@ class User(AbstractUser):
         ("PRMRYPI", "Primary PI"),
         ("ADVISOR", "Advisor"),
     ]
-
     position = models.CharField(max_length=7, choices=POSITION_CHOICES, blank=True, null=True)
     email_verified = models.BooleanField(default=False)
     verified = models.BooleanField(default=False)
-
-    def verified(self):
-        return bool(len(self.departments.all())+len(self.leader_of.all()))
-    pass
 
 class Department(models.Model):
     name = models.CharField(max_length=255, unique=True)

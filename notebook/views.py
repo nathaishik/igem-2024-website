@@ -184,7 +184,7 @@ def upload(request):
                 published=published
             )
             note.save()
-            return HttpResponseRedirect(reverse("notebook:dashboard"))
+            return HttpResponseRedirect(reverse("notebook:dashboard"), status=200)
         else:
             return render(request, 'notebook/manage_note.html', {
                 "form": form,
