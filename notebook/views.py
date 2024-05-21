@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.urls import reverse
 from .models import *
 from markdown2 import Markdown
@@ -62,8 +63,67 @@ def dashboard(request):
     })
 
 @login_required
+def teams(request):
+    team_list = Department.objects.order_by('name')
+    user = User.objects.get(username=request.user.username)
+
+    if request.method == "POST":
+        department = Department.objects.get(code=request.POST['code'])
+        department.waitlist.add(user)
+    return render(request, 'notebook/teams.html',{
+        "teams": team_list
+    })
+
+
+@login_required
 def admin(request):
-    pass
+    if len(request.user.leader_of.all()) == 0:
+        raise PermissionDenied
+    return render(request, 'notebook/admin.html')
+
+@login_required
+def verify(request, code):
+    try:
+        department = Department.objects.get(code=code)
+    except ObjectDoesNotExist:
+        raise Http404('Page does not exist!')
+    
+    if request.user not in department.leader.all():
+        raise PermissionDenied
+    
+    if request.method == "POST":
+        verfied_user= User.objects.get(username=request.POST['username'])
+        department.waitlist.remove(verfied_user)
+        department.members.add(verfied_user)
+
+    return render(request, 'notebook/verify.html',{
+        "department" : department,
+        "waitlist" : department.waitlist.all()
+    })
+
+@login_required
+def roles(request, code):
+    try:
+        department = Department.objects.get(code=code)
+    except ObjectDoesNotExist:
+        raise Http404('Page does not exist!')
+    
+    if request.user not in department.leader.all():
+        raise PermissionDenied
+    
+    if request.method == "POST":
+        clicked_user= User.objects.get(username=request.POST['username'])
+        if 'remove' in request.POST:
+            department.members.remove(clicked_user)
+        elif 'promote' in request.POST:
+            department.members.remove(clicked_user)
+            department.leader.add(clicked_user)
+
+    return render(request, 'notebook/roles.html',{
+        "department" : department,
+        "leaders" : department.leader.all(),
+        "members" : department.members.all()
+    })
 
 def manage_note(request, id):
     note = Note.objects.get(id=id)
@@ -96,7 +156,7 @@ def manage_note(request, id):
 
 @login_required
 def upload(request):
-    if request.user.verified == False:
+    if request.user.verified() == False:
         return HttpResponseRedirect(reverse("notebook:dashboard"))
     if request.method == "POST":
         form = NewNoteForm(request.POST, request.FILES)
@@ -166,7 +226,7 @@ def register(request):
             user.last_name = last
             user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse("notebook:dashboard"))
+            return HttpResponseRedirect(reverse("notebook:teams"))
         except IntegrityError:
             return render(request, 'notebook/register.html', {
                 "message": "Username already taken"
