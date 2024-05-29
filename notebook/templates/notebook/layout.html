@@ -17,9 +17,7 @@
         {% if request.user.verified == True %}
         <li><a class="btn pri-btn-outline" href="{% url 'notebook:upload' %}">New Note</a></li>
         {% endif %}
-        {% if request.user.leader_of.all|length != 0 %}
-        <li><a class="btn pri-btn-outline" href="{% url 'notebook:manage' %}">Manage</a></li>
-        {% endif %}
+        <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'all' %}">Teams</a></li>
     </ul>
     {% block sec-nav %}
     {% endblock %}
