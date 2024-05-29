@@ -1,26 +1,14 @@
 {% extends 'notebook/layout.html' %}
 {% load static %}
 
+{% block title %}Dashboard{% endblock %}
 
-{% block page_style %}
-<link rel="stylesheet" href="{% static 'notebook/dashboard.css' %}">
+{% block nav %}
+<h3>Dashboard</h3>
+<ul class="dashboard-links">
+    <li><a href="{% url 'notebook:dashboard' %}">Notes</a></li>
+    <li><a href="{% url 'notebook:upload' %}">New Note</a></li>
+    <li><a href="{% url 'notebook:manage' %}">Teams</a></li>
+    <li><a href="#">My Account</a></li>
+</ul>
 {% endblock %}
-{% block title %}Dashboard
-{% endblock %}
-{% block body %}
-
-    <header>
-        <section id="info">
-            <h1>Hi, {{ request.user.first_name }}</h1>
-            <p><span>{{ request.user.position }}</span> <span>{{ request.user.team }}</span></p>
-        </section>
-        <section  id="action">
-            {% if request.user.verified == True %}
-            {% else %}
-            <div class="btn-large">Your account needs to be verified to upload notes.</div>
-            {% endif %}
-        </section>
-    </header>
-    {% include 'notebook/notelist.html' %}
-{% endblock %}
-

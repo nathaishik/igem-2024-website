@@ -1,0 +1,21 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/dashboard.css' %}">
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Notes</h1>
+        <section  id="action">
+            {% if request.user.verified == True %}
+            {% else %}
+            <div class="btn-large">Your account needs to be verified to upload notes.</div>
+            {% endif %}
+        </section>
+    </header>
+    {% include 'notebook/notelist.html' %}
+{% endblock %}
+

@@ -32,10 +32,11 @@ form div {
     }
 
     textarea{
-        font-family: monospace;
+        font-family: var(--monospace);
         font-weight: 300;
         height: 90svh;
         line-height: 1;
+        font-size: .9em;
         border: .1px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
         padding: 1rem;
         transition-duration: var(--transition-duration);

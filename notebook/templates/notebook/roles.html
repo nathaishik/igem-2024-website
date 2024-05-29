@@ -1,0 +1,55 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
+{% endblock %}
+
+{% block body %}
+    <h1>{{ department }}</h1>
+    <nav id="sec-nav">
+        <ul>
+            <li><a class="btn pri-btn-outline" href="{% url 'notebook:verify' department.code %}">Waitlist</a></li>
+            {% if request.user.verified == True %}
+            <li><a class="btn pri-btn-outline" href="{% url 'notebook:roles' department.code %}">Roles</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div name="Leaders">
+    <h2>Leaders</h2>
+    <ul class="notelist">
+    {% for user in leaders %}
+        <li>
+                <div class="title">{{user.first_name|add:" "|add:user.last_name}}</div>
+                <div class="meta">
+                    <div class="user">{{user.username}}</div>
+                    <div class="team">{{user.email}}</div>
+                </div>
+        </li>
+    {% empty %}
+        <li> No Team Leaders </li>
+    {% endfor %}
+    </ul></div>
+    <div name="Members">
+        <h2>Members</h2>
+        <ul class="notelist">
+        {% for user in members %}
+            <li>
+                    <div class="title">{{user.first_name|add:" "|add:user.last_name}}</div>
+                    <div class="meta">
+                        <div class="user">{{user.username}}</div>
+                        <div class="team">{{user.email}}</div>
+                    <form method="post" action="{% url 'notebook:roles' department.code %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{user.username}}">
+                        <input type="submit" name="promote" value="Make Leader" class="btn pri-btn">
+                        <input type="submit" name="remove" value="Remove" class="btn pri-btn">
+                        </form>
+                    </div>
+            </li>
+        {% empty %}
+            <li> No Members </li>
+        {% endfor %}
+        </ul></div>
+        <script src="{% static 'notebook/sec-nav.js' %}"></script>
+{% endblock %}

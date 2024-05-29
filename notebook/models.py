@@ -28,6 +28,9 @@ class Department(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def published_notes(self):
+        return self.notes.filter(published=True).all()
 
 class Note(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

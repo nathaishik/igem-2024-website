@@ -1,19 +1,19 @@
 .markdown-body{
   line-height: 1.5;
-
+  --fs--2: clamp(0.6944rem, 0.8234rem + -0.1664vi, 0.7901rem);
+  --fs--1: clamp(0.8333rem, 0.9082rem + -0.0966vi, 0.8889rem);
+  --fs-0: clamp(1rem, 1rem + 0vi, 1rem);
+  --fs-1: clamp(1.125rem, 1.0989rem + 0.1304vi, 1.2rem);
+  --fs-2: clamp(1.2656rem, 1.205rem + 0.3033vi, 1.44rem);
+  --fs-3: clamp(1.4238rem, 1.318rem + 0.529vi, 1.728rem);
+  --fs-4: clamp(1.6018rem, 1.4377rem + 0.8205vi, 2.0736rem);
+  --fs-5: clamp(1.802rem, 1.5633rem + 1.1935vi, 2.4883rem);
   
 
   h1, h2, h3, h4, h5, h6 {
     text-align: left;
+    border-bottom: .5px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
   }
-
-  h1 {font-size: 2.027rem;}
-  h2 {font-size: 1.802rem;}
-  h3 {font-size: 1.602rem;}
-  h4 {font-size: 1.424rem;}
-  h5 {font-size: 1.266rem;}
-  h6 {font-size: 1.125rem;}
-  small {font-size: 0.889rem;}
 
   ul, ol {
     margin-inline: 1.5rem;
@@ -21,6 +21,8 @@
 
   code{
     white-space: pre;
+    font-family: var(--monospace);
+    font-size: .8em;
     padding: .2rem .4rem;
     background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
     color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
@@ -67,8 +69,9 @@
     &::before {
       color: color-mix(in srgb, var(--accent) 60%, var(--text) 40%);
       font-size: .8em;
-      position: relative;
-      transform: translateY(-100%);
+      position: static;
+      /* z-index: 1; */
+      transform: translateY(-50%);
     }
 
     p {

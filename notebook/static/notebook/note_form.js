@@ -1,4 +1,3 @@
-document.querySelector('#id_department > option').innerText = "Choose Department...";
 const submitButton = document.querySelector('#form_submit');
 const publish_div = document.querySelector('div:has(>#id_published)');
 publish_div.append(submitButton);

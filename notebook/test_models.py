@@ -46,14 +46,12 @@ class NotebookTestCaseModels(TestCase):
         Note.objects.create(user=u2, title="Note 3", department=Department.objects.get(name="Department 1"), content="Content 3")
         self.assertEqual(u2.notes.all().count(), 1)
 
-    def test_nonuser_note(self):
+    def test_non_user_note(self):
         """Note 4 should not be created as the user does not exist."""
         with self.assertRaises(User.DoesNotExist) as context:
             Note.objects.create(user=User.objects.get(username="user3"), title="Note 4", department=Department.objects.get(name="Department 1"), content="Content 4")
         self.assertTrue('User matching query does not exist.' in str(context.exception))
     
-    
-
     def test_user_count(self):
         """There should be only 2 users."""
         self.assertEqual(User.objects.all().count(), 2)
@@ -79,3 +77,15 @@ class NotebookTestCaseModels(TestCase):
         """d1 should have 2 notes"""
         d1 = Department.objects.get(name="Department 1")
         self.assertEqual(d1.notes.all().count(), 2)
+
+    # Testing file uploads
+    def test_file_upload(self):
+        """File should be uploaded to the correct path and should be correctly changed"""
+        n = Note.objects.get(title="Note 1")
+        with open("notebook/test_files/test.txt", "rb") as f1:
+            n.file = f1
+            self.assertEqual(f1, n.file)
+        with open("notebook/test_files/test1.txt", "rb") as f2:
+            n.file = f2
+            self.assertEqual(f2, n.file)
+

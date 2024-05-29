@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from notebook.models import *
+import filecmp
 
 class NotebookTestCaseViews(TestCase):
     def setUp(self):
@@ -21,7 +22,7 @@ class NotebookTestCaseViews(TestCase):
         Note.objects.create(user=u1, title="Note 2", department=d2, content="Content 2")
         Note.objects.create(user=u1, title="Note 6", department=d1, content="Content 6")
 
-    # Testing the website
+    # Testing the views
 
     def test_homepage(self):
         """This should return a 404 error as there is no homepage."""
@@ -103,7 +104,7 @@ class NotebookTestCaseViews(TestCase):
         c = Client()
         response = c.get(reverse('notebook:dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, '../login?next=/docs/dashboard/')
+        self.assertEqual(response.url, f'../login?next={reverse("notebook:dashboard")}')
 
     def test_loggedin_dashboard(self):
         """Since the user is logged in, this should return a 200 status code and 3 note objects."""
@@ -129,7 +130,7 @@ class NotebookTestCaseViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_new_note(self):
-        """This should return a 302 status code and redirect to the dashboard and confirm the correct number of notes: 4"""
+        """This should return a 200 status code and redirect to the dashboard and confirm the correct number of notes: 4"""
         c = Client()
         c.login(username="user1", password="password1")
         response = c.post(reverse('notebook:upload'), {"title": "Note 7", "department": 1, "content": "Content 7"}, follow=True)
@@ -167,19 +168,75 @@ class NotebookTestCaseViews(TestCase):
         c = Client()
         c.login(username="user1", password="password1")
         u = User.objects.get(username="user1")
-        response = c.post(reverse('notebook:manage_note'), {"edit": u.notes.all()[0].id, "title": "Note 1", "department": "1", "content": "Content 1 edited", "published": True}, follow=True)
+        n = u.notes.all()[0]
+        response = c.post(reverse('notebook:manage_note'), {"edit": n.id, "title": n.title, "department": n.department.id, "content": "Content 1 edited", "published": n.published})
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.url, reverse('notebook:note', args=[n.id]))
         self.assertEqual(Note.objects.all().count(), 3)
         self.assertEqual(u.notes.all()[0].content, 'Content 1 edited')
     
     def test_invalid_edit_note(self):
-        """This should return a 200 status code and the message of Something went wrong. Please try again."""
+        """This should return a 406 status code."""
         c = Client()
         c.login(username="user1", password="password1")
         u = User.objects.get(username="user1")
-        response = c.post(reverse('notebook:manage_note'), {"edit": u.notes.all()[0].id, "title": "Note 1", "department": "3", "content": "Content 1 edited", "published": True})
+        n = u.notes.all()[0]
+        response = c.post(reverse('notebook:manage_note'), {"edit": n.id, "title": n.title, "department": 3, "content": "Content 1 edited", "published": n.published})
         self.assertEqual(response.status_code, 406)
-        self.assertEqual(response.context["message"], "Something went wrong. Please try again.")
         self.assertEqual(u.notes.all()[0].content, 'Content 1')
         
-
+    def test_adding_file(self):
+        """The file should be successfully added to the note with status code 200 and then replaced with the status code 200"""
+        c = Client()
+        c.login(username="user1", password="password1")
+        u = User.objects.get(username="user1")
+        n = u.notes.all()[0]
+        with open("notebook/test_files/test.txt", "rb") as fb:
+            response = c.post(reverse('notebook:manage_note'), {
+                            "edit": n.id, 
+                            "title": n.title, 
+                            "department": n.department.id, 
+                            "content": n.content, 
+                            "published": n.published, 
+                            "file": fb
+                            })
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(filecmp.cmp(u.notes.all()[0].file.path, "notebook/test_files/test.txt", shallow=True))
+        with open("notebook/test_files/test1.txt", "rb") as fb:
+            response = c.post(reverse('notebook:manage_note'), {
+                            "edit": n.id, 
+                            "title": n.title, 
+                            "department": n.department.id, 
+                            "content": n.content, 
+                            "published": n.published, 
+                            "file": fb
+                            })
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(filecmp.cmp(u.notes.all()[0].file.path, "notebook/test_files/test1.txt", shallow=True))
+    def test_clear_file(self):
+        """The file should be successfully added and then removed from the note with status code 200"""
+        c = Client()
+        c.login(username="user1", password="password1")
+        u = User.objects.get(username="user1")
+        n = u.notes.all()[0]
+        with open("notebook/test_files/test.txt", "rb") as fb:
+            response = c.post(reverse('notebook:manage_note'), {
+                            "edit": n.id, 
+                            "title": n.title, 
+                            "department": n.department.id, 
+                            "content": n.content, 
+                            "published": n.published, 
+                            "file": fb
+                            })
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(bool(u.notes.all()[0].file))
+        response = c.post(reverse('notebook:manage_note'), {
+                        "edit": n.id, 
+                        "title": n.title, 
+                        "department": n.department.id, 
+                        "content": n.content, 
+                        "published": n.published, 
+                        "file-clear": "on"
+                        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(bool(u.notes.all()[0].file))

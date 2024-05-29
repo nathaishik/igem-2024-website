@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.shortcuts import render
@@ -8,22 +7,9 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.urls import reverse
 from .models import *
 from markdown2 import Markdown
-import os
+from .forms import *
 
 # Create your views here.
-class NewNoteForm(forms.ModelForm):
-    class Meta:
-        model = Note
-        exclude = ['user', 'id', 'created']
-        widgets = {
-            "title": forms.TextInput(attrs={"autofocus": "true", "placeholder": "Title"}),
-            "content": forms.Textarea(attrs={"placeholder": "You can use markdown and LaTeX here!"}),
-            "published": forms.CheckboxInput(attrs={"class": "toggle_button"}),
-        }
-    
-    def clean(self):
-        super(NewNoteForm, self).clean()
-        return self.cleaned_data
 
 def index(request):
     return render(request, "notebook/index.html", {
@@ -38,7 +24,8 @@ def notebook(request, code):
     notes = Note.objects.filter(department=department, published=True).all().order_by('last_edited').reverse()
     return render(request, "notebook/notebook.html", {
         'notes': notes,
-        'notebook': department.name
+        'notebook': department.name,
+        'departments': Department.objects.all()
     })
 
 def note(request, id):
@@ -48,15 +35,18 @@ def note(request, id):
         note.content = md.convert(note.content)
     except:
         note.content = "Markprocessing error" + note.content
-    return render(request, "notebook/note.html", {'note': note})
+    return render(request, "notebook/note.html", {
+        'note': note,
+        'departments': Department.objects.all()
+    })
 
 
 
 @login_required
 def dashboard(request):
     notes = Note.objects.filter(user=request.user).all().order_by('last_edited').reverse()
-    return render(request, 'notebook/dashboard.html', {
-        "notes": notes
+    return render(request, 'notebook/dash_notes.html', {
+        "notes": notes,
     })
 
 @login_required
@@ -161,7 +151,7 @@ def manage_note(request):
     return render(request, 'notebook/manage_note.html', {
         "link": "notebook:manage_note",
         "note_id": Note.objects.get(id=request.GET["edit"]).id,
-        "form": NewNoteForm(instance=Note.objects.get(id=request.GET["edit"])),
+        "form": NewNoteForm(user=request.user, instance=Note.objects.get(id=request.GET["edit"])),
         "title": heading,
     })
 
@@ -187,7 +177,7 @@ def upload(request):
                 published=published
             )
             note.save()
-            return HttpResponseRedirect(reverse("notebook:dashboard"), status=200)
+            return HttpResponseRedirect(reverse("notebook:dashboard"))
         else:
             return render(request, 'notebook/manage_note.html', {
                 "form": form,
@@ -196,7 +186,7 @@ def upload(request):
                 "message": "Something went wrong. Please try again.",
             }, status=406)
     return render(request, 'notebook/manage_note.html', {
-        "form": NewNoteForm(),
+        "form": NewNoteForm(request.user),
         "link": "notebook:upload",
         "title": heading,
     })

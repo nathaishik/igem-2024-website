@@ -17,11 +17,13 @@
     <nav id="pri-nav">
         <div class="logo">iGEM IISc</div>
         <ul>
-            <li><a href="{% url 'notebook:index' %}" class="btn pri-btn-outline">Notebook</a></li>
+            <li><a href="#" class="btn nav-btn">Other</a></li>
+            <li><a href="{% url 'notebook:index' %}" class="btn nav-btn">Documentation</a></li>
         </ul>
     </nav>
     <main>
         {% block content %}{% endblock %}
     </main>
+<script src="{% static 'common/sec-nav.js' %}"></script>
 </body>
 </html>
