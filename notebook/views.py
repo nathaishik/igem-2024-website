@@ -63,17 +63,11 @@ def dashboard(request):
 def teams(request, typeId):
     if typeId not in ['all','my','other']:
         raise Http404('Page does not exist!')
-    
-    def sort_key(x):
-        if x in request.user.leader_of.all():
-            return 0
-        elif x in request.user.departments.all():
-            return 1
-        else:
-            return 2
 
     if typeId=='all':
-        team_list = sorted(Department.objects.all(),key=sort_key)
+        if not request.user.position == 'STUDLDR':
+            raise PermissionDenied
+        team_list = Department.objects.all()
     elif typeId=='my':
         team_list = request.user.leader_of.all().union(request.user.departments.all())
     elif typeId=='other':
@@ -87,13 +81,6 @@ def teams(request, typeId):
     return render(request, 'notebook/teams.html',{
         "teams": team_list
     })
-
-
-# @login_required
-# def admin(request):
-#     if len(request.user.leader_of.all()) == 0:
-#         raise PermissionDenied
-#     return render(request, 'notebook/admin.html')
 
 @login_required
 def team(request, code, typeId):
@@ -137,25 +124,6 @@ def team(request, code, typeId):
         "buttonlist": buttonlist
     })
 
-# @login_required
-# def roles(request, code):
-#     try:
-#         department = Department.objects.get(code=code)
-#     except ObjectDoesNotExist:
-#         raise Http404('Page does not exist!')
-    
-#     if request.user not in department.leader.all():
-#         raise PermissionDenied
-    
-#     if request.method == "POST":
-#         clicked_user= User.objects.get(username=request.POST['username'])
-
-
-#     return render(request, 'notebook/roles.html',{
-#         "department" : department,
-#         "leaders" : department.leader.all(),
-#         "members" : department.members.all()
-#     })
 
 @login_required
 def manage_note(request):

@@ -9,7 +9,9 @@
     <h1>Teams</h1>
     <nav id="sec-nav">
         <ul>
+            {% if request.user.position == 'STUDLDR' %}
             <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'all' %}">All Teams</a></li>
+            {% endif %}
             <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'my' %}">My Teams</a></li>
             <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'other' %}">Other Teams</a></li>
         </ul>
@@ -31,11 +33,13 @@
                         {% elif request.user in team.waitlist.all %}
                             <div class="position">Requested</div>
                         {% else %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="code" value="{{team.code}}">
-                            <input type="submit" value="Request to Join" class="btn pri-btn">
-                            </form>
+                            <div class="join">
+                                <form class="meta req" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="code" value="{{team.code}}">
+                                    <input type="submit" value="Request to Join" class="btn pri-btn">
+                                </form>
+                            </div>
                         {% endif %}
                     </div>
             </li>

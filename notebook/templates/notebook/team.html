@@ -7,7 +7,7 @@
 
 {% block body %}
 <a href="{% url 'notebook:teams' 'all' %}">&lt;-- Back to Teams</a>
-    <h1>{{ department }}</h1>
+    <h1>{{ team }}</h1>
     <nav id="sec-nav">
         <ul>
             <li><a class="btn pri-btn-outline" href="{% url 'notebook:team' code=team.code typeId='Leaders' %}">Leaders</a></li>
