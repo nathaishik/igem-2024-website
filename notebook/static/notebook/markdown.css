@@ -1,5 +1,8 @@
 .markdown-body{
   line-height: 1.5;
+  text-align: justify;
+  width: 100%;
+
   --fs--2: clamp(0.6944rem, 0.8234rem + -0.1664vi, 0.7901rem);
   --fs--1: clamp(0.8333rem, 0.9082rem + -0.0966vi, 0.8889rem);
   --fs-0: clamp(1rem, 1rem + 0vi, 1rem);
@@ -11,22 +14,22 @@
   
 
   h1, h2, h3, h4, h5, h6 {
-    text-align: left;
     border-bottom: .5px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
   }
 
   ul, ol {
-    margin-inline: 1.5rem;
+    margin-inline-start: 1.5rem;
   }
 
   code{
-    white-space: pre;
+    /* white-space: pre; */
     font-family: var(--monospace);
     font-size: .8em;
     padding: .2rem .4rem;
     background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
     color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
     border-radius: .2rem;
+    hyphens: none;
   }
   
   p, ul, ol, pre, blockquote{

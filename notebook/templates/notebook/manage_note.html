@@ -1,12 +1,22 @@
-{% extends 'notebook/layout.html' %}
 {% load static %}
-
-{% block title %}{{ title }}{% endblock %}
-
-{% block page_style %}
-<link rel="stylesheet" href="{% static 'notebook/manage_note.css' %}">
-{% endblock %}
-
-{% block body %}
-{% include 'notebook/note_form.html' %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - iGEM IISc 2024</title>
+    <link rel="stylesheet" href="{% static 'common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'notebook/manage_note.css' %}">
+    <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/codemirror.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/matchbrackets.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/closebrackets.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/markdown.js' %}"></script>
+    <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/active-line.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/codemirror.css' %}"></link>
+    <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/duotone-dark.css' %}"></link>
+    <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/duotone-light.css' %}"></link>
+</head>
+<body>
+    {% include 'notebook/note_form.html' %}
+</body>
+</html>

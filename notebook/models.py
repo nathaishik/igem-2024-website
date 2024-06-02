@@ -35,9 +35,9 @@ class Department(models.Model):
 class Note(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="notes")
-    published = models.BooleanField(default=False)
-    title = models.CharField(max_length=255)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name="notes")
+    title = models.CharField(max_length=255)
+    published = models.BooleanField(default=False)
     file = models.FileField(upload_to=upload_files, null=True, blank=True)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)

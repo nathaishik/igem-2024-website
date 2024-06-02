@@ -128,7 +128,7 @@ def manage_note(request):
         note = Note.objects.get(id=request.POST["edit"])
         if request.user != note.user:
             return HttpResponseRedirect(reverse("notebook:login"))
-        form = NewNoteForm(request.POST, request.FILES, instance=note)
+        form = NewNoteForm(request.user, request.POST, request.FILES, instance=note)
         if form.is_valid():
             title = form.cleaned_data["title"]
             department = form.cleaned_data["department"]
@@ -151,7 +151,7 @@ def manage_note(request):
     return render(request, 'notebook/manage_note.html', {
         "link": "notebook:manage_note",
         "note_id": Note.objects.get(id=request.GET["edit"]).id,
-        "form": NewNoteForm(user=request.user, instance=Note.objects.get(id=request.GET["edit"])),
+        "form": NewNoteForm(request.user, instance=Note.objects.get(id=request.GET["edit"])),
         "title": heading,
     })
 
@@ -161,7 +161,7 @@ def upload(request):
     if request.user.verified == False:
         return HttpResponseRedirect(reverse("notebook:dashboard"), status=302)
     if request.method == "POST":
-        form = NewNoteForm(request.POST, request.FILES)
+        form = NewNoteForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data["title"]
             department = form.cleaned_data["department"]

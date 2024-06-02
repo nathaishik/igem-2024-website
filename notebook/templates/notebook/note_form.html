@@ -3,8 +3,7 @@
 {% if request.user.verified == True %}
 {{ message }}
 <form method="POST" enctype="multipart/form-data" action="{% url link %}">
-<h5>{{ title }}</h5>
-
+    
     {% csrf_token %}
     <button type="submit" id="form_submit" value="{{ note_id }}" name="edit" class="btn pri-btn">Save Note</button>
     {{ form }}

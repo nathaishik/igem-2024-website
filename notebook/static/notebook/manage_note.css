@@ -1,7 +1,7 @@
 form {
     padding-block: var(--padding-block);
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 
     #form_submit {
@@ -11,64 +11,12 @@ form {
 }
 
 form div {
-    display: flex;
-    flex-direction: column;
-    padding-block: var(--padding-block);
-    grid-column: span 2;
-    label {
-        display: none;
+    .CodeMirror {
+        max-width: 50svw;
+        height: 100%;
+        scroll-behavior: none;
     }
 
-    input, textarea, select{
-        color: var(--text);
-        background-color: inherit;
-        border: none;
-        font-size: 1rem;
-        resize: none;
-
-        &:focus {
-            outline: none;
-        }   
-    }
-
-    textarea{
-        font-family: var(--monospace);
-        font-weight: 300;
-        height: 90svh;
-        line-height: 1;
-        font-size: .9em;
-        border: .1px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
-        padding: 1rem;
-        transition-duration: var(--transition-duration);
-        
-        &:focus {
-            background-color: color-mix(in srgb, var(--bg) 95%, var(--text) 5%);
-            transition-duration: var(--transition-duration);
-        }
-    }
-
-    select, input[type=file]::file-selector-button {
-        cursor: pointer;
-    }
-
-    #id_title {    
-        font-size: 2.986rem;
-        font-weight: bold;        
-    }
-
-    &:has(> #id_published) {
-        font: inherit;
-        background-color: var(--bg);
-        grid-column: 2/2;
-        padding: 0;
-        flex-direction: row;
-        justify-content: end;
-        align-items: center;
-        gap: 1rem;
-        label {
-            display: block;
-        }
-    }
     .toggle_button {
         margin-inline: .5rem;
         height: .5rem;
@@ -115,35 +63,6 @@ form div {
         transition-duration: var(--transition-duration);
     }
 
-
-    #id_department, #id_file {    
-        width: 25ch !important;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-        border-radius: var(--border-radius);
-        background-color: var(--bg);
-    }
-
-
-    
-    &:has(> #id_department, > #id_file) {
-        grid-column: span 2;
-        padding-block: 0;
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-
-        label {
-            font-weight: 400;
-            font-size: 1rem;
-            display: block;
-        }
-    }
-
-    #id_department {
-        cursor: pointer;
-    }
     .clear_button {
         margin-inline: 3.2rem;
         height: .5rem;

@@ -31,10 +31,9 @@
 }
 h1 {
     grid-column: span 3;
-    text-align: start;
     overflow-x: auto;
     height: max-content;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 p.author {
@@ -65,8 +64,6 @@ p.author::before {
 
 div.markdown-body {
     grid-column: span 3;
-    text-align: justify;
-    width: 100%;
 }
 
 
