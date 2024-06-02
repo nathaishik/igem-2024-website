@@ -87,7 +87,7 @@
     --padding-block-btn: .2em;
     --padding-inline-btn: .6rem;
 
-    --pri-nav-height: 8svh;
+    --pri-nav-height: 10svh;
 
     /* Font and sizing */
     --fs--2: clamp(0.64rem, 0.7134rem + -0.0947vi, 0.6944rem);

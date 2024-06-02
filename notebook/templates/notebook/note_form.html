@@ -2,9 +2,11 @@
 
 {% if request.user.verified == True %}
 {{ message }}
-<form method="POST" enctype="multipart/form-data" action="{% url link %}">
-    
-    {% csrf_token %}
+{% csrf_token %}
+<form method="POST" enctype="multipart/form-data" action="{% url 'notebook:image_upload' %}" id="image_upload">
+    {{ image_upload_form }}
+</form>
+<form method="POST" enctype="multipart/form-data" action="{% url link %}" id="content">
     <button type="submit" id="form_submit" value="{{ note_id }}" name="edit" class="btn pri-btn">Save Note</button>
     {{ form }}
 </form>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Note, Department
+from .models import Note, Department, AttachedImages
 
 class NewNoteForm(forms.ModelForm):
 
@@ -28,3 +28,25 @@ class NewNoteForm(forms.ModelForm):
         super(NewNoteForm, self).clean()
         return self.cleaned_data
     
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+        model = AttachedImages
+        exclude = ['user', 'id', 'created']
+        widgets = {
+            "image": forms.FileInput(attrs={"accept": "image/*"}),
+        }
+
+        labels = {
+            "image": ("Upload Images"),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ImageForm, self).__init__(*args, **kwargs)
+        self.fields['image'].required = False
+        self.fields['image'].widget.attrs["multiple"] = True
+        self.fields['image'].widget.attrs["accept"] = "image/*"
+    
+    def clean(self):
+        super(ImageForm, self).clean()
+        return self.cleaned_data

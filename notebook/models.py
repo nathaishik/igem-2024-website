@@ -8,6 +8,12 @@ def upload_files(instance, filename):
     filename = "%s_%s_%s.%s" % (instance.user.username, instance, uuid.uuid4().hex, ext)
     return "{0}/{1}/{2}".format(instance.department, "files", filename)
 
+def upload_images(instance, filename):
+    file = filename.split('.')
+    ext = file[-1]
+    filename = "%s_%s.%s" % (file[0], uuid.uuid4().hex, ext)
+    return "{0}/{1}/{2}".format(instance.user.username, "images", filename)
+
 class User(AbstractUser):
     POSITION_CHOICES = [
         ("STUDLDR", "Student Leader"),
@@ -32,6 +38,15 @@ class Department(models.Model):
     def published_notes(self):
         return self.notes.filter(published=True).all()
 
+class AttachedImages(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="images")
+    image = models.ImageField(upload_to=upload_images, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Image {self.id} by {'User no longer exists' if self.user == None else self.user.username}"
+
 class Note(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="notes")
@@ -45,3 +60,4 @@ class Note(models.Model):
     
     def __str__(self):
         return f"{self.title} by {'User no longer exists' if self.user == None else self.user.username}"
+

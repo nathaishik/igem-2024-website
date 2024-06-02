@@ -1,8 +1,5 @@
 form {
     padding-block: var(--padding-block);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
 
     #form_submit {
         width: fit-content;
@@ -11,6 +8,9 @@ form {
 }
 
 form div {
+    label {
+        display: none;
+    }
     .CodeMirror {
         max-width: 50svw;
         height: 100%;

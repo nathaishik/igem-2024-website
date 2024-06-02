@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.urls import reverse
 from .models import *
@@ -114,10 +114,26 @@ def team(request, code, typeId):
         "buttonlist": buttonlist
     })
 
+<<<<<<< HEAD
+=======
+def upload_images(request):
+    if request.user.is_authenticated == False:
+        return HttpResponseRedirect(reverse("notebook:login"))
+    if request.user.verified == False:
+        return HttpResponseRedirect(reverse("notebook:dashboard"))
+    if request.method == "POST":
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            images = form.cleaned_data["image"]
+            image = AttachedImages(user=request.user, image=images)
+            image.save()
+            return HttpResponse(status=201)
+        else:
+            return JsonResponse({"error": "Something went wrong. Please try again."}, status=406)
+>>>>>>> 645fb56 (Ready to rebase)
 
 @login_required
 def manage_note(request):
-    heading = "Edit Note"
     if request.method == "POST" and request.POST.get("delete"):
         note = Note.objects.get(id=request.POST["delete"])
         if request.user != note.user:
@@ -146,18 +162,17 @@ def manage_note(request):
                 "args": note.id,
                 "link": "notebook:manage_note",
                 "message": "Something went wrong. Please try again.",
-                "title": heading,
             }, status=406)
     return render(request, 'notebook/manage_note.html', {
         "link": "notebook:manage_note",
         "note_id": Note.objects.get(id=request.GET["edit"]).id,
         "form": NewNoteForm(request.user, instance=Note.objects.get(id=request.GET["edit"])),
-        "title": heading,
+        "image_upload_form": ImageForm(),
+        "images": AttachedImages.objects.filter(user=request.user).all(),
     })
 
 @login_required
 def upload(request):
-    heading = "New Note"
     if request.user.verified == False:
         return HttpResponseRedirect(reverse("notebook:dashboard"), status=302)
     if request.method == "POST":
@@ -182,13 +197,13 @@ def upload(request):
             return render(request, 'notebook/manage_note.html', {
                 "form": form,
                 "link": "notebook:upload",
-                "title": heading,
                 "message": "Something went wrong. Please try again.",
             }, status=406)
     return render(request, 'notebook/manage_note.html', {
         "form": NewNoteForm(request.user),
         "link": "notebook:upload",
-        "title": heading,
+        "image_upload_form": ImageForm(),
+        "images": AttachedImages.objects.filter(user=request.user).all(),
     })
 
 def login_view(request):
