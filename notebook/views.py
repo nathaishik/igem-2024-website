@@ -114,8 +114,6 @@ def team(request, code, typeId):
         "buttonlist": buttonlist
     })
 
-<<<<<<< HEAD
-=======
 def upload_images(request):
     if request.user.is_authenticated == False:
         return HttpResponseRedirect(reverse("notebook:login"))
@@ -130,7 +128,6 @@ def upload_images(request):
             return HttpResponse(status=201)
         else:
             return JsonResponse({"error": "Something went wrong. Please try again."}, status=406)
->>>>>>> 645fb56 (Ready to rebase)
 
 @login_required
 def manage_note(request):
