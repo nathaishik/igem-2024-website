@@ -1,0 +1,43 @@
+{% extends 'notebook/layout.html' %}
+{% load static %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
+{% endblock %}
+
+{% block body %}
+<a href="{% url 'notebook:teams' 'my' %}">&lt;-- Back to Teams</a>
+    <h1>{{ team }}</h1>
+    <nav id="sec-nav">
+        <ul>
+            <li><a class="btn pri-btn-outline" href="{% url 'notebook:team' code=team.code typeId='Leaders' %}">Leaders</a></li>
+            <li><a class="btn pri-btn-outline" href="{% url 'notebook:team' code=team.code typeId='Members' %}">Members</a></li>
+            {% if request.user in team.leader.all %}
+            <li><a class="btn pri-btn-outline" href="{% url 'notebook:team' code=team.code typeId='Waitlist' %}">Waitlist</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div name="Users">
+        <ul class="notelist">
+        {% for user in userlist %}
+            <li>
+                    <div class="title">{{user.first_name|add:" "|add:user.last_name}}</div>
+                    <div class="meta">
+                        <div class="user">{{user.username}}</div>
+                        <div class="team">{{user.email}}</div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{user.username}}">
+                        {% for button in buttonlist %}
+                            <input type="submit" name="{{button}}" value="{{button}}" class="btn pri-btn">
+                        {% endfor %}
+                        </form>
+                    </div>
+            </li>
+        {% empty %}
+            <li> No Users</li>
+        {% endfor %}
+        </ul></div>
+        <script src="{% static 'notebook/sec-nav.js' %}"></script>
+{% endblock %}

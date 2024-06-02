@@ -13,8 +13,6 @@ urlpatterns = [
     path('signup/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('teams/', views.teams, name='teams'),
-    path('manage/',views.admin, name='manage'),
-    path('manage/verify/<str:code>',views.verify, name='verify'),
-    path('manage/roles/<str:code>',views.roles, name='roles')
+    path('teams/<str:typeId>', views.teams, name='teams'),
+    path('teams/<str:code>/<str:typeId>',views.team, name='team'),
 ]

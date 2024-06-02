@@ -60,8 +60,19 @@ def dashboard(request):
     })
 
 @login_required
-def teams(request):
-    team_list = Department.objects.order_by('name')
+def teams(request, typeId):
+    if typeId not in ['all','my','other']:
+        raise Http404('Page does not exist!')
+
+    if typeId=='all':
+        if not request.user.position == 'STUDLDR':
+            raise PermissionDenied
+        team_list = Department.objects.all()
+    elif typeId=='my':
+        team_list = request.user.leader_of.all().union(request.user.departments.all())
+    elif typeId=='other':
+        team_list = Department.objects.all().difference(request.user.departments.all().union(request.user.leader_of.all()))
+    
     user = User.objects.get(username=request.user.username)
 
     if request.method == "POST":
@@ -71,56 +82,48 @@ def teams(request):
         "teams": team_list
     })
 
-
 @login_required
-def admin(request):
-    if len(request.user.leader_of.all()) == 0:
-        raise PermissionDenied
-    return render(request, 'notebook/admin.html')
-
-@login_required
-def verify(request, code):
+def team(request, code, typeId):
     try:
         department = Department.objects.get(code=code)
     except ObjectDoesNotExist:
         raise Http404('Page does not exist!')
     
-    if request.user not in department.leader.all():
-        raise PermissionDenied
-    
-    if request.method == "POST":
-        verfied_user= User.objects.get(username=request.POST['username'])
-        department.waitlist.remove(verfied_user)
-        department.members.add(verfied_user)
-
-    return render(request, 'notebook/verify.html',{
-        "department" : department,
-        "waitlist" : department.waitlist.all()
-    })
-
-@login_required
-def roles(request, code):
-    try:
-        department = Department.objects.get(code=code)
-    except ObjectDoesNotExist:
+    if typeId == 'Waitlist':
+        if request.user not in department.leader.all():
+            raise PermissionDenied
+        userlist = department.waitlist.all()
+        buttonlist = ['Verify']
+    elif typeId == 'Members':
+        userlist = department.members.all()
+        buttonlist = []
+        if request.user in department.leader.all():
+            buttonlist = ['Make Leader', 'Remove']
+    elif typeId == 'Leaders':
+        userlist = department.leader.all()
+        buttonlist =[]
+    else:
         raise Http404('Page does not exist!')
     
-    if request.user not in department.leader.all():
-        raise PermissionDenied
-    
     if request.method == "POST":
+        if request.user not in department.leader.all():
+            raise PermissionDenied
         clicked_user= User.objects.get(username=request.POST['username'])
-        if 'remove' in request.POST:
+        if 'Verify' in request.POST:
+            department.waitlist.remove(clicked_user)
+            department.members.add(clicked_user)
+        elif 'Remove' in request.POST:
             department.members.remove(clicked_user)
-        elif 'promote' in request.POST:
+        elif 'Make Leader' in request.POST:
             department.members.remove(clicked_user)
             department.leader.add(clicked_user)
 
-    return render(request, 'notebook/roles.html',{
-        "department" : department,
-        "leaders" : department.leader.all(),
-        "members" : department.members.all()
+    return render(request, 'notebook/team.html',{
+        "team" : department,
+        "userlist" : userlist,
+        "buttonlist": buttonlist
     })
+
 
 @login_required
 def manage_note(request):
@@ -242,7 +245,7 @@ def register(request):
             user.last_name = last
             user.save()
             login(request, user)
-            return HttpResponseRedirect(reverse("notebook:teams"))
+            return HttpResponseRedirect(reverse("notebook:teams",args=['all']))
         except IntegrityError:
             return render(request, 'notebook/register.html', {
                 "message": "Invalid username"
