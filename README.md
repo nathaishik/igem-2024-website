@@ -19,6 +19,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 
 6. Run ```ls``` to check if the cloning is successful or not. You should see the following file structure:
 
+```
 .
 ├── notebook
 │   ├── migrations
