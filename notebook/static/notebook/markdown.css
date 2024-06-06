@@ -58,6 +58,10 @@
     }
   }
 
+  img {
+    width: 100%;
+  }
+
   blockquote {
     display: block;
     padding: 0.66rem 1rem 1rem 1rem;

@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
+import os
+
+def filename_separator(filename):
+    filename = filename[::-1].split(".", 1)
+    ext = filename[0][::-1]
+    filename = filename[1][::-1]
+    return [filename, ext]
 
 # Create your models here.
 def upload_files(instance, filename):
@@ -9,8 +16,8 @@ def upload_files(instance, filename):
     return "{0}/{1}/{2}".format(instance.department, "files", filename)
 
 def upload_images(instance, filename):
-    file = filename.split('.')
-    ext = file[-1]
+    file = filename_separator(filename)
+    ext = file[1]
     filename = "%s_%s.%s" % (file[0], uuid.uuid4().hex, ext)
     return "{0}/{1}/{2}".format(instance.user.username, "images", filename)
 
@@ -41,11 +48,25 @@ class Department(models.Model):
 class AttachedImages(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="images")
-    image = models.ImageField(upload_to=upload_images, null=True, blank=True)
+    image = models.ImageField(upload_to=upload_images, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"Image {self.id} by {'User no longer exists' if self.user == None else self.user.username}"
+    
+    def location(self):
+        filename = os.path.basename(self.image.name)
+        file = filename_separator(filename)
+        filename = file[0][::-1]
+        name = filename.split("_", 1)[1][::-1]
+        return f"{name}.{file[1]}"
+    
+    def serialise(self):
+        return {
+            "url": self.image.url,
+            "location": self.location(),
+            "id": self.id,
+        }
 
 class Note(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -1,5 +1,44 @@
 /* General */
 @font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    src: 
+      url('/static/MaterialSymbolsRounded.woff2') format('woff2'),
+      url('/static/MaterialSymbolsRounded.ttf') format('truetype');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: inherit;
+    font-style: normal;
+    font-size: inherit; /* Preferred icon size */
+    display: inline-block;
+    line-height: inherit;
+    text-transform: none;
+    letter-spacing: inherit;
+    word-wrap: inherit;
+    white-space: nowrap;
+    direction: ltr;
+    transform: translateY(11.5%);
+    font-variation-settings:
+    'FILL' 0,
+    'wght' inherit,
+    'GRAD' -25,
+    'opsz' 24;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+
+@font-face {
     font-family: 'JetBrains Mono';
     src: url('/static/font/JetBrainsMono.ttf') format('truetype');
 }
@@ -221,6 +260,7 @@ main {
 }
 
 .btn, input[type=file]::file-selector-button {
+    font-size: inherit;
     color: inherit;
     padding: var(--padding-block-btn) var(--padding-inline-btn);
     border: none;
@@ -277,6 +317,16 @@ main {
     }
 }
 
+.task-btn {
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+    
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
+    }
+
+}
+
 .action-btn-outline {
     background-color: color-mix(in srgb, var(--bg) 80%, rgb(94, 255, 0) 20%);
 
@@ -285,7 +335,7 @@ main {
     }
 }
 
-.action-btn {
+.action-btn, .task-btn:active {
     color: white;
     background-color: rgb(48, 180, 0);
 

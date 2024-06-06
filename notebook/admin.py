@@ -7,4 +7,5 @@ class DepartmentAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(User)
 admin.site.register(Note)
+admin.site.register(AttachedImages)
 admin.site.register(Department, DepartmentAdmin)

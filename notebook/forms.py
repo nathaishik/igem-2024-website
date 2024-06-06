@@ -44,7 +44,6 @@ class ImageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args, **kwargs)
         self.fields['image'].required = False
-        self.fields['image'].widget.attrs["multiple"] = True
         self.fields['image'].widget.attrs["accept"] = "image/*"
     
     def clean(self):

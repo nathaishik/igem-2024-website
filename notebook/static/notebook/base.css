@@ -63,7 +63,7 @@ main {
     top: var(--pri-nav-height);
     display: flex;
     margin-inline-end: var(--padding-inline);
-    height: calc(100svh - var(--pri-nav-height, 8svh));
+    height: calc(100svh - var(--pri-nav-height));
 }
 
 

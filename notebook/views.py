@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonRespons
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.urls import reverse
 from .models import *
+import json
 from markdown2 import Markdown
 from .forms import *
 
@@ -119,15 +120,24 @@ def upload_images(request):
         return HttpResponseRedirect(reverse("notebook:login"))
     if request.user.verified == False:
         return HttpResponseRedirect(reverse("notebook:dashboard"))
-    if request.method == "POST":
-        form = ImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            images = form.cleaned_data["image"]
-            image = AttachedImages(user=request.user, image=images)
-            image.save()
-            return HttpResponse(status=201)
+    if request.method == "POST" and request.FILES.get("image") is not None:
+        img = AttachedImages(user=request.user, image=request.FILES["image"])
+        img.save()
+        image_list = AttachedImages.objects.filter(user=request.user).all()
+        return JsonResponse({"images": image.serialise() for image in image_list})
+    if request.method == 'DELETE':
+        data = json.loads(request.body)
+        if data.get("id"):
+            image = AttachedImages.objects.get(id=data["id"])
+            if image.user != request.user:
+                return JsonResponse({"error": "You are not authorised to delete this image."}, status=403)
+            image.delete()
+            return JsonResponse({"status": 200})
         else:
-            return JsonResponse({"error": "Something went wrong. Please try again."}, status=406)
+            return JsonResponse({"error": "ID not found."}, status=406)
+    else:
+        return JsonResponse({"error": "Something went wrong. Please try again."}, status=406)
+    
 
 @login_required
 def manage_note(request):
@@ -164,8 +174,7 @@ def manage_note(request):
         "link": "notebook:manage_note",
         "note_id": Note.objects.get(id=request.GET["edit"]).id,
         "form": NewNoteForm(request.user, instance=Note.objects.get(id=request.GET["edit"])),
-        "image_upload_form": ImageForm(),
-        "images": AttachedImages.objects.filter(user=request.user).all(),
+        "images": AttachedImages.objects.filter(user=request.user).order_by("-created").all()
     })
 
 @login_required
@@ -199,9 +208,8 @@ def upload(request):
     return render(request, 'notebook/manage_note.html', {
         "form": NewNoteForm(request.user),
         "link": "notebook:upload",
-        "image_upload_form": ImageForm(),
-        "images": AttachedImages.objects.filter(user=request.user).all(),
-    })
+        "images": AttachedImages.objects.filter(user=request.user).all()
+        })
 
 def login_view(request):
     if request.user.is_authenticated:

@@ -19,7 +19,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 
 6. Run ```ls``` to check if the cloning is successful or not. You should see the following file structure:
 
-```
+.
 ├── notebook
 │   ├── migrations
 │   │   ├── 0001_initial.py
@@ -38,11 +38,14 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │   ├── 0014_note_last_edited.py
 │   │   ├── 0015_rename_dept_note_department.py
 │   │   ├── 0016_alter_department_code_alter_department_name.py
+│   │   ├── 0017_remove_user_verified.py
+│   │   ├── 0018_user_verified.py
+│   │   ├── 0019_attachedimages.py
 │   │   └── __init__.py
 │   ├── static
 │   │   └── notebook
 │   │       ├── base.css
-│   │       ├── dashboard.css
+│   │       ├── dash_notes.css
 │   │       ├── index.css
 │   │       ├── manage_note.css
 │   │       ├── markdown.css
@@ -50,11 +53,13 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │       ├── note.css
 │   │       ├── note_form.js
 │   │       ├── notebook.css
-│   │       ├── sec-nav.js
 │   │       └── session.css
 │   ├── templates
 │   │   └── notebook
+│   │       ├── admin.html
+│   │       ├── dash_notes.html
 │   │       ├── dashboard.html
+│   │       ├── docs.html
 │   │       ├── index.html
 │   │       ├── layout.html
 │   │       ├── login.html
@@ -63,10 +68,18 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │       ├── note_form.html
 │   │       ├── notebook.html
 │   │       ├── notelist.html
-│   │       └── register.html
+│   │       ├── register.html
+│   │       ├── roles.html
+│   │       ├── team.html
+│   │       ├── teams.html
+│   │       └── verify.html
+│   ├── test_files
+│   │   ├── test.txt
+│   │   └── test1.txt
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
+│   ├── forms.py
 │   ├── models.py
 │   ├── test_models.py
 │   ├── test_views.py
@@ -75,17 +88,35 @@ First, I would like to thank you for visiting this repo. This repository contain
 ├── static
 │   ├── common
 │   │   ├── codemirror
+│   │   │   ├── active-line.js
+│   │   │   ├── closebrackets.js
 │   │   │   ├── codemirror.css
 │   │   │   ├── codemirror.js
-│   │   │   └── markdown.js
+│   │   │   ├── duotone-dark.css
+│   │   │   ├── duotone-light.css
+│   │   │   ├── markdown.js
+│   │   │   ├── matchbrackets.js
+│   │   │   └── mathematica.js
 │   │   ├── common.css
 │   │   ├── mathjax.js
 │   │   ├── sec-nav.js
 │   │   └── tex-svg.js
-│   └── font
-│       ├── dmSans.ttf
-│       ├── dmSansIt.ttf
-│       └── inter.ttf
+│   ├── font
+│   │   ├── ibm_plex_sans
+│   │   │   ├── IBMPlexSans-Italic.ttf
+│   │   │   ├── IBMPlexSans-Light.ttf
+│   │   │   ├── IBMPlexSans-LightItalic.ttf
+│   │   │   ├── IBMPlexSans-Medium.ttf
+│   │   │   ├── IBMPlexSans-MediumItalic.ttf
+│   │   │   ├── IBMPlexSans-Regular.ttf
+│   │   │   ├── IBMPlexSans-SemiBold.ttf
+│   │   │   └── IBMPlexSans-SemiBoldItalic.ttf
+│   │   ├── Bespoke.ttf
+│   │   ├── BespokeItalic.ttf
+│   │   ├── JetBrainsMono-Italic.ttf
+│   │   └── JetBrainsMono.ttf
+│   ├── MaterialSymbolsRounded.ttf
+│   └── MaterialSymbolsRounded.woff2
 ├── templates
 │   └── common
 │       └── layout.html
