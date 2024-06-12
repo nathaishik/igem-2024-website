@@ -19,6 +19,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 
 6. Run ```ls``` to check if the cloning is successful or not. You should see the following file structure:
 
+```
 .
 ├── notebook
 │   ├── migrations
@@ -41,21 +42,27 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │   ├── 0017_remove_user_verified.py
 │   │   ├── 0018_user_verified.py
 │   │   ├── 0019_attachedimages.py
+│   │   ├── 0020_alter_attachedimages_image_alter_user_position.py
+│   │   ├── 0021_alter_user_position.py
+│   │   ├── 0022_alter_note_content.py
+│   │   ├── 0023_alter_user_position.py
+│   │   ├── 0024_alter_user_position.py
 │   │   └── __init__.py
 │   ├── static
 │   │   └── notebook
+│   │       ├── account.css
+│   │       ├── admin.css
 │   │       ├── base.css
-│   │       ├── dash_notes.css
 │   │       ├── index.css
 │   │       ├── manage_note.css
 │   │       ├── markdown.css
 │   │       ├── markdown.js
 │   │       ├── note.css
 │   │       ├── note_form.js
-│   │       ├── notebook.css
 │   │       └── session.css
 │   ├── templates
 │   │   └── notebook
+│   │       ├── account.html
 │   │       ├── admin.html
 │   │       ├── dash_notes.html
 │   │       ├── dashboard.html
@@ -69,10 +76,8 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │       ├── notebook.html
 │   │       ├── notelist.html
 │   │       ├── register.html
-│   │       ├── roles.html
 │   │       ├── team.html
-│   │       ├── teams.html
-│   │       └── verify.html
+│   │       └── teams.html
 │   ├── test_files
 │   │   ├── test.txt
 │   │   └── test1.txt
@@ -89,15 +94,16 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   ├── common
 │   │   ├── codemirror
 │   │   │   ├── active-line.js
+│   │   │   ├── ayu-mirage.css
 │   │   │   ├── closebrackets.js
 │   │   │   ├── codemirror.css
 │   │   │   ├── codemirror.js
-│   │   │   ├── duotone-dark.css
 │   │   │   ├── duotone-light.css
 │   │   │   ├── markdown.js
 │   │   │   ├── matchbrackets.js
 │   │   │   └── mathematica.js
 │   │   ├── common.css
+│   │   ├── deletion_warning.js
 │   │   ├── mathjax.js
 │   │   ├── sec-nav.js
 │   │   └── tex-svg.js

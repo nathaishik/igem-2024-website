@@ -6,28 +6,30 @@ input, textarea, button {
 .notelist {
     margin-block: var(--padding-block);
     list-style-type: none;
-    border-radius: var(--border-radius);
     overflow:hidden;
     display: flex;
     flex-direction: column;
     gap: .5rem;
     li {
-        padding-block: calc(var(--padding-block));
-        padding-inline: calc(var(--padding-inline) / 1.6);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        border-radius: calc(var(--border-radius) / 1.6);
-        background: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
+        padding-block: var(--padding-block);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+        border-bottom: 1px solid color-mix(in srgb, var(--bg) 60%, var(--text) 40%);
 
-        .meta {
+        .action {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
+            gap: .5rem;
         }
 
-        .meta div {
+        .action {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+        }
+
+        .action div {
             text-align: center;
             text-overflow: ellipsis;
             min-width: fit-content;
@@ -51,11 +53,12 @@ input, textarea, button {
 /* Layout */
 main {
     display: grid;
-    grid-template-columns: 38% auto;
+    grid-template-columns: 38% 62%;
 }
 
 #right-panel {
     max-width: 80ch;
+    width: 100%;
 }
 
 #left-panel {
@@ -120,6 +123,51 @@ justify-content: space-between;
             text-decoration: none;
         
         }
+    }
+}
+
+.tabs {
+    margin-top: 1em;
+    
+    ul {
+        display: flex;
+        gap: 1rem;
+        list-style-type: none;
+        height: 100%;
+
+        li {
+            box-sizing: border-box;
+            height: fit-content;
+        }
+        a {
+            display: flex;
+            align-items: center;
+            gap: .5em;
+            box-sizing: border-box;
+            border-bottom: 1px solid transparent;
+            text-decoration: none;
+            padding: var(--padding-block-btn) var(--padding-inline-btn);
+        }
+
+        a.active {
+            color: var(--text);
+            font-weight: 500;
+            border-bottom-color: var(--text);
+        }
+    }
+}
+
+.bubble {
+    color: var(--bg);
+    background-color: var(--text);
+    padding: var(--padding-block-btn) var(--padding-inline-btn);
+    border-radius: var(--border-radius);
+
+    &.bubble-text {
+        padding: .05em .5em;
+        position: relative;
+        transform: translateY(-.05em);
+        font-size: .8em;
     }
 }
 

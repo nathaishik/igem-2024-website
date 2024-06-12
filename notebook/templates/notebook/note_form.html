@@ -1,12 +1,11 @@
 {% load static %}
 
 {% if request.user.verified == True %}
-{{ message }}
 <div id="images">
     <p>Images</p>
     <form data-url="{% url 'notebook:image_upload' %}" id="image_upload">
         {% csrf_token %}
-        <label for="id_image" class="task-btn btn"><span class="material-icons">folder_open</span> &nbsp;Browse</label>
+        <label for="id_image" class="btn task-btn"><span class="material-icons">folder_open</span> &nbsp;Browse</label>
         <button type="submit" class="btn pri-btn"><span class="material-icons">upload</span></button>
         <input style="display:none;" type="file" accept="image/*" id="id_image" required>
     </form>
@@ -16,7 +15,7 @@
             <img src="{{ image.image.url }}" alt="{{ image.image.url }}" class="image" onclick="preview('{{ image.image.url }}')">
             <p class="img-name">{{ image.location }}</p>
             <div class="img-actions">
-                <button type="copy" class="btn task-btn" onclick="copyLink('{{image.image.url}}')"><span class="material-icons">content_copy</span></button>
+                <button type="copy" class="btn copy-btn" onclick="copyLink('{{image.image.url}}')"><span class="material-icons">content_copy</span></button>
                 <button type="delete" class="btn danger-btn" onclick="deleteImage('{{ image.id }}')"><span class="material-icons">delete</span></button>
             </div>
         </li>
@@ -25,7 +24,7 @@
         {% endfor %}
     </ul>
 </div>
-<form method="POST" enctype="multipart/form-data" action="{% url link %}" id="content">
+<form method="post" enctype="multipart/form-data" action="{% url link %}" id="content">
     {% csrf_token %}
     <div id="actions">
         <button type="submit" id="form_submit" value="{{ note_id }}" name="edit" class="btn pri-btn">Save Note</button>

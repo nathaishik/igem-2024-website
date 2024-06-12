@@ -168,7 +168,6 @@ body {
     font-family: var(--sans-serif);
     background-color: var(--bg);
     color: var(--text);
-    margin: auto;
     max-width: 1920px;
     scroll-behavior: smooth;
 }
@@ -238,7 +237,7 @@ input, textarea, button {
     padding-inline: var(--padding-inline);
     align-items: center;
     height: var(--pri-nav-height);
-    /* z-index: 2; */
+    z-index: 2;
 
     ul {
         width: fit-content;
@@ -317,13 +316,24 @@ main {
     }
 }
 
-.task-btn {
+.copy-btn {
     color: var(--text);
     background-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
     
     &:hover {
         background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
     }
+
+}
+
+.task-btn {
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
+    }
+
 
 }
 
@@ -335,7 +345,7 @@ main {
     }
 }
 
-.action-btn, .task-btn:active {
+.action-btn, .copy-btn:active {
     color: white;
     background-color: rgb(48, 180, 0);
 

@@ -6,10 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (array.length > 1) {
       const parent = block.parentNode;
       parent.classList.add('code-block');
-      const pre = document.createElement('pre');
-      parent.replaceChild(pre, block);
-      block.innerText = block.innerText.slice(1, block.innerText.length);
-      pre.appendChild(block);
+      block.innerHTML = block.innerHTML.slice(1, block.innerHTML.length);
+      block.classList.add('code');
     }
   });
   document.querySelectorAll(".markdown-body blockquote p").forEach((block) => {

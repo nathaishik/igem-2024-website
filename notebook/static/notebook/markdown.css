@@ -2,6 +2,7 @@
   line-height: 1.5;
   text-align: justify;
   width: 100%;
+  max-width: 80ch;
 
   --fs--2: clamp(0.6944rem, 0.8234rem + -0.1664vi, 0.7901rem);
   --fs--1: clamp(0.8333rem, 0.9082rem + -0.0966vi, 0.8889rem);
@@ -22,39 +23,28 @@
   }
 
   code{
-    /* white-space: pre; */
     font-family: var(--monospace);
     font-size: .8em;
     padding: .2rem .4rem;
     background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
     color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
     border-radius: .2rem;
+    overflow-wrap: break-word;
     hyphens: none;
   }
   
-  p, ul, ol, pre, blockquote{
-    margin-block: 1.5rem;
+  * {
+    margin-top: 1em;
+    text-align: justify;
   }
 
   /* To ensure that white space is preserved inside the code, block setting white-space: pre was not working */
   /* so i had to go through the following work around. */
-  p {
-    white-space-collapse: preserve;
-  }
 
   blockquote p {
-    white-space-collapse:collapse; 
-  }
-  pre {
-    white-space: pre;
-    color: color-mix(in srgb, var(--text) 50%, var(--pri) 50%);
-    padding: 1rem;
-    background: color-mix(in srgb, var(--bg) 90%, var(--sec) 10%);
-    border-radius: .5rem;
-    
     code {
-      background: transparent;
-      padding: 0;
+      white-space: collapse;
+      overflow-wrap: break-word;
     }
   }
 
@@ -121,7 +111,25 @@
         content: "CAUTION";
       }
     }
+  
   }
+
+  .code-block {
+    overflow-x: auto;
+    padding: 1em;
+    background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
+    color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
+    border-radius: var(--border-radius);
+    
+    .code {
+      background: transparent;
+      white-space: pre;
+      font-family: var(--monospace);
+      font-size: .8em;
+      padding: 0;
+    }
+  }
+
 
   /* LaTeX */
   .tooltip .tooltiptext {

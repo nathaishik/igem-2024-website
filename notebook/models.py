@@ -23,13 +23,11 @@ def upload_images(instance, filename):
 
 class User(AbstractUser):
     POSITION_CHOICES = [
-        ("STUDLDR", "Student Leader"),
-        ("STUDENT", "Students"),
-        ("PRMRYPI", "Primary PI"),
-        ("ADVISOR", "Advisor"),
+        (3, "Student Leader"),
+        (2, "PI/Advisor"),
+        (1, "Student"),
     ]
-    position = models.CharField(max_length=7, choices=POSITION_CHOICES, blank=True, null=True)
-    email_verified = models.BooleanField(default=False)
+    position = models.IntegerField(choices=POSITION_CHOICES, blank=False, null=True)
     verified = models.BooleanField(default=False)
 
 class Department(models.Model):
@@ -44,11 +42,14 @@ class Department(models.Model):
     
     def published_notes(self):
         return self.notes.filter(published=True).all()
+    
+    def waitlisted(self, user):
+        return user in self.waitlist.filter(verified=True).all()
 
 class AttachedImages(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="images")
-    image = models.ImageField(upload_to=upload_images, blank=False)
+    image = models.ImageField(upload_to=upload_images, blank=False, null=False)
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -75,7 +76,7 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     published = models.BooleanField(default=False)
     file = models.FileField(upload_to=upload_files, null=True, blank=True)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_edited = models.DateTimeField(auto_now=True)
     

@@ -51,9 +51,11 @@ dept_div.after("/");
 
 // Uploading Image
 const file_handler = document.querySelector("#id_image");
+const label = document.querySelector(`label[for='${file_handler.id}']`);
+const label_text = label.innerHTML;
 file_handler.addEventListener('change', () => {
   if (file_handler.files.length > 0) {
-    document.querySelector("label[for='id_image']").innerText = file_handler.files[0].name;
+    label.innerText = file_handler.files[0].name;
   }
 });
 
@@ -64,7 +66,6 @@ img_form.addEventListener('submit', e => {
   if (file_handler.files.length > 0) {
     const form = new FormData();
     form.append("image", file_handler.files[0]);
-    console.log(file_handler.files[0])
     fetch(img_form.dataset.url, {
       method: 'POST',
       body: form,
@@ -74,9 +75,9 @@ img_form.addEventListener('submit', e => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
-      if (data["images"]) {
+      if (data["images"] != null) {
         file_handler.value = '';
+        label.innerHTML = label_text;
         const img_list = document.querySelector("#image_selector");
         if (img_list.querySelector("#no-img") != null) {img_list.querySelector("#no-img").remove()};
         let li = document.createElement("li");
@@ -86,7 +87,7 @@ img_form.addEventListener('submit', e => {
             <img src="${ image.url }" alt="${ image.url }" class="image">
             <p class="img-name">${ image.location }</p>
             <div class="img-actions">
-                <button type="copy" class="btn task-btn" onclick="copyLink('${image.url}')"><span class="material-icons">content_copy</span></button>
+                <button type="copy" class="btn copy-btn" onclick="copyLink('${image.url}')"><span class="material-icons">content_copy</span></button>
                 <button type="delete" class="btn danger-btn" onclick="deleteImage('${ image.id }')"><span class="material-icons">delete</span></button>
             </div>
         `;
@@ -106,7 +107,6 @@ function deleteImage(id) {
   if (!confirm("Are you sure you want to delete this image?")) {
     return;
   };
-  console.log(id);
   fetch(img_form.dataset.url, {
     method: 'DELETE',
     body: JSON.stringify({"id": id}),
@@ -116,10 +116,8 @@ function deleteImage(id) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data, id);
     if (data["status"] == 200) {
       const li = document.querySelector(`#${id}`);
-      console.log(li);
       li.style.animationPlayState = "running";
       li.addEventListener('animationend', () => {
         li.remove();
@@ -135,9 +133,19 @@ function preview(link) {
   window.open(link, '_blank');
 }
 
+// Prompting the use to save changes
+var old_beforeunload = window.onbeforeunload;
+window.onbeforeunload = function() {
+      //If we want to block them, return something
+      //....
+     
+     //Otherwise, run the Bubble code:
+     return old_beforeunload();
+};
+
 // Codemirror
 const lightTheme = 'duotone-light';
-const darkTheme = 'duotone-dark';
+const darkTheme = 'ayu-mirage';
 
 var editor = CodeMirror.fromTextArea(document.querySelector("#id_content"), {
   lineNumbers: true,
@@ -145,6 +153,7 @@ var editor = CodeMirror.fromTextArea(document.querySelector("#id_content"), {
   matchBrackets: true,
   autoCloseBrackets: true,
   styleActiveLine: true,
+  highlightActiveLineGutter: true,
   theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? darkTheme : lightTheme,
 });
 

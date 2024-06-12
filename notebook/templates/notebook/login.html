@@ -7,11 +7,15 @@
 
 {% block title %}Login{% endblock %}
 
-{% block body %}
+{% block nav %}
 <div class="info">
     <h1>Login</h1>
     <p>Don't have an account? <a href="{% url 'notebook:register' %}">Sign up</a> now!</p>
 </div>
+
+{% endblock %}
+
+{% block body %}
 
 <form method="post" action="{% url 'notebook:login' %}">
     <h2>Welcome Back!</h2>

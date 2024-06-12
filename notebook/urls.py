@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 app_name = 'notebook'
 
@@ -10,10 +11,13 @@ urlpatterns = [
     path('notebook/<str:code>', views.notebook, name='notebook'),
     path('note/<str:id>', views.note, name='note'),
     path('manage_note', views.manage_note, name='manage_note'),
-    path('image_upload', views.upload_images, name='image_upload'),
+    path('image-upload', views.upload_images, name='image_upload'),
+    path('teams', views.teams, name='teams'),
+    path('teams/<str:code>',views.team, name='team'),
+    path('users', views.admin, name='admin'),
     path('signup/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('teams/<str:typeId>', views.teams, name='teams'),
-    path('teams/<str:code>/<str:typeId>',views.team, name='team'),
+    path('account/', views.account, name='account'),
+    path("change-password/", auth_views.PasswordChangeView.as_view(), name="change_password"),
 ]

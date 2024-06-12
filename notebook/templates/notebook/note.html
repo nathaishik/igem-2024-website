@@ -9,26 +9,28 @@
 {% block title %}{{ note.title }}{% endblock %}
 
 {% block body %}
-{% if request.user.is_authenticated and request.user == note.user %}
-<ul class="note-action">
-    <li><form action="{% url 'notebook:manage_note' %}" method="GET">
-            <button type="submit" name="edit" value="{{ note.id }}" class="btn action-btn-outline">Edit</button>
-        </form>
-    </li>
-    <li><form action="{% url 'notebook:manage_note' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit" value="{{ note.id }}" name="delete" class="btn danger-btn-outline">Delete</button></form></li>
-</ul>      
-{% endif %}
+
 <div class="note">
-    <div class="meta">
+        <p  class="notebook"><a href="{% url 'notebook:notebook' note.department.code %}"><span class="material-icons">arrow_back_ios</span>{{ note.department }}</a></p>
         <h1>{{ note.title }}</h1>
         <p class="author">{{ note.user.first_name }} {{ note.user.last_name }}</p>
-        <p class="notebook">{{ note.department }}</p>
-        {% if note.file %}
-        <a href="{{ note.file.url }}" class="btn pri-btn">View attached file <span class="float">></span></a>
-        {% endif %}
-    </div>
+        <div class="note-action">
+
+            {% if note.file %}
+            <a href="{{ note.file.url }}" id="file_link" class="btn pri-btn">View attached file <span class="material-icons">arrow_forward_ios</span></a>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user == note.user %}
+                <ul class="note-action">
+                    <li><form action="{% url 'notebook:manage_note' %}" method="GET">
+                            <button type="submit" name="edit" value="{{ note.id }}" class="btn action-btn-outline">Edit</button>
+                        </form>
+                    </li>
+                    <li><form action="{% url 'notebook:manage_note' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" value="{{ note.id }}" name="delete" class="btn danger-btn-outline">Delete</button></form></li>
+                </ul>      
+            {% endif %}
+        </div>
     
     <div class="markdown-body">{{ note.content|linebreaks }}</div>
     

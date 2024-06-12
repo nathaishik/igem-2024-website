@@ -1,47 +1,45 @@
 {% extends 'notebook/dashboard.html' %}
 {% load static %}
 
-{% block page_style %}
-<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
-{% endblock %}
-
 {% block body %}
     <h1>Teams</h1>
-    <nav id="sec-nav">
+    <nav class="tabs">
         <ul>
-            {% if request.user.position == 'STUDLDR' %}
-            <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'all' %}">All Teams</a></li>
-            {% endif %}
-            <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'my' %}">My Teams</a></li>
-            <li><a class="btn pri-btn-outline" href="{% url 'notebook:teams' 'other' %}">Other Teams</a></li>
+            <li><a href="{% url 'notebook:teams' %}?filter=all">All Teams</a></li>
+            <li><a href="{% url 'notebook:teams' %}">My Teams</a></li>
         </ul>
     </nav>
     <div name="Teams">
         <ul class="notelist">
         {% for team in teams %}
             <li>
-                    <div class="title">{{team}}</div>
-                    <div class="meta">
-                        {% if request.user in team.members.all %}
-                            <div class="position">Member</div>
-                            <div class="cardinality">Total members:{% with le=team.leader.all|length %} {{team.members.all|length|add:le}}{% endwith %}</div>
-                            <a class="btn pri-btn" href="{% url 'notebook:team' team.code 'Leaders' %}">View</a>
-                        {% elif request.user in team.leader.all %}
-                            <div class="position">Leader</div>
-                            <div class="cardinality">Total members:{% with le=team.leader.all|length %} {{team.members.all|length|add:le}}{% endwith %}</div>
-                            <a class="btn pri-btn" href="{% url 'notebook:team' team.code 'Leaders' %}">View</a>
+                <div class="title"><a class="title-link" href="{% url 'notebook:team' team.code %}">{{team}}</a></div>
+                <div class="action">
+                    {% if request.user.position > 1 or request.user in team.leader.all %}
+                    {% if team.waitlisted.count > 0%}
+                    <span class="bubble">W {{ team.waitlisted|length }}</span>
+                    {% endif %}
+                    {% endif %}
+                    {% if request.user not in team.members.all and request.user not in team.waitlist.all %}
+                        <form method="post" action="{% url 'notebook:teams' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="code" value="{{ team.code }}">
+                            <button type="submit" name="action" value="join" class="btn pri-btn">Join</button>
+                            </form>
                         {% elif request.user in team.waitlist.all %}
-                            <div class="position">Requested</div>
+                            <form method="post" action="{% url 'notebook:teams' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="code" value="{{ team.code }}">
+                                <button type="submit" name="action" value="withdraw" class="btn danger-btn">Withdraw</button>
+                            </form>
                         {% else %}
-                            <div class="join">
-                                <form class="meta req" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="code" value="{{team.code}}">
-                                    <input type="submit" value="Request to Join" class="btn pri-btn">
-                                </form>
-                            </div>
-                        {% endif %}
-                    </div>
+                            <form method="post" action="{% url 'notebook:teams' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="code" value="{{ team.code }}">
+                                <button type="submit" name="action" value="leave" class="btn danger-btn">Leave</button>
+                            </form>
+                    {% endif %}
+                </div>
             </li>
         {% empty %}
             <li> No Teams </li>

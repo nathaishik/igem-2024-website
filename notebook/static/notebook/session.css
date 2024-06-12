@@ -1,8 +1,4 @@
 /* forms */
-main {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-}
 
 .info {
     padding-block: var(--padding-block);
@@ -15,7 +11,6 @@ form {
     padding-block: var(--padding-block);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
 
     .form {
         display: flex;
@@ -26,11 +21,11 @@ form {
 input {
     color: var(--text);
     background-color: color-mix(in srgb, var(--bg) 95%, var(--text) 5%);
-    outline-color: transparent;
-    border: none;
+        border: none;
+    margin-block: .5em 1em;
     font-size: 1rem;
     border-radius: var(--border-radius);
-    padding: calc(var(--padding-block) / 1.6) calc(var(--padding-inline) / 1.6) !important;
+    padding: calc(var(--padding-block) / 1.6) 1em !important;
     transition-duration: var(--transition-duration);
     transition-property: background-color, color;
     

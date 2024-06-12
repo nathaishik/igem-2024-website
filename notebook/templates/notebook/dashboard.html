@@ -9,7 +9,10 @@
 <ul class="dashboard-links">
     <li><a href="{% url 'notebook:dashboard' %}">Notes</a></li>
     <li><a href="{% url 'notebook:upload' %}">New Note</a></li>
-    <li><a href="{% url 'notebook:teams' 'my' %}">Teams</a></li>
-    <li><a href="#">My Account</a></li>
+    <li><a href="{% url 'notebook:teams' %}">Teams</a></li>
+    {% if request.user.position == 3 %}
+    <li><a href="{% url 'notebook:admin' %}">Users</a></li>
+    {% endif %}
+    <li><a href="{% url 'notebook:account' %}">My Account</a></li>
 </ul>
 {% endblock %}

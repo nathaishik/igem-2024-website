@@ -2,6 +2,14 @@
 
     --pri-nav-height: 8svh;
 }
+
+#pri-nav {
+
+    a {
+        padding-inline: 0;
+    }
+
+}
 main {
     display: grid;
     grid-template-columns: 20% auto;
@@ -18,6 +26,10 @@ main {
     gap: 1rem;
     #id_image {
         width: 100%;
+    }
+
+    p#no-img {
+        padding: 1rem;
     }
 }
 
@@ -89,6 +101,7 @@ main {
     }
 }
 
+
 #image_upload {
     display: flex;
     gap: .5rem;
@@ -127,6 +140,7 @@ main {
         padding: var(--padding-block-btn) var(--padding-inline-btn);
         outline: transparent;
         border-bottom: 1px solid transparent;
+        padding-inline: 0;
 
         &:focus {
             color: var(--text);
@@ -136,7 +150,7 @@ main {
     
     #id_title {
         width: 100%;
-        padding-inline: 0;
+        font-family: var(--monospace);
     }
 
     #id_department {
@@ -169,6 +183,13 @@ main {
             display: block;
         }
 
+    }
+
+    #id_content {
+        opacity: 0;
+        height: 0;
+        line-height: 0;
+        width: 0;
     }
 
     #actions {

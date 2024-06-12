@@ -1,25 +1,57 @@
 {% extends 'notebook/dashboard.html' %}
 {% load static %}
 
+{% block title %}Users{% endblock %}
+
 {% block page_style %}
-<link rel="stylesheet" href="{% static 'notebook/notebook.css' %}">
+<link rel="stylesheet" href="{% static 'notebook/admin.css' %}">
 {% endblock %}
 
 {% block body %}
-    <h1>Teams</h1>
-    <ul class="notelist">
-        {% for  department in request.user.leader_of.all %}
+    <h1>Users</h1>
+    <nav class="tabs">
+        <ul>
+            <li><a href="{% url 'notebook:admin' %}">Current Users</a></li>
+            <li><a href="{% url 'notebook:admin' %}?filter=new">New Users <span class="bubble bubble-text">{{ unverified }}</span></a></li>
+        </ul>
+    </nav>
+    <div name="Users">
+        <ul class="notelist">
+        {% for user in users %}
             <li>
-                <div class="title">{{ department }}</div>
-                <div class="meta">
-                <div class="team">Pending Requests: {{ department.waitlist.all|length }}</div>
-                <div class="link">
-                    <a href="{% url 'notebook:verify' department.code %}" class="btn pri-btn">Manage</a>
-                </div>
+                <div class="title">{{user.first_name|add:" "|add:user.last_name}}</div>
+                <div class="action">
+                    {% if user.position != none %}
+                    <p class="bubble">{{ user.get_position_display }}</p>
+                    {% endif %}
+                    {% if request.user != user and request.user.position == 3 %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{user.username}}">
+                        {% if user.verified == False %}
+                        <select name="position" required>
+                            <option value="" disabled selected>Update Position</option>
+                            <option value="1">Student</option>
+                            <option value="2">PI/Advisor</option>
+                            <option value="3">Student Leader</option>
+                        </select>
+                        <button required type="submit" name="action" value="verify" class="btn pri-btn">Verify</button>
+                        {% else %}
+                        <select name="position">
+                            <option value="" disabled selected>Update Position</option>
+                            <option value="1">Student</option>
+                            <option value="2">PI/Advisor</option>
+                            <option value="3">Student Leader</option>
+                        </select>
+                        <button type="submit" name="action" value="update" class="btn pri-btn">Update</button>
+                        <button type="submit" name="action" value="revoke" class="btn danger-btn">Revoke Verification</button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
                 </div>
             </li>
         {% empty %}
-            <li>No notes have been added yet.</li>
+            <li> No Users in this category</li>
         {% endfor %}
-    </ul>
+        </ul>
 {% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - iGEM IISc 2024</title>
+    <title>{{ heading }} - iGEM IISc 2024</title>
     <link rel="stylesheet" href="{% static 'common/common.css' %}">
     <link rel="stylesheet" href="{% static 'notebook/manage_note.css' %}">
     <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/codemirror.js' %}"></script>
@@ -13,13 +13,13 @@
     <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/markdown.js' %}"></script>
     <script language="javascript" type="text/javascript" src="{% static 'common/codemirror/active-line.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/codemirror.css' %}"></link>
-    <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/duotone-dark.css' %}"></link>
+    <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/ayu-mirage.css' %}"></link>
     <link rel="stylesheet" type="text/css" href="{% static 'common/codemirror/duotone-light.css' %}"></link>
 </head>
 <body>
     <nav id="pri-nav">
-        <a href="{% url 'notebook:dashboard' %}" class="btn">Back to Dashboard</a>
-
+        <a href="{% url 'notebook:dashboard' %}"><span class="material-icons">arrow_back_ios</span>Back to Dashboard</a>
+        <p>{{ message }}</p>
     </nav>
     <main>
 
