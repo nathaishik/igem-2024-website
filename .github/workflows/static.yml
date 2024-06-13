@@ -37,9 +37,9 @@ jobs:
       - name: Modify the URL
         uses: jacobtomlinson/gha-find-replace@v2
         with:
-          find: "https://nathaishik.github.io/"
-          replace: "https://nathaishik.github.io/igem-2024-website/"
-          regex: false 
+          find: 'i(href|src)="[[:alpha:]]\\'
+          replace: 'i(href|src)="[[:alpha:]]\\igem-2024-website\\'
+          regex: true 
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
