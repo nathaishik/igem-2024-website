@@ -1,0 +1,7 @@
+.notelist select {
+    padding: var(--padding-block-btn) 0;
+    font-size: inherit;
+    background: var(--bg);
+    color: var(--text);
+    border: none;
+}

@@ -7,9 +7,10 @@
 .vscode/
 
 
-# Database and media
+# Database, media, static files
 media/
 *.sqlite3
+staticfiles/
 
 # Node Modules
 node_modules/

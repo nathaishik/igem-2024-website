@@ -9,7 +9,7 @@ class NotebookTestCaseModels(TestCase):
         # Create users
         u1 = User.objects.create_user(username="user1", password="password1")
         u1.verified = True
-        u1.position = "STUDENT"
+        u1.position = 1
         u1.save()
         User.objects.create_user(username="user2", password="password2")
 
