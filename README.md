@@ -150,7 +150,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 > If you are in Windows and have not used python virtual environment before, chances are you won't be able to run the above command. To fix this, open PowerShell as an administrator and run ```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```. This will allow running of scripts (which has been digitally signed by a trusted publisher) on your computer.
 
 8. Run ```pip3 install -r requirements.txt``` to install all the dependencies required.
-9. ```cd``` into the ```wiki``` folder and run ```python manage.py makemigrations notebook``` followed by ```python manage.py migrate```. This will set up the database for the website.
+9. Run ```python manage.py makemigrations notebook``` followed by ```python manage.py migrate```. This will set up the database for the website.
 10. Now run ```python manage.py runserver``` to start the development server if you want to see the website. Then go to ```http://127.0.0.1:8000/docs``` to visit the notebook page.
 
 If everything works fine, the installation is successful. If you wish to make Notes on the notebook app, you first need to create an user.
@@ -167,15 +167,16 @@ If everything works fine, the installation is successful. If you wish to make No
 
 ## The file structure
 
-- The files inside ```wiki``` directory:
+- The files inside root directory:
     - The ```notebook``` folder contains the files for the notebook app. 
     - The ```static``` folder contains the static files used by all the pages in the website (like fonts, common css, common JS, etc).
     - The ```templates``` folder contains ```.html``` files used by all the sites. It is the basic layout of the website.
     - The ```wiki``` folder contains all the configuration files of the django project.
+    - The ```docs``` folder contains the static site.
     - ```.gitignore``` contains names of all the folders that we don't want git to push to the online repo.
     - ```manage.py``` is a utility file for any django project. It contains various housekeeping commands like ```runserver``` as used before.
-- ```README.md``` contains the markdown file for this text.
-- ```requirements.txt``` lists all the dependencies required for this project.
+    - ```README.md``` contains the markdown file for this text.
+    - ```requirements.txt``` lists all the dependencies required for this project.
 
 ## Contributing
 
@@ -187,7 +188,7 @@ Please follow the steps to contribute to this project:
 
 2. Now, move to that branch using ```git checkout USERNAME```.
 4. Write and edit the code.
-5. Run ```python manage.py test``` inside ```wiki``` directory to test your code. If you feel the need to introduce any new test for the feature that you've developed, write the test in the appropriate test file. Make sure that your code passes all tests.
+5. Run ```python manage.py test``` to test your code. If you feel the need to introduce any new test for the feature that you've developed, write the test in the appropriate test file. Make sure that your code passes all tests.
 6. After you are done, run ```git add .``` to add any new files that you might have created. You can skip this step if you haven't added anything new.
 7. Run ```git commit -am "COMMIT MESSAGE"``` where COMMIT MESSAGE should mention what you modified.
 8. Now this step is a bit of a trick. By default, you won't be able to push from this branch directly. But run ```git push```. You should see an error message and that message contains the correct command to use to push to the online repository. Copy, paste and run that command to push your changes.
