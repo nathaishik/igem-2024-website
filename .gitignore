@@ -9,6 +9,7 @@
 
 # Database, media, static files
 media/
+!distill/media/
 *.sqlite3
 staticfiles/
 
