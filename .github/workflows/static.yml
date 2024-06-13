@@ -33,8 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: dev
-          sparse-checkout: |
-            docs
+          sparse-checkout: docs
       - name: Modify the URL
         uses: jacobtomlinson/gha-find-replace@v2
         with:
