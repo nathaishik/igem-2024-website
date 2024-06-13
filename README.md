@@ -198,5 +198,4 @@ Please follow the steps to contribute to this project:
 > [!WARNING]
 > The notes you've made will be converted into static file and will be available to everyone once the static site is deployed. So, avoid this unless absolutely necessary.
 
-In the ```./wiki``` directory run ```python manage.py distill-local ../static --collectstatic``` and continue with ```YES``` to generate the static site. Then move the files/folders inside ```./static``` into the root directory and commit your changes.
-
+In the ```./wiki``` directory run ```python manage.py distill-local ../docs --collectstatic``` and continue with ```YES``` to generate the static site.
