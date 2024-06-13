@@ -1,0 +1,31 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+{% block title %}Account{% endblock %}
+
+{% block page_style %}
+<link rel="stylesheet" href="{% static 'notebook/account.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<h1>My Account</h1>
+
+<h3>Personal Information</h3>
+<form method="post">
+    {% csrf_token %}
+        <p >Username</p>
+        <input type="text" disabled name="username" placeholder="Username" id="username" value="{{ request.user.username }}">
+        <p>First Name</p>
+        <input type="text" name="first_name" placeholder="First Name" id="first_name" value="{{ request.user.first_name }}" required>
+        <p>Last Name</p>
+        <input type="text" name="last_name" placeholder="Last Name" id="last_name" value="{{ request.user.last_name }}" required>
+        <p>Email</p>
+        <input type="email" name="email" placeholder="Email" id="email" value="{{ request.user.email }}">
+        <input type="submit" class="btn pri-btn" value="Update">
+</form>
+
+<h3>Security</h3>
+<a href="{% url 'notebook:change_password' %}" class="btn pri-btn">Change Password</a>
+<a href="{% url 'notebook:logout' %}" class="btn danger-btn">Logout</a>
+{% endblock %}

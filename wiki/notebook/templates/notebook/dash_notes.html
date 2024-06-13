@@ -1,0 +1,17 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+    <h1>Notes</h1>
+    <nav class="tabs">
+        <ul>
+            {% if request.user.position == 3 %}
+            <li><a href="{% url 'notebook:dashboard' %}?filter=all">All Notes</a></li>
+            {% endif %}
+            <li><a href="{% url 'notebook:dashboard' %}">My Notes</a></li>
+            <li><a href="{% url 'notebook:dashboard' %}?filter=drafts">Drafts</a></li>
+        </ul>
+    </nav>
+    {% include 'notebook/notelist.html' %}
+{% endblock %}
+

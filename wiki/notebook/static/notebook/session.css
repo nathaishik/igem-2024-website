@@ -1,0 +1,40 @@
+/* forms */
+
+.info {
+    padding-block: var(--padding-block);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+form {
+    padding-block: var(--padding-block);
+    display: flex;
+    flex-direction: column;
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+input {
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 95%, var(--text) 5%);
+        border: none;
+    margin-block: .5em 1em;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+    padding: calc(var(--padding-block) / 1.6) 1em !important;
+    transition-duration: var(--transition-duration);
+    transition-property: background-color, color;
+    
+    &:hover {
+        transition-duration: var(--transition-duration);
+        background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    }
+    
+    &:focus {
+        outline: 1.6px solid var(--pri);
+    }
+}

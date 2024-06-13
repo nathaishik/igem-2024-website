@@ -1,0 +1,32 @@
+{% extends 'common/layout.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'notebook/base.css' %}">
+{% block page_style %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div id="left-panel">
+    <nav id="sec-nav">
+        <div id="page-nav">
+            {% block nav %}
+            {% endblock %}
+        </div>
+        {% if request.user.is_authenticated %}
+        <div id="app-nav">
+            <ul class="h-links">
+                <li><a class="h-link" href="{% url 'notebook:dashboard' %}">Dashboard</a></li>
+            </ul>
+        </div>
+        {% endif %}
+    </nav>
+</div>
+<div id="right-panel">
+    {% block body %}
+    {% endblock %}
+</div>
+
+
+{% endblock %}

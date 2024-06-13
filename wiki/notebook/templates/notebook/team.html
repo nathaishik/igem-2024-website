@@ -1,0 +1,57 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+    <p><a href="{% url 'notebook:teams' %}"><span class="material-icons">arrow_back_ios</span>Back to Teams</a></p>
+    <h1>{{ team }}</h1>
+    <nav class="tabs">
+        <ul>
+            <li><a href="{% url 'notebook:team' team.code %}">All Members</a></li>
+            {% if request.user in team.leader.all or request.user.position > 1 %}
+            <li><a href="{% url 'notebook:team' team.code %}?fetch=waitlist">Waitlist <span class="bubble bubble-text">{{ team.waitlisted|length }}</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div name="Users">
+        <ul class="notelist">
+        {% for member in memberlist %}
+        <li>    
+            <div class="title">{{member.first_name|add:" "|add:member.last_name}}</div>
+            <div class="action">
+            {% if member in team.leader.all %}
+                <p class="bubble">Leader</p>
+                {% if request.user.position >= member.position %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{member.username}}">
+                    <button type="submit" name="action" value="remove" class="btn danger-btn">Remove</button>
+                    <button type="submit" name="action" value="demote" class="btn danger-btn">Demote</button>
+                </form>
+                {% endif %}
+            {% elif member in team.members.all %}
+                <p class="bubble">Member</p>
+                {% if request.user.position > 1 or request.user in team.leader.all %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{member.username}}">
+                    <button type="submit" name="action" value="remove" class="btn danger-btn">Remove</button>
+                    <button type="submit" name="action" value="promote" class="btn action-btn">Promote</button>
+                </form>
+                {% endif %}
+            {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{member.username}}">
+                <button type="submit" name="action" value="remove" class="btn danger-btn">Remove</button>
+                <button type="submit" name="action" value="add" class="btn pri-btn">Add</button>
+            </form>
+            {% endif %}
+            </div>
+        </li>
+        {% empty %}
+            <li> No Users</li>
+        {% endfor %}
+        </ul></div>
+        <script src="{% static 'common/sec-nav.js' %}"></script>
+{% endblock %}

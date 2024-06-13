@@ -1,0 +1,29 @@
+{% extends 'notebook/layout.html' %}
+{% load static %}
+
+{% block title %}Docs{% endblock %}
+
+{% block nav %}
+<h3><a class="title-link" href="{% url 'notebook:index' %}">Documentation</a></h3>
+<ul class="nested-links">
+    {% for department in departments %}
+    <li>
+        <details>
+            <summary><a href="{% url 'notebook:notebook' department.code %}">{{ department.name }} ({{ department.published_notes.count }})</a></summary>
+            <ul class="v-links">
+                {% for note in department.published_notes %}
+                    <li><a href="{% url 'notebook:note' note.id %}">{{ note.title }}</a></li>
+                {% empty %}
+                <li>No notes added by this team.</li>
+                {% endfor %}
+            </ul>
+        </details>
+    </li>
+    {% empty %}
+    <li>
+        No teams made yet.
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
