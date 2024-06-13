@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const len = url_array.length;
   let links = document.querySelectorAll('#pri-nav a, #sec-nav a');
   let url_str = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/';
+  console.log(window.location.port);
   for (let i = 0; i < len; i++) {
     for (let a of links) {
       if (a.href === url_str + url_array[i] + '/' || a.href === url_str + url_array[i]) {
