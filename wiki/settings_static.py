@@ -140,7 +140,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '../login'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/igem-2024-website/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 DISTILL_DIR = BASE_DIR / 'docs'
