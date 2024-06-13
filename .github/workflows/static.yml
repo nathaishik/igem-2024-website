@@ -37,8 +37,8 @@ jobs:
       - name: Modify the URL
         uses: jacobtomlinson/gha-find-replace@v2
         with:
-          find: "/"
-          replace: "/igem-2024-website/"
+          find: "https://nathaishik.github.io/"
+          replace: "https://nathaishik.github.io/igem-2024-website/"
           regex: false 
       - name: Setup Pages
         uses: actions/configure-pages@v5
