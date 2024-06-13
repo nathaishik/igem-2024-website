@@ -9,7 +9,7 @@
 
 # Database, media, static files
 media/
-!/media
+!docs/media
 *.sqlite3
 staticfiles/
 

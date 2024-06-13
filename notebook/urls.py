@@ -1,25 +1,16 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-from django_distill import distill_path
 from .models import *
-
-def get_notebooks():
-    for department in Department.objects.all():
-        yield {'code': department.code}
-
-def get_notes():
-    for note in Note.objects.all():
-        yield {'id': note.id}
 
 app_name = 'notebook'
 
 urlpatterns = [
-    distill_path('', views.index, name='index'),
+    path('', views.index, name='index'),
     path('new/', views.upload, name='upload'),
     path('notes/', views.dashboard, name='dashboard'),
-    distill_path('notebook/<str:code>.html', views.notebook, name='notebook', distill_func=get_notebooks),
-    distill_path('note/<str:id>.html', views.note, name='note', distill_func=get_notes),
+    path('notebook/<str:code>', views.notebook, name='notebook'),
+    path('note/<str:id>', views.note, name='note'),
     path('manage_note', views.manage_note, name='manage_note'),
     path('image-upload', views.upload_images, name='image_upload'),
     path('teams', views.teams, name='teams'),

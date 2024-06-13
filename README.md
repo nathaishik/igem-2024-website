@@ -199,4 +199,4 @@ Please follow the steps to contribute to this project:
 > [!WARNING]
 > The notes you've made will be converted into static file and will be available to everyone once the static site is deployed. So, avoid this unless absolutely necessary.
 
-Run ```python manage.py distill-local --collectstatic --settings=wiki.settings_static``` and continue with ```YES``` to generate the static site in the ```docs``` directory.
+Run ```python manage.py distill-local --collectstatic --exclude-staticfiles --settings=wiki.settings_static``` and continue with ```YES``` to generate the static site in the ```docs``` directory.
