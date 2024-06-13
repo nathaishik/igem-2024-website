@@ -34,12 +34,6 @@ jobs:
         with:
           ref: dev
           sparse-checkout: docs
-      - name: Modify the URL
-        uses: jacobtomlinson/gha-find-replace@v2
-        with:
-          find: 'i(href|src)="[[:alpha:]]\\'
-          replace: 'i(href|src)="[[:alpha:]]\\igem-2024-website\\'
-          regex: true 
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
