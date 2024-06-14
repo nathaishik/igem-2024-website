@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         a.classList.add('active');
       }
     }; 
-    url_str += url_array[i] + '/';
+    url_str += url_array[i] + (i > 0 ? '/': '');
 }
 document.querySelectorAll('.tabs a').forEach((tab) => {
   if (tab.href === window.location.href) {
