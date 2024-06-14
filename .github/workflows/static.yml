@@ -39,7 +39,7 @@ jobs:
         with:
           find: "/media"
           replace: "/igem-2024-website/media"
-          include: "./note/**"
+          include: "./docs/note/**"
           regex: false
       - name: Setup Pages
         uses: actions/configure-pages@v5
