@@ -37,9 +37,8 @@ jobs:
       - name: Replace media urls
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "/media"
-          replace: "/igem-2024-website/media"
-          include: "./docs/note"
+          find: '="/media'
+          replace: '="/igem-2024-website/media'
           regex: false
       - name: Setup Pages
         uses: actions/configure-pages@v5
