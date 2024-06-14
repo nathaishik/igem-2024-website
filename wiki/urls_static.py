@@ -19,6 +19,6 @@ from django.conf.urls.static import static
 from . import settings
 
 urlpatterns = [
-    path('', include('notebook.urls_static')),
+    path('igem-2024-website/', include('notebook.urls_static')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

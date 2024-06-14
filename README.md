@@ -199,4 +199,7 @@ Please follow the steps to contribute to this project:
 > [!WARNING]
 > The notes you've made will be converted into static file and will be available to everyone once the static site is deployed. So, avoid this unless absolutely necessary.
 
-Run ```python manage.py distill-local --collectstatic --exclude-staticfiles --settings=wiki.settings_static``` and continue with ```YES``` to generate the static site in the ```docs``` directory.
+1. Run ```python manage.py distill-local --settings=wiki.settings_static``` and continue with ```YES``` to generate the static site in the ```docs``` directory.
+2. Then run ```python manage.py collectstatic --settings=wiki.settings_static``` to generate the ```static``` folder in the ```docs``` directory.
+3. Now move the files/folders inside ```./docs/igem-2024-website``` to ```./docs```.
+4. Commit and push your changes.

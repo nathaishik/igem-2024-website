@@ -15,7 +15,7 @@ app_name = 'notebook'
 SITE = 'igem-2024-website'
 
 urlpatterns = [
-    distill_path(SITE, views.index, name='index', distill_file='index.html'),
+    distill_path('', views.index, name='index', distill_file='index.html'),
     distill_path('notebook/<str:code>.html', views.notebook, name='notebook', distill_func=get_notebooks),
     distill_path('note/<str:id>.html', views.note, name='note', distill_func=get_notes),
 ]
