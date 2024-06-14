@@ -1,5 +1,5 @@
 # env
-.env
+*.env
 
 # System files
 .venv
@@ -7,9 +7,11 @@
 .vscode/
 
 
-# Database and media
+# Database, media, static files
 media/
+!docs/media
 *.sqlite3
+staticfiles/
 
 # Node Modules
 node_modules/

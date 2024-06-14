@@ -1,0 +1,383 @@
+/* General */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    src: 
+      url('../MaterialSymbolsRounded.woff2') format('woff2'),
+      url('../MaterialSymbolsRounded.ttf') format('truetype');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: inherit;
+    font-style: normal;
+    font-size: inherit; /* Preferred icon size */
+    display: inline-block;
+    line-height: inherit;
+    text-transform: none;
+    letter-spacing: inherit;
+    word-wrap: inherit;
+    white-space: nowrap;
+    direction: ltr;
+    transform: translateY(11.5%);
+    font-variation-settings:
+    'FILL' 0,
+    'wght' inherit,
+    'GRAD' -25,
+    'opsz' 24;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../font/JetBrainsMono.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../font/JetBrainsMono-Italic.ttf') format('truetype');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-Light.ttf') format('truetype');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../font/ibm_plex_sans/IBMPlexSans-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bespoke';
+    src: url('../font/Bespoke.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bespoke';
+    src: url('../font/BespokeItalic.ttf') format('truetype');
+    font-style: italic;
+}
+
+
+:root {
+    --bg: #fcf8f0;
+    --pri: #0047e0;
+    --pri-dark: #0037ac;
+    --sec: #cc9e5e;
+    --text: black;
+    --padding-inline: clamp(20px, 5vw, 5rem);
+    --padding-block: clamp(20px, 4vh, 4rem);
+    --border-radius: .5em;
+    --transition-duration: 0.15s;
+    --padding-block-btn: .2em;
+    --padding-inline-btn: .6rem;
+
+    --pri-nav-height: 10svh;
+
+    /* Font and sizing */
+    --fs--2: clamp(0.64rem, 0.7134rem + -0.0947vi, 0.6944rem);
+    --fs--1: clamp(0.8rem, 0.8449rem + -0.058vi, 0.8333rem);
+    --fs-0: clamp(1rem, 1rem + 0vi, 1rem);
+    --fs-1: clamp(1.2rem, 1.1826rem + 0.087vi, 1.25rem);
+    --fs-2: clamp(1.44rem, 1.3974rem + 0.213vi, 1.5625rem);
+    --fs-3: clamp(1.728rem, 1.6497rem + 0.3915vi, 1.9531rem);
+    --fs-4: clamp(2.0736rem, 1.9457rem + 0.6397vi, 2.4414rem);
+    --fs-5: clamp(2.4883rem, 2.2923rem + 0.9799vi, 3.0518rem);
+
+    --sans-serif: 'IBM Plex Sans', sans-serif;
+    --monospace: 'JetBrains Mono', monospace;
+    --serif: 'Bespoke', serif;
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #1a1a1a;
+        --text: white;
+        --pri: #1a63ff;
+        --pri-dark: #0047e0;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%) transparent;
+    scrollbar-width: thin;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+
+body {
+    font-family: var(--sans-serif);
+    background-color: var(--bg);
+    color: var(--text);
+    max-width: 1920px;
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--serif);
+    font-weight: 450;
+    text-align: justify;
+    text-wrap: balance;
+    text-wrap: pretty;
+}
+
+h1 {
+    font-size: var(--fs-5);
+}
+h2 {
+    font-size: var(--fs-4);
+}
+h3 {
+    font-size: var(--fs-3);
+}
+h4 {
+    font-size: var(--fs-2);
+}
+h5 {
+    font-size: var(--fs-1);
+}
+h6 {
+    font-size: var(--fs--2);
+}
+p {
+    font-size: var(--fs-0);
+}
+
+small {
+    font-size: var(--fs--1);    
+}
+
+a {
+    text-decoration-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: .05em;
+    color: color-mix(in srgb, var(--bg) 20%, var(--text) 80%);
+    transition-duration: var(--transition-duration);
+
+    &:hover {
+        color: color-mix(in srgb, var(--bg) 5%, var(--text) 95%);
+        text-decoration-color: color-mix(in srgb, var(--bg) 20%, var(--text) 80%);
+        transition-duration: var(--transition-duration);
+    }
+
+}
+
+input, textarea, button {
+    font-family: inherit;
+}
+
+/* nav */
+
+
+#pri-nav {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg);
+    display: flex;
+    justify-content: space-between;
+    padding-inline: var(--padding-inline);
+    align-items: center;
+    height: var(--pri-nav-height);
+    z-index: 2;
+
+    ul {
+        width: fit-content;
+        height: fit-content;
+        border-radius: var(--border-radius);
+        margin-block: var(--padding-block);
+        padding: 0.3rem 0;
+        display: flex;
+        gap: 0rem;
+        list-style-type: none;
+
+    }
+}
+
+/* general styling */
+
+main {
+    padding-inline: var(--padding-inline);
+}
+
+.btn, input[type=file]::file-selector-button {
+    font-size: inherit;
+    color: inherit;
+    padding: var(--padding-block-btn) var(--padding-inline-btn);
+    border: none;
+    text-decoration: none;
+    transition-duration: var(--transition-duration);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    span.float {
+        transition-duration: var(--transition-duration);
+    }
+    
+    &:hover {
+        transition-duration: var(--transition-duration);
+
+        span.float {
+            transition-duration: var(--transition-duration);
+            margin-inline: 0.5rem;
+        }
+    }
+}
+
+.pri-btn-outline {
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--sec) 20%);
+    }
+}
+
+
+.pri-btn, input[type=file]::file-selector-button {
+    color: white;
+    background-color: var(--pri);
+
+    &:hover {
+        color: white;
+        background-color: var(--pri-dark);
+    }
+}
+
+.danger-btn-outline {
+    background-color: color-mix(in srgb, var(--bg) 80%, red 20%);
+
+    &:hover {
+        color: white;
+        background-color: rgb(201, 0, 0);
+    }
+}
+
+.danger-btn {
+    color: white;
+    background-color: red;
+
+    &:hover {
+        background-color: darkred;
+    }
+}
+
+.copy-btn {
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+    
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
+    }
+
+}
+
+.task-btn {
+    color: var(--text);
+    background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
+    }
+
+
+}
+
+.action-btn-outline {
+    background-color: color-mix(in srgb, var(--bg) 80%, rgb(94, 255, 0) 20%);
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 60%, rgb(94, 255, 0) 40%);
+    }
+}
+
+.action-btn, .copy-btn:active {
+    color: white;
+    background-color: rgb(48, 180, 0);
+
+    &:hover {
+        background-color: rgb(12, 141, 0);
+    }
+}
+
+.disabled {
+    cursor: not-allowed !important;
+}
+
+.nav-btn {
+    color: color-mix(in srgb, var(--bg) 20%, var(--text) 80%);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--bg) 80%, var(--text) 20%);
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+        text-decoration-color: transparent;
+    }
+
+    &.active {
+        color: var(--text);
+        font-weight: 600;
+    }
+}
+
+/* MathJax Styling */
+
+mjx-container {
+    position: static !important;
+    max-width: inherit !important;
+    overflow-x: auto !important;
+}

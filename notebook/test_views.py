@@ -12,15 +12,26 @@ class NotebookTestCaseViews(TestCase):
         u1.verified = True
         u1.position = 1
         u1.save()
-        User.objects.create_user(username="user2", password="password2")
+        u2 = User.objects.create_user(username="user2", password="password2")
+        u2.verified = True
+        u2.position = 2
+        u2.save()
+        u3 = User.objects.create_user(username="user3", password="password3")
+        u3.verified = True
+        u3.position = 3
+        u3.save()
+        u4 = User.objects.create_user(username="user4", password="password4")
 
         # Create departments
         d1 = Department.objects.create(name="Department 1", code="DEPMT1")
         d2 = Department.objects.create(name="Department 2", code="DEPMT2")
+        d3 = Department.objects.create(name="Department 3", code="DEPMT3")
 
         # Add user to departments
         d1.members.add(u1)
-        d2.members.add(u1)
+        d2.leader.add(u1)
+        d2.members.add(u2)
+
 
         # Create notes
         Note.objects.create(user=u1, published=True, title="Note 1", department=d1, content="Content 1")
