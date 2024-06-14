@@ -35,10 +35,10 @@ jobs:
           ref: dev
           sparse-checkout: docs
       - name: Replace media urls
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@v2
         with:
-          find: 'src="/media'
-          replace: 'src="/igem-2024-website/media'
+          find: '/media'
+          replace: '/igem-2024-website/media'
           regex: false
       - name: Setup Pages
         uses: actions/configure-pages@v5
