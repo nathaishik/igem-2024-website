@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sand Village Notebook - iGEM IISc 2024</title>
     <link rel="stylesheet" href="/igem-2024-website/static/common/common.css">
-    <script src="/igem-2024-website/static/common/text-svg.js" async></script>
+    <script>
+        var STATIC_URL = "/igem-2024-website/static/";
+    </script>
+    <script src="/igem-2024-website/static/common/mathjax.js" async></script>
     <style>
         
     </style>
@@ -24,25 +27,30 @@
     <nav id="pri-nav">
         <div class="logo">iGEM IISc</div>
         <ul>
+            <button id="close-pri-nav-btn" class="btn toggle-btn" onclick="closePriNav()" ><span class="material-icons">close</span></button>
             <li><a href="http://2024.igem.wiki/iisc-bengaluru" class="btn nav-btn">Wiki</a></li>
             <li><a href="/igem-2024-website/" class="btn nav-btn">Documentation</a></li>
         </ul>
+        <button id="open-pri-nav-btn" class="btn toggle-btn" onclick="openPriNav()" ><span class="material-icons">drag_handle</span></button>
     </nav>
     <main>
         
 <div id="left-panel">
     <nav id="sec-nav">
         <div id="page-nav">
+            <button id="close-sec-nav-btn" class="btn toggle-btn" onclick="closeSecNav()"><span class="material-icons">close</span></button>
             
 <h3><a class="title-link" href="/igem-2024-website/">Documentation</a></h3>
 <ul class="nested-links">
     
     <li>
         <details>
-            <summary><a href="/igem-2024-website/notebook/HDLEAF.html">Leaf Village (1)</a></summary>
+            <summary><a href="/igem-2024-website/notebook/HDLEAF.html">Leaf Village (2)</a></summary>
             <ul class="v-links">
                 
                     <li><a href="/igem-2024-website/note/408194b4-102a-4453-98f0-59fc6b3dc6f3.html">README</a></li>
+                
+                    <li><a href="/igem-2024-website/note/2ad698b6-0fb8-4280-aa04-5797c13df514.html">Usage Instructions</a></li>
                 
             </ul>
         </details>
@@ -77,6 +85,7 @@
     </nav>
 </div>
 <div id="right-panel">
+    <button id="open-sec-nav-btn" class="btn toggle-btn" onclick="openSecNav()"><span class="material-icons">menu</span> Menu</button>
     
 
     <h1>Sand Village</h1>
@@ -90,10 +99,15 @@
 
 </div>
 
-
+<script src="/igem-2024-website/static/notebook/sec-nav-toggle.js"></script>
 
     </main>
+    <footer>
+        <p><a href="https://github.com/nathaishik/igem-2024-website/tree/dev">Source Code</a></p>
+        <p>&copy; iGEM IISc 2024</p>
+    </footer>
 <script src="/igem-2024-website/static/common/sec-nav.js"></script>
 <script src="/igem-2024-website/static/common/deletion_warning.js"></script>
+<script src="/igem-2024-website/static/common/pri-nav-toggle.js"></script>
 </body>
 </html>

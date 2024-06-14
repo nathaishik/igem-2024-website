@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Home{% endblock %} - iGEM IISc 2024</title>
     <link rel="stylesheet" href="{% static 'common/common.css' %}">
-    <script src="{% static 'common/text-svg.js' %}" async></script>
+    <script>
+        var STATIC_URL = "{% static '' %}";
+    </script>
+    <script src="{% static 'common/mathjax.js' %}" async></script>
     <style>
         
     </style>
@@ -19,14 +22,21 @@
     <nav id="pri-nav">
         <div class="logo">iGEM IISc</div>
         <ul>
+            <button id="close-pri-nav-btn" class="btn toggle-btn" onclick="closePriNav()" ><span class="material-icons">close</span></button>
             <li><a href="http://2024.igem.wiki/iisc-bengaluru" class="btn nav-btn">Wiki</a></li>
             <li><a href="{% url 'notebook:index' %}" class="btn nav-btn">Documentation</a></li>
         </ul>
+        <button id="open-pri-nav-btn" class="btn toggle-btn" onclick="openPriNav()" ><span class="material-icons">drag_handle</span></button>
     </nav>
     <main>
         {% block content %}{% endblock %}
     </main>
+    <footer>
+        <p><a href="https://github.com/nathaishik/igem-2024-website/tree/dev">Source Code</a></p>
+        <p>&copy; iGEM IISc 2024</p>
+    </footer>
 <script src="{% static 'common/sec-nav.js' %}"></script>
 <script src="{% static 'common/deletion_warning.js' %}"></script>
+<script src="{% static 'common/pri-nav-toggle.js' %}"></script>
 </body>
 </html>

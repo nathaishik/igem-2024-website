@@ -33,7 +33,7 @@
     hyphens: none;
   }
   
-  * {
+  *+* {
     margin-top: 1em;
     text-align: justify;
   }
@@ -113,17 +113,20 @@
     }
   
   }
-
-  .code-block {
+  .codehilite {
     overflow-x: auto;
-    padding: 1em;
-    background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
-    color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
     border-radius: var(--border-radius);
+  }
+  
+  pre {
+    width: fit-content;
+    padding: 1em;
+    border-radius: var(--border-radius);
+    white-space: pre;
+    margin-top: 0;
     
-    .code {
+    code {
       background: transparent;
-      white-space: pre;
       font-family: var(--monospace);
       font-size: .8em;
       padding: 0;

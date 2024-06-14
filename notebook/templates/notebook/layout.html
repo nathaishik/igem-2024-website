@@ -11,6 +11,7 @@
 <div id="left-panel">
     <nav id="sec-nav">
         <div id="page-nav">
+            <button id="close-sec-nav-btn" class="btn toggle-btn" onclick="closeSecNav()"><span class="material-icons">close</span></button>
             {% block nav %}
             {% endblock %}
         </div>
@@ -24,9 +25,10 @@
     </nav>
 </div>
 <div id="right-panel">
+    <button id="open-sec-nav-btn" class="btn toggle-btn" onclick="openSecNav()"><span class="material-icons">menu</span> Menu</button>
     {% block body %}
     {% endblock %}
 </div>
 
-
+<script src="{% static 'notebook/sec-nav-toggle.js' %}"></script>
 {% endblock %}
