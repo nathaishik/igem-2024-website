@@ -15,16 +15,11 @@ class NotebookTestCaseViews(TestCase):
         u2.verified = True
         u2.position = 2
         u2.save()
-        u3 = User.objects.create_user(username="user3", password="password3")
-        u3.verified = True
-        u3.position = 3
-        u3.save()
-        u4 = User.objects.create_user(username="user4", password="password4")
 
         # Create departments
         d1 = Department.objects.create(name="Department 1", code="DEPMT1")
         d2 = Department.objects.create(name="Department 2", code="DEPMT2")
-        d3 = Department.objects.create(name="Department 3", code="DEPMT3")
+        #d3 = Department.objects.create(name="Department 3", code="DEPMT3")
 
         d1.members.add(u1)
         d2.leader.add(u1)
@@ -39,10 +34,10 @@ class NotebookTestCaseViews(TestCase):
     # Testing the views
 
     def test_homepage(self):
-        """This should return a 404 error as there is no homepage."""
+        """This should load the index page with status code 200"""
         c = Client()
         response = c.get("/")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
     def test_valid_indexpage(self):
         """This should return a 200 status code. Then the number of departments should be 2 and the title content should be None."""
@@ -95,7 +90,7 @@ class NotebookTestCaseViews(TestCase):
     def test_valid_register(self):
         """This should return a 200 status code and three users should be created"""
         c = Client()
-        response = c.post(reverse('notebook:register'), {"username": "user4", "password": "password4", "email": "user4@mail.com", "first": "User", "last": "Four", "confirmation": "password4"})
+        response = c.post(reverse('notebook:register'), {"username": "user4", "password": "long_enough_password4", "email": "user4@mail.com", "first": "User", "last": "Four", "confirmation": "long_enough_password4"})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(User.objects.all().count(), 3)
 
@@ -109,7 +104,7 @@ class NotebookTestCaseViews(TestCase):
     def test_invalid_username_register(self):
         """This should return a 200 status code and the the message of Invalid username."""
         c = Client()
-        response = c.post(reverse('notebook:register'), {"username": "user1", "password": "password4", "email": "user4@mail.com", "first": "User", "last": "Four", "confirmation": "password4"})
+        response = c.post(reverse('notebook:register'), {"username": "user1", "password": "long_enough_password4", "email": "user4@mail.com", "first": "User", "last": "Four", "confirmation": "long_enough_password4"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["message"], "Invalid username")
 
@@ -121,12 +116,15 @@ class NotebookTestCaseViews(TestCase):
         self.assertEqual(response.url, f'../login?next={reverse("notebook:dashboard")}')
 
     def test_loggedin_dashboard(self):
-        """Since the user is logged in, this should return a 200 status code and 3 note objects."""
+        """Since the user is logged in, this should return a 200 status code and 1 published and 2 draft note objects."""
         c = Client()
         c.login(username="user1", password="password1")
         response = c.get(reverse('notebook:dashboard'))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["notes"].all().count(), 3)
+        self.assertEqual(response.context["notes"].all().count(), 1)
+        response = c.get(reverse('notebook:dashboard')+'?filter=drafts')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["notes"].all().count(), 2)
 
     def test_logout(self):
         """This should return a 302 status code and redirect to the index page."""
@@ -152,16 +150,14 @@ class NotebookTestCaseViews(TestCase):
         self.assertEqual(Note.objects.all().count(), 4)
 
     def test_unverified_user_note_client(self):
-        """This should return a 302 status code and redirect to the dashboard and confirm the correct number of notes: 3"""
+        """This should return a 406 status code as user is not in the department."""
         c = Client()
         c.login(username="user2", password="password2")
         response = c.post(reverse('notebook:upload'), {"title": "Note 5", "department": "1", "content": "Content 5"})
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('notebook:dashboard'))
-        self.assertEqual(Note.objects.all().count(), 3)
+        self.assertEqual(response.status_code, 406)
     
     def test_invalid_new_note(self):
-        """This should return a 200 status code due to invalid department."""
+        """This should return a 406 status code due to invalid department."""
         c = Client()
         c.login(username="user1", password="password1")
         response = c.post(reverse('notebook:upload'), {"title": "Note 8", "department": 3, "content": "Content 8"})
@@ -184,7 +180,7 @@ class NotebookTestCaseViews(TestCase):
         u = User.objects.get(username="user1")
         n = u.notes.all()[0]
         response = c.post(reverse('notebook:manage_note'), {"edit": n.id, "title": n.title, "department": n.department.id, "content": "Content 1 edited", "published": n.published})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('notebook:note', args=[n.id]))
         self.assertEqual(Note.objects.all().count(), 3)
         self.assertEqual(u.notes.all()[0].content, 'Content 1 edited')
@@ -214,7 +210,7 @@ class NotebookTestCaseViews(TestCase):
                             "published": n.published, 
                             "file": fb
                             })
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 302)
             self.assertTrue(filecmp.cmp(u.notes.all()[0].file.path, "notebook/test_files/test.txt", shallow=True))
         with open("notebook/test_files/test1.txt", "rb") as fb:
             response = c.post(reverse('notebook:manage_note'), {
@@ -225,7 +221,7 @@ class NotebookTestCaseViews(TestCase):
                             "published": n.published, 
                             "file": fb
                             })
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 302)
             self.assertTrue(filecmp.cmp(u.notes.all()[0].file.path, "notebook/test_files/test1.txt", shallow=True))
     def test_clear_file(self):
         """The file should be successfully added and then removed from the note with status code 200"""
@@ -242,7 +238,7 @@ class NotebookTestCaseViews(TestCase):
                             "published": n.published, 
                             "file": fb
                             })
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 302)
             self.assertTrue(bool(u.notes.all()[0].file))
         response = c.post(reverse('notebook:manage_note'), {
                         "edit": n.id, 
@@ -252,5 +248,5 @@ class NotebookTestCaseViews(TestCase):
                         "published": n.published, 
                         "file-clear": "on"
                         })
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertFalse(bool(u.notes.all()[0].file))
