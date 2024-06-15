@@ -124,7 +124,6 @@
   .codehilite {
     overflow-x: auto;
     border-radius: var(--border-radius);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
   }
   
   pre {
