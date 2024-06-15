@@ -204,7 +204,7 @@ def manage_note(request):
                 "args": note.id,
                 "link": "notebook:manage_note",
                 "message": "Something went wrong. Please try again.",
-            }, status=403)
+            }, status=406)
     return render(request, 'notebook/manage_note.html', {
         "link": "notebook:manage_note",
         "note_id": Note.objects.get(id=request.GET["edit"]).id,
@@ -239,7 +239,7 @@ def upload(request):
                 "form": form,
                 "link": "notebook:upload",
                 "message": "Something went wrong. Please try again.",
-            }, status=403)
+            }, status=406)
     return render(request, 'notebook/manage_note.html', {
         "form": NewNoteForm(request.user),
         "link": "notebook:upload",
@@ -318,7 +318,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("notebook:login"))
+    return HttpResponseRedirect(reverse("notebook:index"))
 
 def register(request):
     if request.user.is_authenticated:
