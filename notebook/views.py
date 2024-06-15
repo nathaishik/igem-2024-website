@@ -32,7 +32,19 @@ def notebook(request, code):
 
 def note(request, id):
     note = Note.objects.get(id=id)
-    md = Markdown(extras=["code-friendly", "fenced-code-blocks", "tables", "wiki-tables", "strike", "task_list", "footnotes", "header-ids", "toc", "metadata", "target-blank-links", "numbering", "tag-friendly", "latex", "cuddled-lists"])
+    md = Markdown(extras=["code-friendly", 
+                          "fenced-code-blocks", 
+                          "tables", "wiki-tables", 
+                          "strike", "task_list", 
+                          "footnotes", "header-ids", 
+                          "toc",
+                          "break-on-backslash", 
+                          "metadata", 
+                          "target-blank-links", 
+                          "numbering", 
+                          "tag-friendly", 
+                          "cuddled-lists",])
+    md.cli = True
     try:
         note.content = md.convert(note.content)
     except:

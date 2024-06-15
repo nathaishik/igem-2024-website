@@ -15,7 +15,7 @@
 }
 
 
-.note {;
+.note {
     max-width: 80ch;
     width: 100%;
     display: flex;
@@ -23,7 +23,8 @@
     gap: 1rem;
 }
 h1 {
-    overflow-x: auto;
+    /* overflow-x: auto; */
+    width: 100%;
     height: max-content;
     margin-bottom: .1em;
 }
