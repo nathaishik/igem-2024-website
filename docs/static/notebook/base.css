@@ -52,13 +52,17 @@ input, textarea, button {
 
 /* Layout */
 main {
+    width: 100%;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 38% 62%;
 }
 
 #right-panel {
+    box-sizing: border-box;
     max-width: 80ch;
     width: 100%;
+    margin-bottom: var(--padding-block);
 }
 
 #left-panel {
@@ -177,10 +181,24 @@ justify-content: space-between;
     }
 
     main {
-        grid-template-columns: 1fr;
+        display: block;
     }
 
     #left-panel {
-        display: none;
+        position: fixed;
+        top: 0;
+        z-index: 3;
+        padding: var(--padding-block) var(--padding-inline); 
+        left: -100%;
+        width: 100dvw;
+        height: 100dvh;
+        background-color: var(--bg);
+        transition-duration: var(--transition-duration);
+
+        & > ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2em;
+        }
     }
 }

@@ -133,15 +133,6 @@ function preview(link) {
   window.open(link, '_blank');
 }
 
-// Prompting the use to save changes
-var old_beforeunload = window.onbeforeunload;
-window.onbeforeunload = function() {
-      //If we want to block them, return something
-      //....
-     
-     //Otherwise, run the Bubble code:
-     return old_beforeunload();
-};
 
 // Codemirror
 const lightTheme = 'duotone-light';
