@@ -250,3 +250,14 @@ class NotebookTestCaseViews(TestCase):
                         })
         self.assertEqual(response.status_code, 302)
         self.assertFalse(bool(u.notes.all()[0].file))
+
+    def test_invalid_user_admin_access(self):
+        """This should return a 403 status code."""
+        u3 = User.objects.create_user(username="user3", password="password3")
+        u3.verified = True
+        u3.position = 2
+        u3.save()
+        c = Client()
+        c.login(username="user3", password="password3")
+        response = c.get(reverse('notebook:admin'))
+        self.assertEqual(response.status_code, 403)

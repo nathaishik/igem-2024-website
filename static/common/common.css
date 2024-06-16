@@ -320,6 +320,7 @@ main {
     background-color: red;
 
     &:hover {
+        color: white;
         background-color: darkred;
     }
 }
