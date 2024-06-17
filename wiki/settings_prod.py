@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
@@ -30,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1nuu+uxjb)owu+aen)fxp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', '')]
+ALLOWED_HOSTS = [os.environ.get('PRODUCTION_HOST')]
 
 
 # Application definition
@@ -57,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'wiki.urls'
+ROOT_URLCONF = 'wiki.urls_prod'
 
 TEMPLATES = [
     {
@@ -71,11 +70,21 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders': [
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        "django.template.loaders.filesystem.Loader",
+                        "django.template.loaders.app_directories.Loader",
+                        "path.to.custom.Loader",
+                    ],
+                )
+            ]
         },
     },
 ]
 
-WSGI_APPLICATION = 'wiki.wsgi.application'
+WSGI_APPLICATION = 'wiki.wsgi_prod.application'
 
 
 # Database
@@ -83,8 +92,12 @@ WSGI_APPLICATION = 'wiki.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
@@ -117,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -131,7 +144,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
