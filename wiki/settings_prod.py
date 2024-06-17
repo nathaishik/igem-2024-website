@@ -82,14 +82,14 @@ WSGI_APPLICATION = 'wiki.wsgi_prod.app'
 # you will have to clear browser cache to access the site again using development server.
 
 SECURE_HSTS_SECONDS = 15
-SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', '') != 'False'
-SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', '') != 'False'
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_PRELOAD = True
 
-SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '') != 'False'
+SESSION_COOKIE_SECURE = True
 
-SECURE_PROXY_SSL_HEADER = os.environ.get('SECURE_PROXY_SSL_HEADER', None)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '') != 'False'
+CSRF_COOKIE_SECURE = True
 
 
 # Database
