@@ -19,3 +19,7 @@ node_modules/
 package-lock.json
 package.json
 .vercel
+
+# Deployment Files
+build_files.sh
+vercel.json

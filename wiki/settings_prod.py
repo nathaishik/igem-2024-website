@@ -25,12 +25,12 @@ env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-1nuu+uxjb)owu+aen)fxpya6z+u$3_-gi(qh3+$9htw_76q+xa'
 
-SECRET_KEY = 'django-insecure-1nuu+uxjb)owu+aen)fxpya6z+u$3_-gi(qh3+$9htw_76q+xa'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', '') != 'False'
+DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', '')]
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'django_distill',
@@ -59,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'wiki.urls'
+ROOT_URLCONF = 'wiki.urls_prod'
 
 TEMPLATES = [
     {
@@ -77,7 +76,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wiki.wsgi.application'
+WSGI_APPLICATION = 'wiki.wsgi_prod.app'
+
+# If you happen to start the server once with the below settings,
+# you will have to clear browser cache to access the site again using development server.
+
+SECURE_HSTS_SECONDS = 15
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
 
 
 # Database
@@ -88,6 +98,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'USER': os.environ.get('POSTGRES_USER'),
+    #     'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+    #     'URL': os.environ.get('POSTGRES_URL'),
+    # }
 }
 
 AUTH_USER_MODEL = 'notebook.User'
@@ -119,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
