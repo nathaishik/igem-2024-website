@@ -87,7 +87,7 @@ SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', '') != 'False'
 
 SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '') != 'False'
 
-SECURE_PROXY_SSL_HEADER = os.environ.get('SECURE_PROXY_SSL_HEADER', '')
+SECURE_PROXY_SSL_HEADER = os.environ.get('SECURE_PROXY_SSL_HEADER', None)
 
 CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '') != 'False'
 
