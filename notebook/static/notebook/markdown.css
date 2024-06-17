@@ -1,0 +1,200 @@
+.markdown-body{
+  line-height: 1.5;
+  text-align: justify;
+  width: 100%;
+  max-width: 80ch;
+
+  --fs--2: clamp(0.6944rem, 0.8234rem + -0.1664vi, 0.7901rem);
+  --fs--1: clamp(0.8333rem, 0.9082rem + -0.0966vi, 0.8889rem);
+  --fs-0: clamp(1rem, 1rem + 0vi, 1rem);
+  --fs-1: clamp(1.125rem, 1.0989rem + 0.1304vi, 1.2rem);
+  --fs-2: clamp(1.2656rem, 1.205rem + 0.3033vi, 1.44rem);
+  --fs-3: clamp(1.4238rem, 1.318rem + 0.529vi, 1.728rem);
+  --fs-4: clamp(1.6018rem, 1.4377rem + 0.8205vi, 2.0736rem);
+  --fs-5: clamp(1.802rem, 1.5633rem + 1.1935vi, 2.4883rem);
+  
+
+  h1, h2, h3, h4, h5, h6 {
+    border-bottom: .5px solid color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    text-align: left;
+  }
+
+  ul, ol {
+    margin-inline-start: 1.5rem;
+  }
+
+  code{
+    font-family: var(--monospace);
+    font-size: .8em;
+    padding: .2rem .4rem;
+    background: color-mix(in srgb, var(--bg) 85%, var(--sec) 15%);
+    color: color-mix(in srgb, var(--text) 40%, var(--pri) 60%);
+    border-radius: .2rem;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+  
+  *+* {
+    margin-top: 1em;
+    text-align: justify;
+  }
+
+  /* To ensure that white space is preserved inside the code, block setting white-space: pre was not working */
+  /* so i had to go through the following work around. */
+
+  blockquote p {
+    code {
+      white-space: collapse;
+      overflow-wrap: break-word;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    border-radius: var(--border-radius);
+  }
+
+  ul:has(.task-list-item-checkbox) {
+    list-style-type: none;
+    margin-inline: 0;
+  }
+
+  blockquote {
+    display: block;
+    padding: 0.66rem 1rem 1rem 1rem;
+    border-left: .3rem solid var(--accent);
+    border-radius: .2rem;
+    background-color: color-mix(in srgb, var(--bg) 95%, var(--accent) 5%);
+    --accent: var(--text);
+
+    code {
+      --sec: var(--accent);
+    }
+
+    &::before {
+      color: color-mix(in srgb, var(--accent) 60%, var(--text) 40%);
+      font-size: .8em;
+      position: static;
+      /* z-index: 1; */
+      transform: translateY(-50%);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    &:has(> .alert-note) {
+      --accent: var(--pri);
+
+      &::before {
+        content: "NOTE";
+      }
+
+    }
+    &:has(> .alert-important) {
+      --accent: rgb(144, 0, 255);
+
+      &::before {
+        content: "IMPORTANT";
+      }
+    }
+    &:has(> .alert-tip) {
+      --accent: rgb(0, 192, 45);
+
+      &::before {
+        content: "TIP";
+      }
+    }
+    &:has(> .alert-warning) {
+      --accent: rgb(255, 170, 0);
+
+      &::before {
+        content: "WARNING";
+      }
+    }
+    &:has(> .alert-caution) {
+      --accent: red;
+
+      &::before {
+        content: "CAUTION";
+      }
+    }
+  
+  }
+  .codehilite {
+    overflow-x: auto;
+    border-radius: var(--border-radius);
+  }
+  
+  pre {
+    width: fit-content;
+    padding: 1em;
+    border-radius: var(--border-radius);
+    white-space: pre;
+    margin-top: 0;
+    
+    code {
+      background: transparent;
+      font-family: var(--monospace);
+      font-size: .8em;
+      padding: 0;
+    }
+  }
+
+  .table {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  table, th, td {
+    border: 1px solid color-mix(in srgb, var(--bg) 70%, var(--text) 30%);
+    width: fit-content;
+    height: fit-content;
+    padding: .4em .5em;
+  }
+
+  th {
+    background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
+    font-weight: 500;
+  }
+
+  /* Section Links */
+  .section-link-btn {
+    display: inline-block;
+    font-size: .8em;
+    opacity: 0;
+    margin-left: .5em;
+    color: color-mix(in srgb, var(--text) 40%, var(--bg) 60%);
+    background-color: var(--bg);
+    padding: 0;
+
+    &:hover {
+      color: color-mix(in srgb, var(--text) 60%, var(--bg) 40%);
+    }
+
+    &:active {
+      color: color-mix(in srgb, var(--text) 50%, var(--pri) 50%);
+    }
+  }
+
+  *:has(.section-link-btn):hover > .section-link-btn {
+    opacity: 1;
+    
+  }
+
+
+  /* LaTeX */
+  .tooltip .tooltiptext {
+    display: none;
+  }
+  .tooltip:hover .tooltiptext {
+      display: inline;
+      border-radius: 0.3em;
+      background-color: #777;
+      position: fixed;
+  }
+}

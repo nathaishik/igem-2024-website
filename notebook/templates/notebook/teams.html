@@ -1,0 +1,49 @@
+{% extends 'notebook/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+    <h1>Teams</h1>
+    <nav class="tabs">
+        <ul>
+            <li><a href="{% url 'notebook:teams' %}?filter=all">All Teams</a></li>
+            <li><a href="{% url 'notebook:teams' %}">My Teams</a></li>
+        </ul>
+    </nav>
+    <div name="Teams">
+        <ul class="notelist">
+        {% for team in teams %}
+            <li>
+                <div class="title"><a class="title-link" href="{% url 'notebook:team' team.code %}">{{team}}</a></div>
+                <div class="action">
+                    {% if request.user.position > 1 or request.user in team.leader.all %}
+                    {% if team.waitlisted.count > 0%}
+                    <span class="bubble">W {{ team.waitlisted|length }}</span>
+                    {% endif %}
+                    {% endif %}
+                    {% if request.user not in team.members.all and request.user not in team.waitlist.all %}
+                        <form method="post" action="{% url 'notebook:teams' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="code" value="{{ team.code }}">
+                            <button type="submit" name="action" value="join" class="btn pri-btn">Join</button>
+                            </form>
+                        {% elif request.user in team.waitlist.all %}
+                            <form method="post" action="{% url 'notebook:teams' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="code" value="{{ team.code }}">
+                                <button type="submit" name="action" value="withdraw" class="btn danger-btn">Withdraw</button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'notebook:teams' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="code" value="{{ team.code }}">
+                                <button type="submit" name="action" value="leave" class="btn danger-btn">Leave</button>
+                            </form>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li> No Teams </li>
+        {% endfor %}
+        </ul></div>
+        <script src="{% static 'common/sec-nav.js' %}"></script>
+{% endblock %}

@@ -1,11 +1,21 @@
 # env
-.env
+*.env
 
 # System files
 .vscode
 .venv
 **/__pycache__/
+.vscode/
 
 
-# Database
+# Database, media, static files
+media/
+!docs/media
 *.sqlite3
+staticfiles/
+
+# Node Modules
+node_modules/
+package-lock.json
+package.json
+.vercel
