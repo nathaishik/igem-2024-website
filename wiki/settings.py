@@ -25,12 +25,12 @@ env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-1nuu+uxjb)owu+aen)fxpya6z+u$3_-gi(qh3+$9htw_76q+xa'
 
-SECRET_KEY = 'django-insecure-1nuu+uxjb)owu+aen)fxpya6z+u$3_-gi(qh3+$9htw_76q+xa'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1nuu+uxjb)owu+aen)fxpya6z+u$3_-gi(qh3+$9htw_76q+xa') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', '')]
+ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', ''), "localhost"]
 
 
 # Application definition
@@ -88,6 +88,21 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #         'NAME': os.environ.get('POSTGRES_DATABASE'),
+    #         'USER': os.environ.get('POSTGRES_USER'),
+    #         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+    #         'HOST': os.environ.get('POSTGRES_HOST'),
+    #         'PORT': 5432,
+    #         'CONN_MAX_AGE': 0,
+    #         'CONN_HEALTH_CHECKS': False,
+    #         'DISABLE_SERVER_SIDE_CURSORS': False,
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'OPTIONS': 
+    #         {
+    #              'sslmode': 'require'
+    #         }
+    # }
 }
 
 AUTH_USER_MODEL = 'notebook.User'

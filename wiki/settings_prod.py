@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '']
 
 
 # Application definition
@@ -82,12 +82,14 @@ WSGI_APPLICATION = 'wiki.wsgi_prod.app'
 # you will have to clear browser cache to access the site again using development server.
 
 SECURE_HSTS_SECONDS = 15
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', '') != 'False'
+SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', '') != 'False'
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '') != 'False'
 
-CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = os.environ.get('SECURE_PROXY_SSL_HEADER', '')
+
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '') != 'False'
 
 
 # Database
@@ -100,6 +102,7 @@ DATABASES = {
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': os.environ.get('POSTGRES_DATABASE'),
     #     'USER': os.environ.get('POSTGRES_USER'),
     #     'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
     #     'URL': os.environ.get('POSTGRES_URL'),
