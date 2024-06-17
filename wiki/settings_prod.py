@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.koyeb.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'iisc-bengaluru-iisc-bengaluru-5dfbea53.koyeb.app']
 
 
 # Application definition
