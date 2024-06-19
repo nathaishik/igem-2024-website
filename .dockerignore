@@ -1,0 +1,28 @@
+# System files
+
+.venv
+.github
+.vscode
+
+# Python files
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+
+# Static website
+docs
+.nojekyll
+
+# Migrations
+**migrations
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Database
+db.sqlite3

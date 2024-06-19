@@ -27,7 +27,7 @@ class User(AbstractUser):
         (2, "PI/Advisor"),
         (1, "Student"),
     ]
-    position = models.IntegerField(choices=POSITION_CHOICES, blank=False, null=True)
+    position = models.IntegerField(choices=POSITION_CHOICES, default=1)
     verified = models.BooleanField(default=False)
 
 class Department(models.Model):

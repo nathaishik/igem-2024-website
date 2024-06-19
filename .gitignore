@@ -8,7 +8,8 @@
 .vscode/
 
 
-# Database, media, static files
+# Database, media, static files, migrations
+**/migrations/
 media/
 !docs/media
 *.sqlite3

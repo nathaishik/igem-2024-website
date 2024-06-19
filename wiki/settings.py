@@ -84,25 +84,18 @@ WSGI_APPLICATION = 'wiki.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
     # 'default': {
-    #         'NAME': os.environ.get('POSTGRES_DATABASE'),
-    #         'USER': os.environ.get('POSTGRES_USER'),
-    #         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-    #         'HOST': os.environ.get('POSTGRES_HOST'),
-    #         'PORT': 5432,
-    #         'CONN_MAX_AGE': 0,
-    #         'CONN_HEALTH_CHECKS': False,
-    #         'DISABLE_SERVER_SIDE_CURSORS': False,
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'OPTIONS': 
-    #         {
-    #              'sslmode': 'require'
-    #         }
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    'default': {
+            'ENGINE': os.environ.get('POSTGRES_ENGINE', 'django.db.backends.sqlite3'),
+            'NAME': os.environ.get('POSTGRES_DATABASE', 'db.sqlite3'),
+            'USER': os.environ.get('POSTGRES_USER', 'default'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', None),
+            'HOST': os.environ.get('POSTGRES_HOST', None),
+            'PORT': os.environ.get('POSTGRES_PORT', None)
+    }
 }
 
 AUTH_USER_MODEL = 'notebook.User'
