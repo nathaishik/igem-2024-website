@@ -9,7 +9,7 @@
 <ul class="dashboard-links">
     <li><a href="{% url 'notebook:dashboard' %}">Notes</a></li>
     <li><a href="{% url 'notebook:upload' %}">New Note</a></li>
-    <li><a href="{% url 'notebook:teams' %}">Teams</a></li>
+    <li><a href="{% url 'notebook:teams' %}">Teams {% if request.user.waitlist_pending %}<span class="bubble bubble-dot"></span>{% endif %}</a></li>
     {% if request.user.position == 3 %}
     <li><a href="{% url 'notebook:admin' %}">Users</a></li>
     {% endif %}

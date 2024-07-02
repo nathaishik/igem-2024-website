@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.sites.shortcuts import get_current_site
 import uuid
 import os
 
@@ -28,7 +29,16 @@ class User(AbstractUser):
         (1, "Student"),
     ]
     position = models.IntegerField(choices=POSITION_CHOICES, default=1)
-    verified = models.BooleanField(default=False)
+
+    def waitlist_pending(self):
+        if self.position > 1:
+            dept_list = Department.objects.all()
+        else:
+            dept_list = self.departments.all() | self.leader_of.all()
+        for dept in dept_list:
+            if dept.waitlist.all().count() > 0:
+                return True
+        return False
 
 class Department(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -42,9 +52,6 @@ class Department(models.Model):
     
     def published_notes(self):
         return self.notes.filter(published=True).all()
-    
-    def waitlisted(self, user):
-        return user in self.waitlist.filter(verified=True).all()
 
 class AttachedImages(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -61,6 +68,7 @@ class AttachedImages(models.Model):
         filename = file[0][::-1]
         name = filename.split("_", 1)[1][::-1]
         return f"{name}.{file[1]}"
+
     
     def serialise(self):
         return {

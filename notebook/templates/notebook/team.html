@@ -8,7 +8,7 @@
         <ul>
             <li><a href="{% url 'notebook:team' team.code %}">All Members</a></li>
             {% if request.user in team.leader.all or request.user.position > 1 %}
-            <li><a href="{% url 'notebook:team' team.code %}?fetch=waitlist">Waitlist <span class="bubble bubble-text">{{ team.waitlisted|length }}</span></a></li>
+            <li><a href="{% url 'notebook:team' team.code %}?fetch=waitlist">Waitlist <span class="bubble bubble-text">{{ team.waitlist.all|length }}</span></a></li>
             {% endif %}
         </ul>
     </nav>
@@ -21,7 +21,7 @@
             <div class="action">
             {% if member in team.leader.all %}
                 <p class="bubble">Leader</p>
-                {% if request.user.position >= member.position %}
+                {% if request.user.position > member.position %}
                 <form method="post">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{member.username}}">

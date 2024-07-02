@@ -100,7 +100,7 @@ img_form.addEventListener('submit', e => {
 
 // Copying Image Link
 function copyLink(link) {
-  navigator.clipboard.writeText(link);
+  navigator.clipboard.writeText(`${window.location.origin}${link}`);
 }
 
 function deleteImage(id) {
@@ -140,6 +140,7 @@ const darkTheme = 'ayu-mirage';
 
 var editor = CodeMirror.fromTextArea(document.querySelector("#id_content"), {
   lineNumbers: true,
+  lineWrapping: true,
   mode: 'text/x-markdown',
   matchBrackets: true,
   autoCloseBrackets: true,

@@ -1,6 +1,5 @@
 .markdown-body{
   line-height: 1.5;
-  text-align: justify;
   width: 100%;
   max-width: 80ch;
 
@@ -36,7 +35,7 @@
   
   *+* {
     margin-top: 1em;
-    text-align: justify;
+    text-align: left;
   }
 
   /* To ensure that white space is preserved inside the code, block setting white-space: pre was not working */
@@ -75,7 +74,6 @@
       color: color-mix(in srgb, var(--accent) 60%, var(--text) 40%);
       font-size: .8em;
       position: static;
-      /* z-index: 1; */
       transform: translateY(-50%);
     }
 

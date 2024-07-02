@@ -18,7 +18,7 @@
 </head>
 <body>
     <nav id="pri-nav">
-        <a href="{% url 'notebook:dashboard' %}"><span class="material-icons">arrow_back_ios</span>Back to Dashboard</a>
+        <a href="{% url 'notebook:dashboard' %}" onclick="dangerConfirm(e)"><span class="material-icons">arrow_back_ios</span>Back to Dashboard</a>
         <p>{{ message }}</p>
     </nav>
     <main>

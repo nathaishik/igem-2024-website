@@ -21,6 +21,12 @@
                 <li><a class="h-link" href="{% url 'notebook:dashboard' %}">Dashboard</a></li>
             </ul>
         </div>
+        {% else %}
+        <div id="app-nav">
+            <ul class="h-links">
+                <li><a class="h-link" href="{% url 'notebook:login' %}">Login</a></li>
+            </ul>
+        </div>
         {% endif %}
     </nav>
 </div>

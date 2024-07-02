@@ -1,6 +1,4 @@
 {% load static %}
-
-{% if request.user.verified == True %}
 <div id="images">
     <p>Images</p>
     <form data-url="{% url 'notebook:image_upload' %}" id="image_upload">
@@ -15,7 +13,7 @@
             <img src="{{ image.image.url }}" alt="{{ image.image.url }}" class="image" onclick="preview('{{ image.image.url }}')">
             <p class="img-name">{{ image.location }}</p>
             <div class="img-actions">
-                <button type="copy" class="btn copy-btn" onclick="copyLink('{{image.image.url}}')"><span class="material-icons">content_copy</span></button>
+                <button type="copy" class="btn copy-btn" onclick="copyLink('{{ image.image.url }}')"><span class="material-icons">content_copy</span></button>
                 <button type="delete" class="btn danger-btn" onclick="deleteImage('{{ image.id }}')"><span class="material-icons">delete</span></button>
             </div>
         </li>
@@ -32,8 +30,3 @@
     {{ form }}
 </form>
 <script src="{% static 'notebook/note_form.js' %}"></script>
-
-{% else %}
-    <p>You need to be verified to add or modify a note.</p>
-    <p>Please contact the admin for verification.</p>
-{% endif %}

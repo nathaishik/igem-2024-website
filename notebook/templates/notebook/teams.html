@@ -16,8 +16,8 @@
                 <div class="title"><a class="title-link" href="{% url 'notebook:team' team.code %}">{{team}}</a></div>
                 <div class="action">
                     {% if request.user.position > 1 or request.user in team.leader.all %}
-                    {% if team.waitlisted.count > 0%}
-                    <span class="bubble">W {{ team.waitlisted|length }}</span>
+                    {% if team.waitlist.all.count > 0%}
+                    <span class="bubble">W {{ team.waitlist.all|length }}</span>
                     {% endif %}
                     {% endif %}
                     {% if request.user not in team.members.all and request.user not in team.waitlist.all %}

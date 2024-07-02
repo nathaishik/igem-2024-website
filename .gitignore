@@ -10,7 +10,7 @@
 
 # Database, media, static files, migrations
 **/migrations/
-media/
+media
 !docs/media
 *.sqlite3
 staticfiles/

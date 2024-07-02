@@ -148,7 +148,7 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #1a1a1a;
+        --bg: #070707;
         --text: white;
         --pri: #1a63ff;
         --pri-dark: #0047e0;
@@ -161,8 +161,8 @@
     box-sizing: border-box;
     scrollbar-color: color-mix(in srgb, var(--bg) 70%, var(--text) 30%) transparent;
     scrollbar-width: thin;
-    overflow-wrap: break-word;
-    hyphens: auto;
+    /* overflow-wrap: break-word;
+    hyphens: auto; */
     scroll-padding: var(--pri-nav-height);
 }
 
@@ -380,6 +380,11 @@ main {
 }
 
 @media (width < 850px) {
+    :root {
+        --padding-block-btn: .8em;
+        --padding-inline-btn: 1em;
+    }
+
     #pri-nav ul{
         margin-top: 0;
         position: fixed;
@@ -395,6 +400,7 @@ main {
         background-color: var(--bg);
         width: 100dvw;
         height: 100dvh;
+        box-shadow: -50% 0 10px transparent;
         transition-duration: var(--transition-duration);
     }
     .toggle-btn {

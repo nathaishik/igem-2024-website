@@ -94,10 +94,11 @@ def teams(request):
             return HttpResponseRedirect(reverse("notebook:teams") + "?filter=all")
         else:
             return HttpResponse("<h1>400</h1>Error fetching the team.", status=400)
+    
     if request.GET.get('filter') == 'all':
         team_list = Department.objects.all()
     else:
-        team_list = request.user.departments.all() | request.user.leader_of.all()
+        team_list = request.user.departments.all()
     return render(request, 'notebook/teams.html',{
         "teams": team_list
 
@@ -114,7 +115,7 @@ def team(request, code):
         if request.user not in department.leader.all() and request.user.position == 1:
             raise PermissionDenied
         clicked_user= User.objects.get(username=request.POST['username'])
-        if clicked_user not in department.members.all():
+        if clicked_user not in department.members.all() and clicked_user in department.waitlist.all():
             if request.POST.get('action') == 'add':
                 department.members.add(clicked_user)
                 department.waitlist.remove(clicked_user)
@@ -141,7 +142,7 @@ def team(request, code):
         return HttpResponseRedirect(reverse("notebook:team", args=[department.code]))
     
     if (request.user in department.leader.all() or request.user.position > 1) and request.GET.get('fetch') == 'waitlist':
-        userlist = department.waitlist.filter(verified=True).all()
+        userlist = department.waitlist.all()
     else:
         userlist = department.members.filter(leader_of=department).all() | department.members.exclude(leader_of=department).all()
     return render(request, 'notebook/team.html',{
@@ -151,10 +152,6 @@ def team(request, code):
 
 @login_required
 def upload_images(request):
-    if request.user.is_authenticated == False:
-        return HttpResponseRedirect(reverse("notebook:login"))
-    if request.user.verified == False:
-        return HttpResponseRedirect(reverse("notebook:dashboard"))
     if request.method == "POST" and request.FILES.get("image") is not None:
         img = AttachedImages(user=request.user, image=request.FILES["image"])
         img.save()
@@ -214,8 +211,6 @@ def manage_note(request):
 
 @login_required
 def upload(request):
-    if request.user.verified == False:
-        return HttpResponseRedirect(reverse("notebook:dashboard"), status=302)
     if request.method == "POST":
         form = NewNoteForm(request.user, request.POST, request.FILES)
         if form.is_valid():
@@ -255,30 +250,15 @@ def admin(request):
             user = User.objects.get(username=request.POST["username"])
         except ObjectDoesNotExist:
             return HttpResponse("<h1>400</h1>Error fetching the user.", status=400)
-        if request.POST.get("action") == 'revoke':
-            if user != request.user:
-                user.position = None
-                user.verified = False
-                user.save()
-            else:
-                return HttpResponse("<h1>400</h1>You cannot change your own verification.", status=400)
-        elif request.POST.get("action") == 'verify' and request.POST.get("position") in ['1', '2', '3']:
+        if request.POST.get("action") == 'update' and request.POST.get("position") in ['1', '2', '3'] and request.user.position > user.position:
             user.position = request.POST["position"]
-            user.verified = True
             user.save()
-        elif request.POST.get("action") == 'update' and request.POST.get("position") in ['1', '2', '3']:
-                user.position = request.POST["position"]
-                user.save()
         else:
             return HttpResponse("<h1>400</h1>Proper fields not received.", status=400)
-    if request.GET.get('filter') == 'new':
-        users = User.objects.filter(verified=False).all()
-    else:
-        users = User.objects.filter(verified=True).all()
+    users = User.objects.all()
     return render(request, 'notebook/admin.html', {
         "departments": Department.objects.all(),
         "users": users,
-        "unverified": User.objects.filter(verified=False).count()
     })
 
 @login_required
@@ -288,8 +268,6 @@ def account(request):
             request.user.first_name = request.POST["first_name"]
         if request.POST.get("last_name"):
             request.user.last_name = request.POST["last_name"]
-        if request.POST.get("email"):
-            request.user.email = request.POST["email"]
         request.user.save()
     return render(request, 'notebook/account.html', {
         "user": request.user
@@ -318,7 +296,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("notebook:index"))
+    return HttpResponseRedirect(reverse("notebook:login"))
 
 def register(request):
     if request.user.is_authenticated:
@@ -329,7 +307,6 @@ def register(request):
         confirmation = request.POST["confirmation"]
         first = request.POST["first"]
         last = request.POST["last"]
-        email = request.POST["email"]
         if password != confirmation:
             return render(request, 'notebook/register.html', {
                 "message": "Passwords must match"
@@ -341,7 +318,7 @@ def register(request):
                 "message": "Password not strong enough."
             })
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, None, password)
             user.first_name = first
             user.last_name = last
             user.save()

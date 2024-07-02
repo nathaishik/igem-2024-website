@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1nuu+uxjb)owu+aen)fxp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', None), "localhost"]
+ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', ''), "localhost", ".koyeb.app"]
 
 
 # Application definition
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wiki.wsgi.application'
+WSGI_APPLICATION = 'wiki.wsgi_prev.application'
 
 
 # Database
@@ -85,9 +85,12 @@ WSGI_APPLICATION = 'wiki.wsgi.application'
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite3',
-            'USER': 'default',
+            'ENGINE': os.environ.get('POSTGRES_ENGINE'),
+            'NAME': os.environ.get('POSTGRES_DATABASE'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': os.environ.get('POSTGRES_PORT')
     }
 }
 

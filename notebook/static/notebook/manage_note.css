@@ -14,7 +14,8 @@ main {
     display: grid;
     grid-template-columns: 20% auto;
     gap: 1rem;
-    padding: 0 var(--padding-inline);
+    padding-inline: var(--padding-inline);
+    padding-bottom: 1rem;
     height: calc(100svh - var(--pri-nav-height));
 
 }
@@ -48,7 +49,7 @@ main {
     display: flex;
     gap: 1rem;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto    ;
     background-color: color-mix(in srgb, var(--bg) 90%, var(--text) 10%);
     list-style-type: none;
     border-radius: var(--border-radius);
@@ -87,7 +88,7 @@ main {
 .image {
     width: 100%;
     border: 5px solid white;
-    cursor: pointer;
+    cursor: zoom-in;
     outline: 2px solid transparent;
     transition-duration: var(--transition-duration);
     
@@ -292,4 +293,45 @@ main {
     }
 
 
+}
+
+@media (width < 850px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    #image_selector {
+        flex-direction: row;
+
+        li {
+            position: relative;
+        }
+
+        img {
+            height: 15svh;
+            width: auto;
+        }
+
+        .img-name {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    #content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 2rem;
+
+        div:has(> #id_department, > #id_title, > #id_published, > #id_file), #actions {
+            justify-content: start !important;
+            height: fit-content;
+            width: 100%;
+        }
+    }
 }
