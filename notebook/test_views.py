@@ -15,16 +15,21 @@ class NotebookTestCaseViews(TestCase):
         u2.verified = True
         u2.position = 2
         u2.save()
+        u3 = User.objects.create_user(username="user3", password="password3")
+        u3.verified = True
+        u3.position = 1
+        u3.save()
 
         # Create departments
         d1 = Department.objects.create(name="Department 1", code="DEPMT1")
         d2 = Department.objects.create(name="Department 2", code="DEPMT2")
-        #d3 = Department.objects.create(name="Department 3", code="DEPMT3")
 
         d1.members.add(u1)
+        d1.members.add(u3)
         d2.leader.add(u1)
         d2.members.add(u1)
         d2.members.add(u2)
+        d2.waitlist.add(u3)
         
         # Create notes
         Note.objects.create(user=u1, published=True, title="Note 1", department=d1, content="Content 1")
@@ -92,7 +97,7 @@ class NotebookTestCaseViews(TestCase):
         c = Client()
         response = c.post(reverse('notebook:register'), {"username": "user4", "password": "long_enough_password4", "email": "user4@mail.com", "first": "User", "last": "Four", "confirmation": "long_enough_password4"})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(User.objects.all().count(), 3)
+        self.assertEqual(User.objects.all().count(), 4)
 
     def test_invalid_password_register(self):
         """This should return a 200 status code and the message of Passwords must match."""
@@ -250,6 +255,90 @@ class NotebookTestCaseViews(TestCase):
                         })
         self.assertEqual(response.status_code, 302)
         self.assertFalse(bool(u.notes.all()[0].file))
+    
+    def test_teams_member(self):
+        """This should return status code 200 and correct number of teams"""
+        c = Client()
+        c.login(username="user2", password="password2")
+        
+        response = c.get(reverse('notebook:teams'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['teams'].count(),1)
+        
+        response = c.get(reverse('notebook:teams')+'?filter=all')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['teams'].count(),2)
+
+    def test_valid_team_join(self):
+        """This should return a 200 status code and user should be added to the waitlist"""
+        #create user
+        u4 = User.objects.create_user(username='user4', password='password4')
+        u4.verified = True
+        u4.position = 1
+        u4.save()
+
+        c = Client()
+        c.login(username="user4", password="password4")
+        d = Department.objects.get(code="DEPMT1")
+        response = c.post(reverse('notebook:teams'),{
+            "code":"DEPMT1",
+            "action":"join"
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(u4 in d.waitlist.all())
+    
+    def test_valid_team_leave(self):
+        """This should return a 200 status code and user should be added to the waitlist"""
+        c = Client()
+        c.login(username="user1", password="password1")
+        u = User.objects.get(username="user1")
+        d = Department.objects.get(code="DEPMT1")
+        response = c.post(reverse('notebook:teams'),{
+            "code":"DEPMT1",
+            "action":"leave"
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(u not in d.members.all())
+        self.assertTrue(u not in d.leader.all())
+
+    def test_team_users_list(self):
+        """This should return 200 status code and 2 users in department 2"""
+        c = Client()
+        c.login(username='user1', password='password1')
+        response = c.get(reverse('notebook:team',args=['DEPMT2']))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['memberlist'].count(), 2)
+    
+    def test_team_waitlist(self):
+        """This should return 200 status code with 1 user in waitlist"""
+        c = Client()
+        c.login(username='user1', password='password1')
+        response = c.get(reverse('notebook:team', args=['DEPMT2'])+'?fetch=waitlist')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['memberlist'].count(), 1)
+    
+    def test_invalid_leader_add_user(self):
+        """This should raise Permission Denied 403 as user1 is not leader of department 1"""
+        c = Client()
+        c.login(username='user1', password='password1')
+        response = c.post(reverse('notebook:team', args=['DEPMT1']),{
+            'username':'user3',
+            'action':'add'
+        })
+        self.assertEqual(response.status_code, 403)
+    
+    def test_valid_user_add_user(self):
+        """This should return 302 status code and add user to members"""
+        c = Client()
+        c.login(username='user1', password='password1')
+        u = User.objects.get(username='user3')
+        d = Department.objects.get(code='DEPMT2')
+        response = c.post(reverse('notebook:team',args=['DEPMT2']),{
+            'username':'user3',
+            'action':'add'
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(u in d.members.all())
 
     def test_invalid_user_admin_access(self):
         """This should return a 403 status code."""
