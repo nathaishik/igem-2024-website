@@ -137,7 +137,7 @@ class NotebookTestCaseViews(TestCase):
         c.login(username="user1", password="password1")
         response = c.get(reverse('notebook:logout'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('notebook:index'))
+        self.assertEqual(response.url, reverse('notebook:login'))
 
     def test_upload_page(self):
         """This should return a 200 status code."""
