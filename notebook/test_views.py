@@ -115,7 +115,7 @@ class NotebookTestCaseViews(TestCase):
         c = Client()
         response = c.get(reverse('notebook:dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, f'..{reverse("notebook:login")}?next={reverse("notebook:dashboard")}')
+        self.assertEqual(response.url, f'..{reverse("notebook:login")[0:-1]}?next={reverse("notebook:dashboard")}')
 
     def test_loggedin_dashboard(self):
         """Since the user is logged in, this should return a 200 status code and 1 published and 2 draft note objects."""
