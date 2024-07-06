@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost', 'iisc-bengaluru-iisc-bengaluru-5dfbea53.koyeb.app']
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOST")]
 
 INSTALLED_APPS = [
     'notebook',

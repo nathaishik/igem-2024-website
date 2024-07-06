@@ -10,6 +10,7 @@ from django.contrib.auth.password_validation import validate_password, password_
 import json
 from markdown2 import Markdown
 from .forms import *
+from PIL import Image
 
 # Create your views here.
 
@@ -153,6 +154,11 @@ def team(request, code):
 @login_required
 def upload_images(request):
     if request.method == "POST" and request.FILES.get("image") is not None:
+        try:
+            img = Image.open(request.FILES["image"])
+            img.verify()
+        except:
+            return JsonResponse({"error": "File couldn't be uploaded. Invalid image"}, status=406)
         img = AttachedImages(user=request.user, image=request.FILES["image"])
         img.save()
         image_list = AttachedImages.objects.filter(user=request.user).all()
@@ -160,15 +166,18 @@ def upload_images(request):
     if request.method == 'DELETE':
         data = json.loads(request.body)
         if data.get("id"):
-            image = AttachedImages.objects.get(id=data["id"])
+            try:
+                image = AttachedImages.objects.get(id=data["id"])
+            except ObjectDoesNotExist:
+                return JsonResponse({"error": "Image not found."}, status=406)
             if image.user != request.user:
                 return JsonResponse({"error": "You are not authorised to delete this image."}, status=403)
             image.delete()
             return JsonResponse({"status": 200})
         else:
-            return JsonResponse({"error": "ID not found."}, status=403)
+            return JsonResponse({"error": "ID not found."}, status=406)
     else:
-        return JsonResponse({"error": "Something went wrong. Please try again."}, status=403)
+        return JsonResponse({"error": "Something went wrong. Please try again."}, status=400)
     
 
 @login_required
@@ -250,7 +259,7 @@ def admin(request):
             user = User.objects.get(username=request.POST["username"])
         except ObjectDoesNotExist:
             return HttpResponse("<h1>400</h1>Error fetching the user.", status=400)
-        if request.POST.get("action") == 'update' and request.POST.get("position") in ['1', '2', '3'] and request.user.position > user.position:
+        if request.POST.get("action") == 'update' and request.POST.get("position") in ['1', '2', '3'] and user.position != 3:
             user.position = request.POST["position"]
             user.save()
         else:

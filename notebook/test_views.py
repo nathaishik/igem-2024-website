@@ -2,22 +2,19 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from notebook.models import *
 import filecmp
+import json
+import uuid
 
 class NotebookTestCaseViews(TestCase):
     def setUp(self):
 
         # Create users
         u1 = User.objects.create_user(username="user1", password="password1")
-        u1.verified = True
-        u1.position = 1
         u1.save()
         u2 = User.objects.create_user(username="user2", password="password2")
-        u2.verified = True
         u2.position = 2
         u2.save()
         u3 = User.objects.create_user(username="user3", password="password3")
-        u3.verified = True
-        u3.position = 1
         u3.save()
 
         # Create departments
@@ -118,7 +115,7 @@ class NotebookTestCaseViews(TestCase):
         c = Client()
         response = c.get(reverse('notebook:dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, f'../login?next={reverse("notebook:dashboard")}')
+        self.assertEqual(response.url, f'..{reverse("notebook:login")}?next={reverse("notebook:dashboard")}')
 
     def test_loggedin_dashboard(self):
         """Since the user is logged in, this should return a 200 status code and 1 published and 2 draft note objects."""
@@ -321,8 +318,9 @@ class NotebookTestCaseViews(TestCase):
         """This should raise Permission Denied 403 as user1 is not leader of department 1"""
         c = Client()
         c.login(username='user1', password='password1')
+        Department.objects.get(code='DEPMT1').waitlist.add(User.objects.get(username='user2'))
         response = c.post(reverse('notebook:team', args=['DEPMT1']),{
-            'username':'user3',
+            'username':'user2',
             'action':'add'
         })
         self.assertEqual(response.status_code, 403)
@@ -344,5 +342,154 @@ class NotebookTestCaseViews(TestCase):
         """This should return a 403 status code."""
         c = Client()
         c.login(username="user2", password="password2")
+        response1 = c.get(reverse('notebook:admin'))
+        c.logout()
+        c.login(username="user3", password="password3")
+        response2 = c.get(reverse('notebook:admin'))
+        self.assertEqual(response1.status_code, 403)
+        self.assertEqual(response2.status_code, 403)
+    
+    def test_valid_user_admin_access(self):
+        """This should return a 200 status code."""
+        c = Client()
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        c.login(username="user1", password="password1")
         response = c.get(reverse('notebook:admin'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_position_update(self):
+        """This should return a 302 status code and update the user2's position to 2."""
+        c = Client()
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:admin'), {"username": "user2", "action": "update", "position": 2})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.objects.get(username="user2").position, 2)
+    
+    def test_invalid_user_position_update(self):
+        """This should return a 403 status code as user is not student leader and thus should not have access to update user position."""
+        c = Client()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:admin'), {"username": "user3", "action": "update", "position": 2})
         self.assertEqual(response.status_code, 403)
+
+    def test_invalid_position_update(self):
+        """This should return a 406 status code as the position is invalid."""
+        c = Client()
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:admin'), {"username": "user2", "action": "update", "position": 4})
+        self.assertEqual(response.status_code, 400)
+
+    def test_invalid_position_update_of_student_leader(self):
+        """This should return a 406 status code as the position of student leader cannot be changed."""
+        c = Client()
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        u = User.objects.get(username="user2")
+        u.position = 3
+        u.save()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:admin'), {"username": "user2", "action": "update", "position": 2})
+        self.assertEqual(response.status_code, 400)
+
+    def test_login_required_for_account(self):
+        """This should return a 302 status code and redirect to the login page."""
+        c = Client()
+        response = c.get(reverse('notebook:account'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, f"..{reverse('notebook:login')[0:-1]}?next={reverse('notebook:account')}")
+
+    def test_accounts_page(self):
+        """This should return a 200 status code."""
+        c = Client()
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        c.login(username="user1", password="password1")
+        response = c.get(reverse('notebook:account'))
+        self.assertEqual(response.status_code, 200)
+        c.logout()
+        c.login(username="user2", password="password2")
+        response = c.get(reverse('notebook:account'))
+        self.assertEqual(response.status_code, 200)
+        c.logout()
+        c.login(username="user3", password="password3")
+        response = c.get(reverse('notebook:account'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_successful_name_change(self):
+        """This should return a 200 status code and the name should be changed."""
+        c = Client()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:account'), {"first_name": "User", "last_name": "One"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.objects.get(username="user1").first_name, "User")
+        self.assertEqual(User.objects.get(username="user1").last_name, "One")
+
+    def test_valid_image_upload(self):
+        """This should return a 200 status code and the image should be uploaded."""
+        c = Client()
+        c.login(username="user1", password="password1")
+        with open("notebook/test_files/test.png", "rb") as fb:
+            response = c.post(reverse('notebook:image_upload'), {"image": fb})
+        fb.close()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(AttachedImages.objects.all().count(), 1)
+        self.assertTrue(filecmp.cmp(AttachedImages.objects.all()[0].image.path, "notebook/test_files/test.png", shallow=True))
+
+    def test_invalid_image_upload(self):
+        """This should return a 406 status code."""
+        c = Client()
+        c.login(username="user1", password="password1")
+        with open("notebook/test_files/test.txt", "rb") as fb:
+            response = c.post(reverse('notebook:image_upload'), {"image": fb})
+        fb.close()
+        self.assertEqual(response.status_code, 406)
+        self.assertEqual(AttachedImages.objects.all().count(), 0)
+        
+
+    def test_valid_delete_image(self):
+        """This should return a 200 status code and the uploaded image should be deleted."""
+        c = Client()
+        c.login(username="user1", password="password1")
+        with open("notebook/test_files/test.png", "rb") as fb:
+            response = c.post(reverse('notebook:image_upload'), {"image": fb})
+        fb.close()
+        self.assertEqual(response.status_code, 200)
+        id = AttachedImages.objects.all()[0].id
+        response = c.delete(reverse('notebook:image_upload'), json.dumps({"id": str(id)}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(AttachedImages.objects.all().count(), 0)
+
+    def test_invalid_user_delete_image(self):
+        """This should return a 403 status code as the user deleting the image is not the owner of the image"""
+        c = Client()
+        c.login(username="user2", password="password2")
+        with open("notebook/test_files/test.png", "rb") as fb:
+            response = c.post(reverse('notebook:image_upload'), {"image": fb})
+        fb.close()
+        self.assertEqual(response.status_code, 200)
+        id = AttachedImages.objects.all()[0].id
+        c.logout()
+        c.login(username="user1", password="password1")
+        response = c.delete(reverse('notebook:image_upload'), json.dumps({"id": str(id)}))
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(AttachedImages.objects.all().count(), 1)
+
+    def test_invalid_deletion_non_existent_image(self):
+        """This should return a 406 status code as the image does not exist"""
+        c = Client()
+        c.login(username="user1", password="password1")
+        self.assertEqual(AttachedImages.objects.all().count(), 0)
+        response = c.delete(reverse('notebook:image_upload'), json.dumps({"id": str(uuid.uuid4())}))
+        self.assertEqual(response.status_code, 406)
+
+

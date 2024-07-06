@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1nuu+uxjb)owu+aen)fxp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', ''), "localhost", ".koyeb.app"]
+ALLOWED_HOSTS = ['127.0.0.1', os.environ.get('IPV4_ADDRESS', None), "localhost"]
 
 
 # Application definition

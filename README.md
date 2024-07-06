@@ -104,6 +104,7 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │       ├── team.html
 │   │       └── teams.html
 │   ├── test_files
+│   │   ├── test.png
 │   │   ├── test.txt
 │   │   └── test1.txt
 │   ├── __init__.py
@@ -151,69 +152,24 @@ First, I would like to thank you for visiting this repo. This repository contain
 │   │   └── JetBrainsMono.ttf
 │   ├── MaterialSymbolsRounded.ttf
 │   └── MaterialSymbolsRounded.woff2
-├── staticfiles
-│   ├── common
-│   │   ├── codemirror
-│   │   │   ├── active-line.js
-│   │   │   ├── ayu-mirage.css
-│   │   │   ├── closebrackets.js
-│   │   │   ├── codemirror.css
-│   │   │   ├── codemirror.js
-│   │   │   ├── duotone-light.css
-│   │   │   ├── markdown.js
-│   │   │   ├── matchbrackets.js
-│   │   │   └── mathematica.js
-│   │   ├── common.css
-│   │   ├── deletion_warning.js
-│   │   ├── errors.css
-│   │   ├── mathjax.js
-│   │   ├── pri-nav-toggle.js
-│   │   ├── sec-nav.js
-│   │   └── tex-svg.js
-│   ├── font
-│   │   ├── ibm_plex_sans
-│   │   │   ├── IBMPlexSans-Italic.ttf
-│   │   │   ├── IBMPlexSans-Light.ttf
-│   │   │   ├── IBMPlexSans-LightItalic.ttf
-│   │   │   ├── IBMPlexSans-Medium.ttf
-│   │   │   ├── IBMPlexSans-MediumItalic.ttf
-│   │   │   ├── IBMPlexSans-Regular.ttf
-│   │   │   ├── IBMPlexSans-SemiBold.ttf
-│   │   │   └── IBMPlexSans-SemiBoldItalic.ttf
-│   │   ├── Bespoke.ttf
-│   │   ├── BespokeItalic.ttf
-│   │   ├── JetBrainsMono-Italic.ttf
-│   │   └── JetBrainsMono.ttf
-│   ├── notebook
-│   │   ├── account.css
-│   │   ├── admin.css
-│   │   ├── base.css
-│   │   ├── code-highlight.css
-│   │   ├── manage_note.css
-│   │   ├── markdown.css
-│   │   ├── markdown.js
-│   │   ├── note.css
-│   │   ├── note_form.js
-│   │   ├── sec-nav-toggle.js
-│   │   └── session.css
-│   ├── MaterialSymbolsRounded.ttf
-│   └── MaterialSymbolsRounded.woff2
 ├── templates
 │   └── common
 │       └── layout.html
 ├── wiki
 │   ├── asgi.py
 │   ├── settings.py
+│   ├── settings_prev.py
 │   ├── settings_prod.py
 │   ├── settings_static.py
 │   ├── urls.py
 │   ├── urls_prod.py
 │   ├── urls_static.py
 │   ├── wsgi.py
-│   └── wsgi_prod.py
+│   ├── wsgi_prev.py
+│   ├── wsgi_prod.py
+│   └── wsgi_static.py
 ├── Dockerfile
 ├── README.md
-├── __init__.py
 ├── docker-compose.yml
 ├── export_static.ps1
 ├── export_static.sh
@@ -222,8 +178,14 @@ First, I would like to thank you for visiting this repo. This repository contain
 ```
 
 > [!NOTE]
-> To get the above file tree, use ```tree --dirsfirst -n -I 'node_modules|media|.venv|__pycache__|*.sqlite3|*.json'``` in the bash terminal. If you are in Windows, you can enter bash terminal using the ```bash``` command in PowerShell. You will have to enable virtualisation and WSL for Windows.
+> To get the above file tree, use 
+```shell
+tree --dirsfirst -n -I 'node_modules|media|__pycache__|*.sqlite3|*.json|migrations|admin'
+```
+in the bash terminal. If you are in Windows, you can enter bash terminal using the ```bash``` command in PowerShell. You will have to enable virtualisation and WSL for Windows.
 
+> [!TIP]
+> Run `wsl -l` to check what is the default distro on WSL. If not Ubuntu, run `wsl -s Ubuntu` to set Ubuntu as default distro. Then run `bash` and enter the bash terminal. Install the `tree` program using, `sudo snap install tree`. Once done, you can proceed with the above note.
 
 6. If the files you've received match the above structure, then the cloning has been done correctly. I am also including the names of the migration files. Make sure you have all of them.
 7. Now, you should start a python development environment using ```python -m venv .venv```. You should first run ```pip3 install virtualenv``` to install virtualenv and create virtual environment. Then run ```.venv/Scripts/activate``` to activate the virtual environment. (After you are done editing or testing the code, just run ```deactivate``` to exit the virtual environment)

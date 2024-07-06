@@ -61,7 +61,7 @@ class AttachedImages(models.Model):
     
     def __str__(self):
         return f"Image {self.id} by {'User no longer exists' if self.user == None else self.user.username}"
-    
+
     def location(self):
         filename = os.path.basename(self.image.name)
         file = filename_separator(filename)
