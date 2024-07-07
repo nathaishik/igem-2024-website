@@ -190,9 +190,9 @@ def manage_note(request):
         return HttpResponseRedirect(reverse("notebook:dashboard"))
     if request.method == "POST" and request.POST.get("edit"):
         note = Note.objects.get(id=request.POST["edit"])
-        if request.user != note.user:
-            return HttpResponseRedirect(reverse("notebook:login"))
-        form = NewNoteForm(request.user, request.POST, request.FILES, instance=note)
+        if request.user != note.user and request.user.position != 3:
+            return HttpResponseRedirect(reverse("notebook:logout"))
+        form = NewNoteForm(note.user, request.POST, request.FILES, instance=note)
         if form.is_valid():
             title = form.cleaned_data["title"]
             department = form.cleaned_data["department"]

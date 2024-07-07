@@ -176,7 +176,7 @@ class NotebookTestCaseViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_edited_note(self):
-        """This should return a 200 status code and redirect to the note and confirm the correct number of notes: 3"""
+        """This should return a 302 status code and redirect to the note and confirm the correct number of notes: 3"""
         c = Client()
         c.login(username="user1", password="password1")
         u = User.objects.get(username="user1")
@@ -186,6 +186,20 @@ class NotebookTestCaseViews(TestCase):
         self.assertEqual(response.url, reverse('notebook:note', args=[n.id]))
         self.assertEqual(Note.objects.all().count(), 3)
         self.assertEqual(u.notes.all()[0].content, 'Content 1 edited')
+
+    def test_student_leader_edit_notes_of_other_user(self):
+        """This should return a 302 status code as the student leader can edit notes of other users."""
+        n = Note.objects.create(user=User.objects.get(username="user3"), title="Note 3", department=Department.objects.get(code='DEPMT1'), content="Content 3")
+        self.assertEqual(Note.objects.all().count(), 4)
+        u = User.objects.get(username="user1")
+        u.position = 3
+        u.save()
+        c = Client()
+        c.login(username="user1", password="password1")
+        response = c.post(reverse('notebook:manage_note'), {"edit": n.id, "title": n.title, "department": n.department.id, "content": "Content 3 edited", "published": n.published})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('notebook:note', args=[n.id]))
+        self.assertEqual(User.objects.get(username="user3").notes.all()[0].content, 'Content 3 edited')
     
     def test_invalid_edit_note(self):
         """This should return a 406 status code."""

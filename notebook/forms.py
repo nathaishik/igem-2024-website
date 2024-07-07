@@ -18,7 +18,7 @@ class NewNoteForm(forms.ModelForm):
 
     def __init__(self, user, *args, **kwargs):
         super(NewNoteForm, self).__init__(*args, **kwargs)
-        self.fields['department'].queryset = (user.departments.all() | user.leader_of.all()) if user.position != 3 else Department.objects.all()
+        self.fields['department'].queryset = user.departments.all() if user.position != 3 else Department.objects.all()
         if self.fields['department'].queryset.count() > 0:
             self.fields['department'].empty_label = None if self.fields['department'].queryset.count() == 1 else "Choose team..."
         else:
